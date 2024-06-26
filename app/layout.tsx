@@ -1,4 +1,9 @@
-import { GeistSans } from "geist/font/sans";
+import { Roboto } from 'next/font/google'
+
+/* Components */
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+
 import "./globals.css";
 
 const defaultUrl = process.env.VERCEL_URL
@@ -7,9 +12,14 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Next.js and Supabase Starter Kit",
-  description: "The fastest way to build apps with Next.js and Supabase",
+  title: "CV - Alex Coronell",
+  description: "Fullstack Developer in Angular, NestJS and more",
 };
+
+const roboto = Roboto({
+  weight: ["100", "300", "500", "700"],
+  subsets: ["latin"],
+})
 
 export default function RootLayout({
   children,
@@ -17,11 +27,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={GeistSans.className}>
-      <body className="bg-background text-foreground">
-        <main className="min-h-screen flex flex-col items-center">
+    <html lang="en">
+      <body className={roboto.className}>
+        <Header />
+        <main>
           {children}
         </main>
+        <Footer />
       </body>
     </html>
   );
