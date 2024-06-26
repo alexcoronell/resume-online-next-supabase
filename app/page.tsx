@@ -1,20 +1,24 @@
-import { createClient } from "@/utils/supabase/server";
-import getimageUrl from "@/helpers/getImagesUrl";
+import getPersonalData from "@/core/services/personal-data.service";
 
 export default async function Index() {
-  const supabase = createClient();
-  const tableName = 'profile'
-  const tableBucketName = 'personalData'
-  const { data: personalData } = await supabase.from(tableName).select('*').single()
-  const { image } = await personalData
-  const imageUrl = await getimageUrl(tableBucketName, await image)
+  const personalData = await getPersonalData();
 
   return (
     <article>
-      <h1>{ personalData.firstname} { personalData.lastname }</h1>
-      <h2>{ personalData.title }</h2>
-      <p>{ personalData.description }</p>
-      <img src={imageUrl} alt={personalData.firstname + ' ' + personalData.lastname + ' profile image'} />
+      <h1>
+        {personalData.firstname} {personalData.lastname}
+      </h1>
+      <h2>{personalData.title}</h2>
+      <p>{personalData.description}</p>
+      <img
+        src={personalData.image}
+        alt={
+          personalData.firstname +
+          " " +
+          personalData.lastname +
+          " profile image"
+        }
+      />
     </article>
   );
 }
