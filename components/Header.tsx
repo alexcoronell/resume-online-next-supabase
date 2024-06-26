@@ -33,8 +33,8 @@ export default function Header() {
       <nav>
         <ul>
           {
-            menu.map(item => (
-              <li>
+            menu.map((item, index) => (
+              <li key={index}>
                 <a href={item.url}>{item.title}</a>
               </li>
             ))

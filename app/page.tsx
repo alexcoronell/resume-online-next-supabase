@@ -1,25 +1,20 @@
-import DeployButton from "../components/DeployButton";
-import AuthButton from "../components/AuthButton";
 import { createClient } from "@/utils/supabase/server";
-import ConnectSupabaseSteps from "@/components/tutorial/ConnectSupabaseSteps";
-import SignUpUserSteps from "@/components/tutorial/SignUpUserSteps";
-import Header from "@/components/Header";
+import getimageUrl from "@/helpers/getImagesUrl";
 
 export default async function Index() {
-  const canInitSupabaseClient = () => {
-    // This function is just for the interactive tutorial.
-    // Feel free to remove it once you have Supabase connected.
-    try {
-      createClient();
-      return true;
-    } catch (e) {
-      return false;
-    }
-  };
-
-  const isSupabaseConnected = canInitSupabaseClient();
+  const supabase = createClient();
+  const tableName = 'profile'
+  const tableBucketName = 'personalData'
+  const { data: personalData } = await supabase.from(tableName).select('*').single()
+  const { image } = await personalData
+  const imageUrl = await getimageUrl(tableBucketName, await image)
 
   return (
-    <main>HOME PAGE</main>
+    <article>
+      <h1>{ personalData.firstname} { personalData.lastname }</h1>
+      <h2>{ personalData.title }</h2>
+      <p>{ personalData.description }</p>
+      <img src={imageUrl} alt={personalData.firstname + ' ' + personalData.lastname + ' profile image'} />
+    </article>
   );
 }
