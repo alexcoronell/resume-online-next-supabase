@@ -1,21 +1,24 @@
-import getTrainings from "@/core/services/training.service"
+/* Components */
+import SectionPage from "@/components/SectionPage";
+import TrainingItem from "@/components/TrainingItem";
 
-import { Training } from "@/core/models/Training.interface"
+/* Services */
+import getTrainings from "@/core/services/training.service";
 
-import TrainingItem from "@/components/TrainingItem"
+/* Models */
+import { Training } from "@/core/models/Training.interface";
 
 export default async function Trainings() {
-    const trainings: Training[] = await getTrainings()
-    const titlePage = 'Trainings'
+  const trainings: Training[] = await getTrainings();
+  const titlePage = "Trainings";
 
-    return (
-        <div>
-            <h1>Training</h1>
-            {
-                trainings.map(training => (
-                    <TrainingItem key={training.id} training={training} />
-                )) 
-            }
-        </div>
-    )
+  return (
+    <SectionPage titlePage={titlePage}>
+      <div className="Studies grid justify-center gap-6 md:grid-cols-2 xl:grid-cols-3">
+        {trainings.map((training) => (
+          <TrainingItem key={training.id} training={training} />
+        ))}
+      </div>
+    </SectionPage>
+  );
 }
