@@ -1,19 +1,24 @@
-import getStudies from '../../core/services/study.service'
+/* Components */
+import SectionPage from "@/components/SectionPage";
+import StudyItem from "@/components/StudyItem";
 
-import { Study } from '@/core/models/Study.interface'
+/* Api */
+import getStudies from "../../core/services/study.service";
 
-import StudyItem from '@/components/StudyItem'
+/* Models */
+import { Study } from "@/core/models/Study.interface";
 
 export default async function Studies() {
-    const studies: Study[] = await getStudies()
-    const titlePage = 'Studies'
+  const studies: Study[] = await getStudies();
+  const titlePage = "Studies";
 
-    return (
-        <div>
-            <h1>Studies</h1>
-            {studies.map(study => (
-                <StudyItem key={study.id} study={study} />
-            ))}
-        </div>
-    )
+  return (
+    <SectionPage titlePage={titlePage}>
+      <div className="Studies grid justify-center gap-6 md:grid-cols-2 xl:grid-cols-3">
+        {studies.map((study) => (
+          <StudyItem key={study.id} study={study} />
+        ))}
+      </div>
+    </SectionPage>
+  );
 }
