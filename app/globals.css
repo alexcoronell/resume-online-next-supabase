@@ -98,3 +98,21 @@ h6 {
 p {
   @apply text-base lg:text-lg;
 }
+
+
+/* Reset input, textarea. select */
+input,
+input:focus,
+select:focus,
+input.form-control:focus,
+select,
+textarea,
+textarea:focus,
+textarea.form-control:focus button {
+  outline: none !important;
+  outline-width: 0 !important;
+  box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  outline: 0 none !important;
+}
