@@ -1,6 +1,12 @@
 "use client"
 import Link from 'next/link';
 import { useState } from 'react';
+
+/* Components */
+import { MajesticonsMenu } from './ui/MajesticonsMenu';
+import { MajesticonsClose } from './ui/MajesticonsClose';
+
+/* Styles */
 import styles from '../styles/header.module.css'
 
 export default function Header() {
@@ -37,10 +43,10 @@ export default function Header() {
 
   return (
     <header className={styles.Header}>
-      <button onClick={handleClick}>Open</button>
+      <button className='openCloseMenuBtn' onClick={handleClick}><MajesticonsMenu className='size-12 text-primary' /></button>
       <nav id='menu' className={isOpen ? 'right-0' : 'right-[-100%]'}>
         <div>
-          <button onClick={handleClick} id='closeMenuBtn'>Close</button>
+          <button onClick={handleClick} className='openCloseMenuBtn'><MajesticonsClose className='size-12 text-primary' /></button>
         </div>
         <ul>
           {

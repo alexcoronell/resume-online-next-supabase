@@ -3,7 +3,7 @@
 }
 
 .Body > main {
-  @apply grow border border-white w-full h-full;
+  @apply grow w-full h-full;
 }
 
 .Body > header,
