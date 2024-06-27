@@ -10,3 +10,7 @@
 .Body > footer {
   @apply grow-0;
 }
+
+.Body * {
+  @apply transition-all duration-500;
+}

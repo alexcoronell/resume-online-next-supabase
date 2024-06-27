@@ -1,6 +1,12 @@
+"use client"
+import Link from 'next/link';
+import { useState } from 'react';
 import styles from '../styles/header.module.css'
 
 export default function Header() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleClick = () => setIsOpen(!isOpen);
 
   const menu = [
     {
@@ -31,13 +37,16 @@ export default function Header() {
 
   return (
     <header className={styles.Header}>
-      <button>Open/Close Menu</button>
-      <nav>
+      <button onClick={handleClick}>Open</button>
+      <nav id='menu' className={isOpen ? 'right-0' : 'right-[-100%]'}>
+        <div>
+          <button onClick={handleClick} id='closeMenuBtn'>Close</button>
+        </div>
         <ul>
           {
             menu.map((item, index) => (
               <li key={index}>
-                <a href={item.url}>{item.title}</a>
+                <Link onClick={handleClick} href={item.url}>{item.title}</Link>
               </li>
             ))
           }

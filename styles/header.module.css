@@ -1,3 +1,15 @@
 .Header {
-    @apply border border-black bg-background/80;
+    @apply relative border border-black bg-background/80 w-full;
+}
+
+.Header > nav {
+    @apply fixed h-screen w-full top-0 bottom-0 bg-background p-4 text-primary;
+}
+
+.Header > nav > div {
+    @apply w-full text-right;
+}
+
+.Header > nav > ul {
+    @apply flex flex-col justify-center items-center h-full gap-y-8 text-lg;
 }
