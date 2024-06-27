@@ -1,6 +1,9 @@
+/* Models */
+import { Study } from "@/core/models/Study.interface";
+import { Experience } from "@/core/models/Experience.interface";
+
 /* Helpers */
 import { orderByDateSince, orderByDateUntil } from "./orderByDate";
-import { Study } from "@/core/models/Study.interface";
 
 export const orderStudies = (data: Study[]): Study[] => {
     let studies: Study[] = [];
@@ -10,4 +13,14 @@ export const orderStudies = (data: Study[]): Study[] => {
     const ordered = orderByDateUntil(noCurrentStudies).reverse();
     studies = [...currentOrdered, ...ordered];
     return studies;
+  };
+
+  export const orderExperiences = (data: Experience[]): Experience[] => {
+    let experiences: Experience[] = [];
+    const currentJobs = data.filter((item) => item.current === true);
+    const noCurrentJobs = data.filter((item) => item.current === false);
+    const currentOrdered = orderByDateSince(currentJobs).reverse();
+    const ordered = orderByDateUntil(noCurrentJobs).reverse();
+    experiences = [...currentOrdered, ...ordered];
+    return experiences;
   };
