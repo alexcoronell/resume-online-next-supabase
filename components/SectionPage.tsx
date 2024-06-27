@@ -10,7 +10,7 @@ export default function SectionPage({ titlePage, children }: SectionPageProps) {
   return (
     <div className={styles.SectionPage}>
       <h1>{titlePage}</h1>
-      <section>{children}</section>
+      <section className="no-scrollbar">{children}</section>
     </div>
   );
 }

@@ -7,5 +7,5 @@
 }
 
 .SectionPage > section {
-  @apply grow w-full h-full overflow-y-auto px-1 sm:px-2 md:px-4;
+  @apply grow w-full h-full scroll-ml-96 overflow-y-auto px-1 sm:px-2 md:px-4;
 }

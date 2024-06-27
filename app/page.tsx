@@ -6,7 +6,7 @@ export default async function Index() {
   const personalData = await getPersonalData();
 
   return (
-    <article className="w-full p-4 overflow-y-scroll h-full">
+    <article className="w-full p-4 overflow-y-scroll h-full no-scrollbar">
       <div className="h-full lg:grid lg:grid-cols-3 lg:items-center lg:gap-x-12">
         <div className="w-[328px] h-[328px] overflow-hidden relative rounded-full mx-auto xl:w-[400px] xl:h-[400px]">
           <Image
