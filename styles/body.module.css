@@ -1,0 +1,12 @@
+.Body {
+  @apply h-screen bg-background text-foreground flex flex-col items-center justify-around;
+}
+
+.Body > main {
+  @apply grow border border-white w-full h-full;
+}
+
+.Body > header,
+.Body > footer {
+  @apply grow-0;
+}

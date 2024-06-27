@@ -5,6 +5,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 import "./globals.css";
+import styles from '../styles/body.module.css'
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -16,11 +17,6 @@ export const metadata = {
   description: "Fullstack Developer in Angular, NestJS and more",
 };
 
-const roboto = Roboto({
-  weight: ["100", "300", "500", "700"],
-  subsets: ["latin"],
-})
-
 export default function RootLayout({
   children,
 }: {
@@ -28,9 +24,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={roboto.className}>
+      <body className={styles.Body}>
         <Header />
-        <main>
+        <main className='Main'>
           {children}
         </main>
         <Footer />

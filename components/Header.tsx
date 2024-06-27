@@ -1,3 +1,5 @@
+import styles from '../styles/header.module.css'
+
 export default function Header() {
 
   const menu = [
@@ -28,7 +30,7 @@ export default function Header() {
   ]
 
   return (
-    <header>
+    <header className={styles.Header}>
       <button>Open/Close Menu</button>
       <nav>
         <ul>

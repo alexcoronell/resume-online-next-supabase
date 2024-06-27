@@ -1,0 +1,3 @@
+.Header {
+    @apply border border-black bg-background/80;
+}
