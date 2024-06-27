@@ -1,0 +1,11 @@
+.SectionPage {
+  @apply w-full flex flex-col items-center h-full gap-y-6;
+}
+
+.SectionPage > h1 {
+  @apply grow-0;
+}
+
+.SectionPage > section {
+  @apply grow w-full h-full overflow-y-auto px-6;
+}

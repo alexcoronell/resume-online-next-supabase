@@ -24,7 +24,7 @@ export default async function Index() {
           />
         </div>
         <div className="lg:col-span-2 lg:pl-6">
-          <h1 className="py-3 lg:text-left">
+          <h1 className="py-3 lg:text-left xl:text-8xl">
             {personalData.firstname} {personalData.lastname}
           </h1>
           <h2 className="mb-3 lg:text-left">{personalData.title}</h2>
