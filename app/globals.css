@@ -5,6 +5,7 @@
 @layer base {
   :root {
     --background: 0, 0%, 11%;
+    --background-secondary: 0, 0%, 13%;
     --btn-background: 200 10% 91%;
     --btn-background-hover: 200 10% 89%;
     --foreground: 64, 27%, 89%;
@@ -14,6 +15,7 @@
   @media (prefers-color-scheme: dark) {
     :root {
       --background: 0 0% 0%;
+      --background-secondary: 0, 0%, 5%;
       --btn-background: 200 10% 9%;
       --btn-background-hover: 200 10% 12%;
       --foreground: 64, 27%, 89%;
@@ -58,25 +60,25 @@ h1 {
 }
 
 h2 {
-  @apply text-3xl md:text-4xl lg:text-5xl xl:text-6xl;
+  @apply text-3xl md:text-4xl lg:text-5xl;
 }
 
 h3 {
-  @apply text-2xl md:text-3xl lg:text-4xl xl:text-5xl;
+  @apply text-2xl md:text-3xl lg:text-4xl;
 }
 
 h4 {
-  @apply text-xl md:text-2xl lg:text-3xl xl:text-4xl;
+  @apply text-xl md:text-2xl lg:text-3xl;
 }
 
 h5 {
-  @apply text-base  md:text-xl lg:text-2xl xl:text-3xl;
+  @apply text-base  md:text-xl lg:text-2xl;
 }
 
 h6 {
-  @apply text-sm  md:text-base lg:text-xl xl:text-2xl;
+  @apply text-sm  md:text-base lg:text-xl;
 }
 
 p {
-  @apply text-base lg:text-lg xl:text-xl;
+  @apply text-base lg:text-lg
 }
