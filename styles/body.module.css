@@ -3,7 +3,7 @@
 }
 
 .Body > main {
-  @apply grow w-full h-full;
+  @apply grow w-full h-full py-[80px] max-w-[1200px];
 }
 
 .Body > header,
