@@ -1,0 +1,3 @@
+.Footer {
+    @apply text-center text-base font-light py-3 text-primary border-t border-primary w-full;
+}
