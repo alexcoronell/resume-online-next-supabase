@@ -1,0 +1,33 @@
+.Home {
+  @apply w-full p-4 overflow-y-scroll h-full;
+}
+
+.Home__container {
+  @apply h-full lg:grid lg:grid-cols-3 lg:items-center lg:gap-x-12;
+}
+
+.Home__imageArea {
+  @apply w-[328px] h-[328px] overflow-hidden relative mx-auto xl:w-[400px] xl:h-[400px];
+}
+
+.Home__detail {
+  @apply lg:col-span-2 lg:pl-6;
+}
+
+.Home__detail > h1,
+.Home__detail > h2,
+.Home__detail > p {
+  @apply lg:text-left;
+}
+
+.Home__detail > h1 {
+  @apply py-3 xl:text-8xl;
+}
+
+.Home__detail > h2 {
+  @apply mb-3;
+}
+
+.Home__detail > p {
+  @apply text-center leading-7;
+}

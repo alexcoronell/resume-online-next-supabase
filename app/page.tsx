@@ -1,13 +1,18 @@
 import Image from "next/image";
+
+/* Data */
 import getPersonalData from "@/core/services/personal-data.service";
+
+/* Styles */
+import styles from '../styles/home.module.css'
 
 export default async function Index() {
   const personalData = await getPersonalData();
 
   return (
-    <article className="w-full p-4 overflow-y-scroll h-full no-scrollbar">
-      <div className="h-full lg:grid lg:grid-cols-3 lg:items-center lg:gap-x-12">
-        <div className="w-[328px] h-[328px] overflow-hidden relative mx-auto xl:w-[400px] xl:h-[400px]">
+    <article className={styles.Home + ' no-scrollbar'}>
+      <div className={styles.Home__container}>
+        <div className={styles.Home__imageArea}>
           <Image
             src={personalData.image}
             alt={
@@ -21,15 +26,14 @@ export default async function Index() {
             className="profileImage"
           />
         </div>
-        <div className="lg:col-span-2 lg:pl-6">
-          <h1 className="py-3 lg:text-left xl:text-8xl">
+        <div className={styles.Home__detail}>
+          <h1>
             {personalData.firstname} {personalData.lastname}
           </h1>
-          <h2 className="mb-3 lg:text-left">{personalData.title}</h2>
-          <p className="text-center leading-7 lg:text-left">{personalData.description}</p>
+          <h2>{personalData.title}</h2>
+          <p>{personalData.description}</p>
         </div>
       </div>
-      {/* <img src={personalData.image} alt="test" /> */}
     </article>
   );
 }
