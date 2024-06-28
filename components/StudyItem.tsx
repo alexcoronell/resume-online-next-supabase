@@ -1,19 +1,23 @@
 /* Models */
 import { Study } from "@/core/models/Study.interface";
 
+/* Props */
 interface StudyItemProps {
   study: Study;
 }
+
+/* Styles */
+import styles from '../styles/study-item.module.css'
 
 export default async function StudyItem({ study }: StudyItemProps) {
   const { title, institute, place, since, until, current } = study;
 
   return (
-    <article className="p-3 max-lg:border max-lg:border-primary pb-6 sm:p-6 lg:bg-backgroundsecondary h-full w-full max-md:max-w-[400px] flex flex-col items-center justify-between gap-3">
-      <h3 className="mb-3 text-2xl">{title}</h3>
-      <div className="px-7 py-4 border border-primary w-full">
-      <h5 className="mb-3 text-white/90 text-left text-lg">Institute: {institute}</h5>
-      <ul className="list-disc text-white/50">
+    <article className={styles.StudyItem + ' special-shadow'}>
+      <h3>{title}</h3>
+      <div className={styles.StudyItem__details}>
+      <h5>Institute: {institute}</h5>
+      <ul>
         <li>
           <p>Place: {place}</p>
         </li>
