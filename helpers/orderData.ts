@@ -6,7 +6,6 @@ import { Experience } from "@/core/models/Experience.interface";
 import { orderByDateSince, orderByDateUntil } from "./orderByDate";
 
 export const orderStudies = (data: Study[]): Study[] => {
-  if(!data) return []
     let studies: Study[] = [];
     const currentStudies = data.filter((item) => item.current === true);
     const noCurrentStudies = data.filter((item) => item.current !== true);
@@ -17,7 +16,6 @@ export const orderStudies = (data: Study[]): Study[] => {
   };
 
   export const orderExperiences = (data: Experience[]): Experience[] => {
-    if(!data) return []
     let experiences: Experience[] = [];
     const currentJobs = data.filter((item) => item.current === true);
     const noCurrentJobs = data.filter((item) => item.current === false);

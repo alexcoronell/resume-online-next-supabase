@@ -1,7 +1,6 @@
 import { createClient } from "@/utils/supabase/client";
 
 const getimageUrl = async (bucketName: string, filePath: string): Promise<string> => {
-  if(!bucketName || !filePath) return ''
   const supabase = createClient();
   const fileName = filePath.replace(`${bucketName}/`, "");
   const { data } = await supabase.storage.from(bucketName).getPublicUrl(fileName);
