@@ -1,4 +1,5 @@
 export const orderByDateUntil = (data: any) => {
+  if(!data) return
   return data.sort((a: any, b: any) => {
     if (a.until > b.until) return 1;
     if (a.until < b.until) return -1;
@@ -7,6 +8,7 @@ export const orderByDateUntil = (data: any) => {
 };
 
 export const orderByDateSince = (data: any) => {
+  if(!data) return
   return data.sort((a: any, b: any) => {
     if (a.since > b.since) return 1;
     if (a.since < b.since) return -1;
@@ -15,6 +17,7 @@ export const orderByDateSince = (data: any) => {
 };
 
 export const orderByYearAndMonth = (data: any) => {
+  if(!data) return
   return data.sort((a: any, b: any) => {
     if (a.year < b.year) return 1;
     if (a.year > b.year) return -1;
