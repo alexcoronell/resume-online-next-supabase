@@ -1,16 +1,23 @@
 /* Components */
 import SectionPage from "@/components/SectionPage";
 import FormContact from "@/components/FormContact"
-import SocialMedia from "@/components/SocialMedia"
+import SocialMedia from "@/components/SocialMedia";
+
+/* Services */
+import getContacts from "@/core/services/contact.service";
+
+/* Interface */
+import { Contact } from "@/core/models/Contact.interface";
 
 
-export default function Contact() {
+export default async function ContactPage() {
     const titlePage = "Contact";
+    const contacts: Contact[] = await getContacts();
     return (
         <SectionPage titlePage={titlePage}>
             <div className="lg:grid lg:grid-cols-2 gap-x-10 h-full items-center">
                 <FormContact />
-                <SocialMedia />
+                <SocialMedia contacts={contacts} />
             </div>
         </SectionPage>
 
