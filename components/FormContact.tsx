@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { ChangeEvent } from "react";
 
 /* Components */
 import { FlowbiteCheckCircleOutline } from "./ui/FlowbiteCheckCircleOutline";
@@ -22,8 +23,8 @@ type ResponseMessage =
 export default function FormContact() {
   const [name, setName] = useState({ field: "", validate: true });
   const [email, setEmail] = useState({ field: "", validate: true });
-  const [phone, setPhone] = useState({ field: "", validate: true });
-  const [message, setMessage] = useState({ field: "", validate: true });
+  const [phone, setPhone] = useState('');
+  const [message, setMessage] = useState('');
   const [responseMessage, setResponseMessage] = useState<ResponseMessage>(
     "Thank you for your message"
   );
@@ -34,37 +35,35 @@ export default function FormContact() {
     email: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
   };
 
-  const onChangeName = (e: Event) => {
+  const onChangeName = (e: ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target as HTMLInputElement;
     const newName = newValue.value;
     checkValidateName();
     setName((prevState) => ({ ...prevState, field: newName }));
   };
 
-  const onChangeEmail = (e: Event) => {
+  const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
     let newValue = e.target as HTMLInputElement;
     const newEmail = newValue.value;
     const validate = regularExpressions.email.test(newEmail);
     setEmail((prevState) => ({ ...prevState, field: newEmail, validate }));
   };
 
-  const onChangePhone = (e: Event) => {
-    const newValue = e.target as HTMLInputElement;
-    const newPhone = newValue.value;
-    setPhone((prevState) => ({ ...prevState, field: newPhone }));
+  const onChangePhone = (e: ChangeEvent<HTMLInputElement>) => {
+    const newPhone = e.target as HTMLInputElement;
+    setPhone(newPhone.value);
   };
 
-  const onChangeMessage = (e: Event) => {
-    const newValue = e.target as HTMLInputElement;
-    const newMessage = newValue.value;
-    setMessage((prevState) => ({ ...prevState, field: newMessage }));
+  const onChangeMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const newMessage = e.target as HTMLTextAreaElement;
+    setMessage(newMessage.value);
   };
 
   const cleanForm = () => {
     setName((prevState) => ({ ...prevState, field: "", validate: true }));
     setEmail((prevState) => ({ ...prevState, field: "", validate: true }));
-    setPhone((prevState) => ({ ...prevState, field: "", validate: true }));
-    setMessage((prevState) => ({ ...prevState, field: "", validate: true }));
+    setPhone('');
+    setMessage('');
   };
 
   const checkValidateName = (): boolean => {
@@ -94,8 +93,8 @@ export default function FormContact() {
     const newMessage: Message = {
       name: name.field.trim(),
       email: email.field.trim(),
-      phone: phone.field.trim(),
-      message: message.field.trim(),
+      phone: phone.trim(),
+      message: message.trim(),
     };
     const res = await sendMessage(newMessage);
     if (res) {
@@ -164,7 +163,7 @@ export default function FormContact() {
               <input
                 type="text"
                 name="phone"
-                value={phone.field}
+                value={phone}
                 id="phone"
                 placeholder="phone"
                 onChange={onChangePhone}
@@ -178,7 +177,7 @@ export default function FormContact() {
           <label htmlFor="message">
             <textarea
               name="message"
-              value={message.field}
+              value={message}
               id="message"
               placeholder="message"
               rows={4}
