@@ -12,6 +12,7 @@ module.exports = {
         "backgroundthird": "#292929",
         "foreground": "#eaebdb",
         "primary": "#3fcf8e",
+        "red": "#ec5353"
       },
       screens: {
         'sm': '576px',

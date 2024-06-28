@@ -89,8 +89,16 @@ textarea.form-control:focus button {
 }
 
 /* Buttons */
+.btn-primary,
+.btn-error {
+  @apply py-2 px-8 border rounded-xl text-lg hover:text-background;
+}
 .btn-primary {
-  @apply py-2 px-8 border border-primary rounded-xl text-lg text-primary hover:text-background hover:bg-primary;
+  @apply border-primary text-primary  hover:bg-primary;
+}
+
+.btn-error {
+  @apply border-red text-red hover:bg-red;
 }
 
 .special-shadow {

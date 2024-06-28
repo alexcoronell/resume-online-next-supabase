@@ -1,6 +1,11 @@
 "use client";
 import { useState } from "react";
 
+/* Components */
+import { FlowbiteCheckCircleOutline } from "./ui/FlowbiteCheckCircleOutline";
+import { FlowbiteCloseCircleOutline } from "./ui/FlowbiteCloseCircleOutline";
+import { SvgSpinnersBlocksWave } from "./ui/SvgSpinnersBlocksWave";
+
 /* Models */
 import { Message } from "@/core/models/Message.interface";
 
@@ -10,12 +15,18 @@ import { sendMessage } from "@/core/services/sendMessage.service";
 import styles from "../styles/formContact.module.css";
 
 type RequestStatus = "init" | "loading" | "success" | "failed";
+type ResponseMessage =
+  | "Thank you for your message"
+  | "The message couldn't be sent. Try again later";
 
 export default function FormContact() {
   const [name, setName] = useState({ field: "", validate: true });
   const [email, setEmail] = useState({ field: "", validate: true });
   const [phone, setPhone] = useState({ field: "", validate: true });
   const [message, setMessage] = useState({ field: "", validate: true });
+  const [responseMessage, setResponseMessage] = useState<ResponseMessage>(
+    "Thank you for your message"
+  );
   const [requestStatus, setRequestStatus] = useState<RequestStatus>("init");
 
   const regularExpressions = {
@@ -89,9 +100,11 @@ export default function FormContact() {
     const res = await sendMessage(newMessage);
     if (res) {
       setRequestStatus("success");
+      setResponseMessage("Thank you for your message");
       cleanForm();
     } else {
       setRequestStatus("failed");
+      setResponseMessage("The message couldn't be sent. Try again later");
     }
     setTimeout(() => {
       setRequestStatus("init");
@@ -116,7 +129,7 @@ export default function FormContact() {
             <span>Name</span>
           </label>
           <p
-            className={`text-xs absolute text-[#ec5353] ${
+            className={`text-xs absolute text-red ${
               !name.validate ? "" : "hidden"
             }`}
           >
@@ -139,7 +152,7 @@ export default function FormContact() {
               <span>Email</span>
             </label>
             <p
-              className={`text-xs absolute text-[#ec5353] ${
+              className={`text-xs absolute text-red ${
                 !email.validate ? "" : "hidden"
               }`}
             >
@@ -186,16 +199,51 @@ export default function FormContact() {
             requestStatus === "success" ? "" : "hidden"
           } absolute text-center py-2 bg-primary mx-auto text-background left-[20%] w-[60%] text-sm opacity-50 bottom-[-50px]`}
         >
-          Thank you for your message
+          {responseMessage}
         </p>
         <p
           className={`${
             requestStatus === "failed" ? "" : "hidden"
           } absolute text-center py-2 bg-[#ec5353] mx-auto text-background left-[15%] w-[70%] text-sm opacity-50 bottom-[-50px]`}
         >
-          The message couldn't be sent. Try again later
+          {responseMessage}
         </p>
       </form>
+
+      {requestStatus !== "init" && (
+        <div className={styles.AlertMessage}>
+          {requestStatus === "loading" && (
+            <SvgSpinnersBlocksWave className="size-[150px] text-primary" />
+          )}
+
+          {requestStatus !== "loading" && (
+            <div className={styles.AlertMessage__box + " special-shadow"}>
+              {requestStatus === "success" && (
+                <FlowbiteCheckCircleOutline className="size-[100px] text-primary" />
+              )}
+              {requestStatus === "failed" && (
+                <FlowbiteCloseCircleOutline className="size-[100px] text-red" />
+              )}
+
+              <h4
+                className={`${
+                  requestStatus === "failed" ? "text-red" : "text-primary"
+                }`}
+              >
+                {responseMessage}
+              </h4>
+              <button
+                onClick={() => setRequestStatus("init")}
+                className={`${
+                  requestStatus === "failed" ? "btn-error" : "btn-primary"
+                }`}
+              >
+                Close
+              </button>
+            </div>
+          )}
+        </div>
+      )}
     </article>
   );
 }

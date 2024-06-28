@@ -46,3 +46,16 @@
 .Form:disabled {
   @apply opacity-80;
 }
+
+.AlertMessage, .Loading {
+  @apply fixed top-0 left-0 bottom-0 right-0 bg-black/70 w-screen h-screen z-50 flex items-center justify-center;
+}
+
+.AlertMessage__box {
+  @apply w-full max-w-[450px] min-h-[300px] bg-background p-8 flex flex-col items-center justify-between gap-6;
+}
+
+.AlertMessage__box h4 {
+  @apply text-center text-lg;
+}
+
