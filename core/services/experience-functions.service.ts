@@ -1,5 +1,5 @@
 /* Supabase */
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/utils/supabase/client";
 
 /* Models */
 import { Experience } from "../models/Experience.interface";
@@ -16,8 +16,8 @@ const getExperienceFunctions = async (
     .select("*")
     .eq("experienceId", id);
   const experienceFunctions: ExperienceFunction[] =
-    data as ExperienceFunction[];
-  return experienceFunctions;
+    (await data) as ExperienceFunction[];
+  return await experienceFunctions;
 };
 
 export default getExperienceFunctions;

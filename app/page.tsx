@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { cookies } from 'next/headers'
 
 /* Data */
 import getPersonalData from "@/core/services/personal-data.service";

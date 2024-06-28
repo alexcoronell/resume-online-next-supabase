@@ -1,5 +1,5 @@
 /* Supabase */
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/utils/supabase/client";
 
 /* Models */
 import { Experience } from "../models/Experience.interface";
@@ -11,9 +11,11 @@ const supabase = createClient();
 const tableName = "experiences";
 
 const getExperiences = async (): Promise<Experience[]> => {
-  const { data } = await supabase.from(tableName).select('*');
-  const experiences: Experience[] = orderExperiences(data as Experience[]);
-  return experiences;
+  const { data } = await supabase.from(tableName).select("*");
+  const experiences: Experience[] = await orderExperiences(
+    data as Experience[]
+  );
+  return await experiences;
 };
 
 export default getExperiences;
