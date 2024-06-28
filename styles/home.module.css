@@ -14,11 +14,6 @@
   @apply lg:col-span-2 lg:pl-6;
 }
 
-.Home__detail > h1,
-.Home__detail > h2,
-.Home__detail > p {
-  @apply lg:text-left;
-}
 
 .Home__detail > h1 {
   @apply py-3 xl:text-8xl;
@@ -30,4 +25,10 @@
 
 .Home__detail > p {
   @apply text-center leading-7;
+}
+
+.Home__detail > h1,
+.Home__detail > h2,
+.Home__detail > p {
+  @apply lg:text-left;
 }
