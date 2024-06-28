@@ -11,8 +11,10 @@ export default async function Index() {
   const {firstname, lastname, title, image, description} = await getPersonalData();
   let finalImage = ''
   if(image) {
-    finalImage = image
+    finalImage = await image
   }
+
+  console.log(finalImage)
 
   return (
     <article className={styles.Home + ' no-scrollbar'}>
