@@ -26,8 +26,8 @@ export default function FormContact() {
   const onChangeName = (e: Event) => {
     const newValue = e.target as HTMLInputElement;
     const newName = newValue.value;
-    const validate = regularExpressions.name.test(newName);
-    setName((prevState) => ({ ...prevState, field: newName, validate }));
+    checkValidateName();
+    setName((prevState) => ({ ...prevState, field: newName }));
   };
 
   const onChangeEmail = (e: Event) => {
@@ -50,18 +50,26 @@ export default function FormContact() {
   };
 
   const cleanForm = () => {
-    setName((prevState) => ({ ...prevState, field: '', validate: true }));
-    setEmail((prevState) => ({ ...prevState, field: '', validate: true }));
-    setPhone((prevState) => ({ ...prevState, field: '', validate: true }));
-    setMessage((prevState) => ({ ...prevState, field: '', validate: true }));
-  }
+    setName((prevState) => ({ ...prevState, field: "", validate: true }));
+    setEmail((prevState) => ({ ...prevState, field: "", validate: true }));
+    setPhone((prevState) => ({ ...prevState, field: "", validate: true }));
+    setMessage((prevState) => ({ ...prevState, field: "", validate: true }));
+  };
 
-  const checkValidate = (): boolean => {
+  const checkValidateName = (): boolean => {
     const nameValidate = regularExpressions.name.test(name.field);
-    const emailValidate = regularExpressions.email.test(email.field);
     setName((prevState) => ({ ...prevState, validate: nameValidate }));
+    if (nameValidate) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const checkValidateEmail = (): boolean => {
+    const emailValidate = regularExpressions.email.test(email.field);
     setEmail((prevState) => ({ ...prevState, validate: emailValidate }));
-    if (nameValidate && emailValidate) {
+    if (emailValidate) {
       return true;
     } else {
       return false;
@@ -70,7 +78,7 @@ export default function FormContact() {
 
   const onSubmit = async (e: Event) => {
     e.preventDefault();
-    if (!checkValidate()) return;
+    if (!checkValidateName() && !checkValidateEmail()) return;
     setRequestStatus("loading");
     const newMessage: Message = {
       name: name.field.trim(),
@@ -81,7 +89,7 @@ export default function FormContact() {
     const res = await sendMessage(newMessage);
     if (res) {
       setRequestStatus("success");
-      cleanForm()
+      cleanForm();
     } else {
       setRequestStatus("failed");
     }
@@ -91,11 +99,8 @@ export default function FormContact() {
   };
 
   return (
-    <article className={styles.FormContact}>
-      <form
-        onSubmit={onSubmit}
-        className={styles.Form}
-      >
+    <article className={styles.FormContact + " special-shadow"}>
+      <form onSubmit={onSubmit} className={styles.Form}>
         <div className={styles.formgroup}>
           <label htmlFor="name">
             <input
@@ -105,6 +110,7 @@ export default function FormContact() {
               id="name"
               placeholder="name"
               onChange={onChangeName}
+              onBlur={checkValidateName}
               disabled={requestStatus === "loading"}
             />
             <span>Name</span>
@@ -117,7 +123,7 @@ export default function FormContact() {
             Name not valid or required
           </p>
         </div>
-        <div className="flex gap-3">
+        <div className="lg:flex lg:gap-3">
           <div className={styles.formgroup}>
             <label htmlFor="email">
               <input
@@ -127,6 +133,7 @@ export default function FormContact() {
                 id="email"
                 placeholder="email"
                 onChange={onChangeEmail}
+                onBlur={checkValidateEmail}
                 disabled={requestStatus === "loading"}
               />
               <span>Email</span>

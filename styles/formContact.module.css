@@ -1,5 +1,5 @@
 .FormContact {
-  @apply bg-backgroundsecondary p-10 rounded-3xl w-full max-lg:max-w-[400px] mx-auto lg:h-[500px] flex items-center justify-center;
+  @apply bg-backgroundsecondary p-10 rounded-3xl w-full max-lg:max-w-[400px] mx-auto lg:h-[500px] flex items-center justify-center max-lg:mb-6;
 }
 
 .formgroup {
@@ -40,7 +40,7 @@
 }
 
 .Form {
-  @apply relative;
+  @apply relative w-full;
 }
 
 .Form:disabled {
