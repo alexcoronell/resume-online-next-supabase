@@ -7,9 +7,13 @@ import { MajesticonsClose } from "./ui/MajesticonsClose";
 /* Models */
 import { ExperienceFunction } from "@/core/models/ExperienceFunction";
 
+/* Props */
 interface ExperienceFunctionViewProps {
   functions: ExperienceFunction[];
 }
+
+/* Styles */
+import styles from "../styles/experience-functions.module.css";
 
 export default function ExperienceFunctions({
   functions,
@@ -19,29 +23,22 @@ export default function ExperienceFunctions({
   const handleClick = (open: boolean) => setIsOpen(open);
 
   return (
-    <div>
-      <button
-        onClick={() => handleClick(true)}
-        className="py-4 px-5 border border-primary text-primary rounded-3xl hover:bg-primary hover:text-background"
-      >
+    <div className={styles.ExperienceFunctions}>
+      <button onClick={() => handleClick(true)} className="btn-primary">
         Functions
       </button>
       {isOpen && (
-        <div
-          className={`${
-            isOpen ? "opacity-100" : "opacity-0"
-          } fixed top-0 bottom-0 left-0 right-0 z-50 flex items-center justify-center bg-black/50 px-2 transition-opacity delay-500 duration-500`}
-        >
-          <div className="flex items-center justify-center h-full overflow-y-auto">
-            <div className="bg-backgroundsecondary p-4 relative max-w-[450px] md:max-w-[500px]">
-              <div className="text-right">
+        <div className={`${isOpen ? "opacity-100" : "opacity-0"} ${styles.ExperienceFunctions__fixedBox}`}>
+          <div className={styles.ExperienceFunctions__subBox}>
+            <div className={styles.ExperienceFunctions__contentBox + ' special-shadow'}>
+              <div className={styles.ExperienceFunctions__closeButtonTopBox}>
                 <button onClick={() => handleClick(false)}>
-                  <MajesticonsClose className="size-8" />
+                  <MajesticonsClose className="size-8 text-primary" />
                 </button>
               </div>
-              <h4 className="text-center">Functions</h4>
-              <div className="px-4 py-6">
-                <ul className="list-disc">
+              <h4>Functions</h4>
+              <div className={styles.ExperienceFunctions__details}>
+                <ul>
                   {functions.map((item) => (
                     <li className="mb-3" key={item.id}>
                       {item.functionDetail}
@@ -49,10 +46,10 @@ export default function ExperienceFunctions({
                   ))}
                 </ul>
               </div>
-              <div className="w-full text-center">
+              <div className={styles.ExperienceFunctions__closeButtonBottomBox}>
                 <button
                   onClick={() => handleClick(false)}
-                  className="py-4 px-8 border border-primary text-primary rounded-3xl hover:bg-primary hover:text-background mx-auto mb-3"
+                  className="btn-primary"
                 >
                   Close
                 </button>

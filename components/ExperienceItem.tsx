@@ -7,10 +7,13 @@ import getExperienceFunctions from "@/core/services/experience-functions.service
 /* Models */
 import { Experience } from "@/core/models/Experience.interface";
 
-
+/* Props */
 interface ExpetienceItemViewProps {
   experience: Experience;
 }
+
+/* Styles */
+import styles from '../styles/experience-item.module.css'
 
 export default async function ExperienceItem({
   experience,
@@ -19,13 +22,13 @@ export default async function ExperienceItem({
     experience;
 const functions = await getExperienceFunctions(id)
   return (
-    <article className="p-3 max-lg:border max-lg:border-primary pb-6 sm:p-6 lg:bg-backgroundsecondary h-full w-full max-md:max-w-[400px] flex flex-col items-center justify-between gap-3">
-      <h3 className="text-2xl">{nameBusiness}</h3>
-      <div className="px-7 py-4 border border-primary w-full">
-        <h5 className="mb-3 text-white/90 text-left text-lg">
+    <article className={styles.ExperienceItem + ' special-shadow'}>
+      <h3>{nameBusiness}</h3>
+      <div className={styles.ExperienceItem__details}>
+        <h5>
           Position: {position}
         </h5>
-        <ul className="list-disc text-white/50">
+        <ul>
           <li>
             <p>Place: {place}</p>
           </li>

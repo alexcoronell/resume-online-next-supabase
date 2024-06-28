@@ -1,0 +1,34 @@
+.ExperienceFunctions {
+}
+
+.ExperienceFunctions__fixedBox {
+  @apply fixed top-0 bottom-0 left-0 right-0 z-50 flex items-center justify-center bg-black/70 px-2 transition-opacity delay-500 duration-500;
+}
+
+.ExperienceFunctions__subBox {
+    @apply flex items-center justify-center h-full overflow-y-auto;
+}
+
+.ExperienceFunctions__contentBox {
+    @apply bg-backgroundsecondary p-4 relative max-w-[450px] md:max-w-[500px];
+}
+
+.ExperienceFunctions__closeButtonTopBox {
+    @apply text-right;
+}
+
+.ExperienceFunctions__contentBox h4 {
+    @apply text-center;
+}
+
+.ExperienceFunctions__details {
+    @apply px-4 py-6;
+}
+
+.ExperienceFunctions__details > ul {
+    @apply list-disc;
+}
+
+.ExperienceFunctions__closeButtonBottomBox {
+    @apply w-full text-center pb-3;
+}

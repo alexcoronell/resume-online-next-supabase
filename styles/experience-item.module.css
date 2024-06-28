@@ -1,0 +1,19 @@
+.ExperienceItem {
+    @apply p-3 max-lg:border max-lg:border-primary/50 pb-6 sm:p-6 lg:bg-backgroundsecondary h-full w-full max-md:max-w-[400px] flex flex-col items-center justify-between gap-6;
+}
+
+.ExperienceItem h3 {
+    @apply text-xl;
+}
+
+.ExperienceItem__details {
+    @apply px-7 py-4 w-full bg-backgroundthird grow;
+}
+
+.ExperienceItem__details > h5 {
+    @apply mb-3 text-white/80 text-left text-lg;
+}
+
+.ExperienceItem__details > ul {
+    @apply list-disc text-white/50;
+}
