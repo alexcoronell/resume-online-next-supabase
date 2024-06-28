@@ -1,5 +1,5 @@
 .Header {
-    @apply fixed top-0 left-0 right-0 w-full text-right p-2 bg-background lg:border-b lg:border-primary z-50;
+    @apply fixed top-0 left-0 right-0 w-full text-right p-2 bg-background lg:border-b lg:border-primary/50 z-50;
 }
 
 .Header button {

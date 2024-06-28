@@ -7,14 +7,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "hsl(var(--background))",
-        backgroundsecondary: "hsl(var(--background-secondary))",
-        foreground: "hsl(var(--foreground))",
-        primary: "hsl(var(--primary))",
-        btn: {
-          background: "hsl(var(--btn-background))",
-          "background-hover": "hsl(var(--btn-background-hover))",
-        },
+        "background": "#1c1c1c",
+        "backgroundsecondary": "#212121",
+        "foreground": "#eaebdb",
+        "primary": "#3fcf8e",
       },
       screens: {
         'sm': '576px',
