@@ -17,3 +17,7 @@
 .Header > nav > ul {
     @apply flex flex-col justify-center items-center h-[90%] gap-y-8 text-lg lg:flex-row lg:gap-6;
 }
+
+.Header > nav > ul > li {
+    @apply text-3xl lg:text-lg xl:text-xl;
+}
