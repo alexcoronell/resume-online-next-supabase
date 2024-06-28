@@ -8,18 +8,22 @@ import getPersonalData from "@/core/services/personal-data.service";
 import styles from '../styles/home.module.css'
 
 export default async function Index() {
-  const personalData = await getPersonalData();
+  const {firstname, lastname, title, image, description} = await getPersonalData();
+  let finalImage = ''
+  if(image) {
+    finalImage = image
+  }
 
   return (
     <article className={styles.Home + ' no-scrollbar'}>
       <div className={styles.Home__container}>
         <div className={styles.Home__imageArea}>
           <Image
-            src={personalData.image}
+            src={finalImage}
             alt={
-              personalData.firstname +
+              firstname +
               " " +
-              personalData.lastname +
+              lastname +
               " profile image"
             }
             fill={true}
@@ -29,10 +33,10 @@ export default async function Index() {
         </div>
         <div className={styles.Home__detail}>
           <h1>
-            {personalData.firstname} {personalData.lastname}
+            {firstname} {lastname}
           </h1>
-          <h2>{personalData.title}</h2>
-          <p>{personalData.description}</p>
+          <h2>{title}</h2>
+          <p>{description}</p>
         </div>
       </div>
     </article>
