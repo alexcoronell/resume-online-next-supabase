@@ -104,3 +104,8 @@ textarea.form-control:focus button {
 .special-shadow {
   box-shadow: 0 15px 15px rgba(0, 0, 0, 0.4);
 }
+
+
+.profileImage {
+  mask-image: linear-gradient(black 75%, transparent);
+}

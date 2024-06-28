@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { blurData } from "@/core/data/blurData";
 import getPersonalData from "@/core/services/personal-data.service";
 
 export default async function Index() {
@@ -8,7 +7,7 @@ export default async function Index() {
   return (
     <article className="w-full p-4 overflow-y-scroll h-full no-scrollbar">
       <div className="h-full lg:grid lg:grid-cols-3 lg:items-center lg:gap-x-12">
-        <div className="w-[328px] h-[328px] overflow-hidden relative rounded-full mx-auto xl:w-[400px] xl:h-[400px]">
+        <div className="w-[328px] h-[328px] overflow-hidden relative mx-auto xl:w-[400px] xl:h-[400px]">
           <Image
             src={personalData.image}
             alt={
@@ -19,8 +18,7 @@ export default async function Index() {
             }
             fill={true}
             priority={true}
-            placeholder="blur"
-            blurDataURL={blurData}
+            className="profileImage"
           />
         </div>
         <div className="lg:col-span-2 lg:pl-6">
