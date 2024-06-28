@@ -33,7 +33,12 @@ export default async function WorkItem({ work }: WorkViewProps) {
     technologies,
   } = await work;
   const skills = technologies.split(",");
-  const imageUrl = await getimageUrl(bucketName, image);
+
+  let imageUrl = "";
+  if (image) {
+    imageUrl = await getimageUrl(bucketName, image);
+  }
+  
   return (
     <article className={styles.WorkItem + ' special-shadow'}>
       <div className={styles.WorkItem__imageArea}>

@@ -14,17 +14,21 @@ interface TrainingViewPops {
 }
 
 /* Styles */
-import styles from '../styles/training-item.module.css'
+import styles from "../styles/training-item.module.css";
 
 export default async function TrainingItem({ training }: TrainingViewPops) {
   const bucketName = "trainings";
   const { englishTitle, institute, year, month, image } = training;
-  const imageUrl = image ? await getimageUrl(bucketName, image) : "";
+  let imageUrl = "";
+
+  if (image) {
+    imageUrl = await getimageUrl(bucketName, image);
+  }
 
   return (
-    <article className={styles.TrainingItem + ' special-shadow'}>
+    <article className={styles.TrainingItem + " special-shadow"}>
       <div className={styles.TrainingItem__imageArea}>
-      <Image
+        <Image
           src={imageUrl}
           alt={englishTitle}
           fill={true}
@@ -34,10 +38,12 @@ export default async function TrainingItem({ training }: TrainingViewPops) {
       </div>
       <div className={styles.TrainingItem__details}>
         <div>
-        <h3>{englishTitle}</h3>
-        <p>{institute.name}</p>
+          <h3>{englishTitle}</h3>
+          <p>{institute.name}</p>
         </div>
-        <time>{year} / {month}</time>
+        <time>
+          {year} / {month}
+        </time>
       </div>
     </article>
   );
