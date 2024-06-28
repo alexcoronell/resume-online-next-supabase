@@ -87,7 +87,7 @@ export default function FormContact() {
     }
   };
 
-  const onSubmit = async (e: Event) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>):Promise<void> => {
     e.preventDefault();
     if (!checkValidateName() && !checkValidateEmail()) return;
     setRequestStatus("loading");
@@ -189,6 +189,7 @@ export default function FormContact() {
           </label>
         </div>
         <button
+          type="submit"
           className={styles.btnSubmit}
           disabled={requestStatus === "loading"}
         >
