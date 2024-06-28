@@ -7,7 +7,7 @@
 }
 
 .StudyItem__details {
-    @apply px-7 py-4 w-full bg-backgroundthird;
+    @apply px-7 py-4 w-full bg-background;
 }
 
 .StudyItem__details > h5 {

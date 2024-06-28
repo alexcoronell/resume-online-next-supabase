@@ -7,7 +7,7 @@
 }
 
 .ExperienceItem__details {
-    @apply px-7 py-4 w-full bg-backgroundthird grow;
+    @apply px-7 py-4 w-full bg-background grow;
 }
 
 .ExperienceItem__details > h5 {
