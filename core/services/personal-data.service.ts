@@ -12,7 +12,11 @@ const tableBucketName = "personalData";
 const getPersonalData = async () => {
   const { data } = await supabase.from(tableName).select("*").single();
   const personalData: PersonalData = data;
-  personalData.image = await getimageUrl(tableBucketName, personalData.image);
+  if(personalData.image) {
+    personalData.image = await getimageUrl(tableBucketName, personalData.image);
+  } else {
+    personalData.image = ''
+  }
   return await personalData;
 };
 
