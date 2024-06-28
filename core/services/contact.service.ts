@@ -1,4 +1,4 @@
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/utils/supabase/client";
 import { Contact } from "../models/Contact.interface";
 
 const supabase = createClient();
