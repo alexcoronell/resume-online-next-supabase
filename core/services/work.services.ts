@@ -1,5 +1,5 @@
 /* Supabase */
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/utils/supabase/client";
 
 /* Models */
 import { Work } from "../models/Work.interface";
