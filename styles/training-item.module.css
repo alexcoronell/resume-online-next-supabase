@@ -1,0 +1,29 @@
+.TrainingItem {
+  @apply p-3 max-lg:border max-lg:border-primary/50 lg:bg-backgroundsecondary h-full w-full max-md:max-w-[400px] flex flex-col justify-between;
+}
+
+.TrainingItem__imageArea {
+  @apply relative mx-auto w-full max-w-[326px] h-[253px]  md:max-w-[330px] md:h-[256px] lg:max-w-[440px] lg:h-[344px] xl:max-w-[350px] xl:h-[271px] grow-0;
+}
+
+.TrainingItem__details {
+  @apply w-full py-2 grow flex flex-col justify-between;
+}
+
+.TrainingItem__details h3 {
+  @apply text-lg;
+}
+
+.TrainingItem__details p {
+  @apply text-white/80 text-base pb-4;
+}
+
+.TrainingItem__details time {
+  @apply text-sm mt-auto text-white/75 font-light;
+}
+
+.TrainingItem__details h3,
+.TrainingItem__details p,
+.TrainingItem__details time {
+  @apply text-center w-full md:text-left;
+}
