@@ -8,6 +8,7 @@ import { PersonalData } from "../models/PersonalData.interface";
 const supabase = createClient();
 const tableName = "profile";
 const tableBucketName = "personalData";
+export const revalidate = 30;
 
 const getPersonalData = async () => {
   const { data } = await supabase.from(tableName).select("*").single();

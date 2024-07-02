@@ -7,6 +7,7 @@ import { ExperienceFunction } from "../models/ExperienceFunction";
 
 const supabase = createClient();
 const tableName = "experience_functions";
+export const revalidate = 30;
 
 const getExperienceFunctions = async (
   id: Experience["id"]
