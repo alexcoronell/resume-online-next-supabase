@@ -9,7 +9,6 @@ import { orderExperiences } from "@/helpers/orderData";
 
 const supabase = createClient();
 const tableName = "experiences";
-export const revalidate = 30;
 
 const getExperiences = async (): Promise<Experience[]> => {
   const { data } = await supabase.from(tableName).select("*");

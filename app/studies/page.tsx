@@ -8,6 +8,8 @@ import getStudies from "../../core/services/study.service";
 /* Models */
 import { Study } from "@/core/models/Study.interface";
 
+export const revalidate = 30;
+
 export default async function Studies() {
   const studies: Study[] = await getStudies();
   const titlePage = "Studies";

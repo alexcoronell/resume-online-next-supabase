@@ -9,7 +9,6 @@ import { orderByYearAndMonth } from "@/helpers/orderByDate";
 
 const supabase = createClient();
 const tableName = "trainings";
-export const revalidate = 30;
 
 const getTrainings = async (): Promise<Training[]> => {
   const { data } = await supabase.from(tableName).select("*, institute(*)");

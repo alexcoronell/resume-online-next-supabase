@@ -6,7 +6,6 @@ import { Contact } from "../models/Contact.interface";
 
 const supabase = createClient();
 const tableName = "social_media";
-export const revalidate = 30;
 
 const getContacts = async (): Promise<Contact[]> => {
   const { data } = await supabase.from(tableName).select("*").order("name");

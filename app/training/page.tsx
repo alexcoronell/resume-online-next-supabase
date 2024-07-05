@@ -8,6 +8,8 @@ import getTrainings from "@/core/services/training.service";
 /* Models */
 import { Training } from "@/core/models/Training.interface";
 
+export const revalidate = 30;
+
 export default async function Trainings() {
   const trainings: Training[] = await getTrainings();
   const titlePage = "Trainings";
