@@ -11,7 +11,7 @@ const supabase = createClient();
 const tableName = "trainings";
 
 const getTrainings = async (): Promise<Training[]> => {
-  const { data } = await supabase.from(tableName).select("*, institute(*)");
+  const { data } = await supabase.from(tableName).select("*, institute(*)").order('created_at', { ascending: false });
   const trainings: Training[] = await orderByYearAndMonth(data);
   return await trainings;
 };
