@@ -18,8 +18,8 @@
   @apply text-white/80 text-base pb-4;
 }
 
-.TrainingItem__details time {
-  @apply text-sm mt-auto text-white/75 font-light;
+.TrainingItem__details time p {
+  @apply text-sm mt-auto text-white/75 font-light text-right w-full mb-[-1rem];
 }
 
 .TrainingItem__details h3,

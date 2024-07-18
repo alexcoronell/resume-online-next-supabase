@@ -6,7 +6,11 @@ import { Training } from "@/core/models/Training.interface";
 /* Helpers */
 import getimageUrl from "@/helpers/getImagesUrl";
 
+/* Data */
 import { blurData } from "@/core/data/blurData";
+
+/* Helpers */
+import { monthToText } from "@/helpers/monthToText";
 
 /* Props */
 interface TrainingViewPops {
@@ -42,7 +46,9 @@ export default async function TrainingItem({ training }: TrainingViewPops) {
           <p>{institute.name}</p>
         </div>
         <time>
-          {year} / {month}
+          <p>
+            {monthToText(month as number)} {year}
+          </p>
         </time>
       </div>
     </article>
