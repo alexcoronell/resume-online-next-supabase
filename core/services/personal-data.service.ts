@@ -5,6 +5,9 @@ import { createClient } from "@/utils/supabase/client";
 import getimageUrl from "@/helpers/getImagesUrl";
 import { PersonalData } from "../models/PersonalData.interface";
 
+/* Revalidate  */
+export const revalidate = 60
+
 const supabase = createClient();
 const tableName = "profile";
 const tableBucketName = "personalData";

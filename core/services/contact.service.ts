@@ -4,6 +4,9 @@ import { createClient } from "@/utils/supabase/client";
 /* Models */
 import { Contact } from "../models/Contact.interface";
 
+/* Revalidate  */
+export const revalidate = 60
+
 const supabase = createClient();
 const tableName = "social_media";
 

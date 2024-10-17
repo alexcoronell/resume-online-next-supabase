@@ -7,6 +7,9 @@ import { Training } from "../models/Training.interface";
 /* Helpers */
 import { orderByYearAndMonth } from "@/helpers/orderByDate";
 
+/* Revalidate  */
+export const revalidate = 60
+
 const supabase = createClient();
 const tableName = "trainings";
 
