@@ -7,6 +7,9 @@ import { Study } from "../models/Study.interface";
 /* Helpers */
 import { orderStudies } from "@/helpers/orderData";
 
+/* Revalidate  */
+export const revalidate = 60
+
 const supabase = createClient();
 const tableName = "studies";
 

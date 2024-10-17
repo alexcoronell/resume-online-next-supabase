@@ -7,6 +7,9 @@ import { Experience } from "../models/Experience.interface";
 /* Helpers */
 import { orderExperiences } from "@/helpers/orderData";
 
+/* Revalidate  */
+export const revalidate = 60
+
 const supabase = createClient();
 const tableName = "experiences";
 

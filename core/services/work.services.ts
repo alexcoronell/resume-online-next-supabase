@@ -7,6 +7,9 @@ import { Work } from "../models/Work.interface";
 const supabase = createClient();
 const tableName = "works";
 
+/* Revalidate  */
+export const revalidate = 60
+
 const getWorks = async (): Promise<Work[]> => {
   const { data } = await supabase
     .from(tableName)
