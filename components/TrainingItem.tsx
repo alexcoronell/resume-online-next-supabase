@@ -7,7 +7,7 @@ import { Training } from "@/core/models/Training.interface";
 import getimageUrl from "@/helpers/getImagesUrl";
 
 /* Data */
-import { blurData } from "@/core/data/blurData";
+import { blurDataTraining } from "@/core/data/blurData";
 
 /* Helpers */
 import { monthToText } from "@/helpers/monthToText";
@@ -37,7 +37,7 @@ export default async function TrainingItem({ training }: TrainingViewPops) {
           alt={englishTitle}
           fill={true}
           placeholder="blur"
-          blurDataURL={blurData}
+          blurDataURL={blurDataTraining}
         />
       </div>
       <div className={styles.TrainingItem__details}>

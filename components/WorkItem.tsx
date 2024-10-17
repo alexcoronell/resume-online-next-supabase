@@ -10,7 +10,7 @@ import getimageUrl from "@/helpers/getImagesUrl";
 import { Work } from "@/core/models/Work.interface";
 
 /* Blur Data */
-import { blurData } from "@/core/data/blurData";
+import { blurDataWork } from "@/core/data/blurData";
 
 /* Styles */
 import styles from "../styles/work-item.module.css";
@@ -47,7 +47,7 @@ export default async function WorkItem({ work }: WorkViewProps) {
           alt={title}
           fill={true}
           placeholder="blur"
-          blurDataURL={blurData}
+          blurDataURL={blurDataWork}
         />
       </div>
       <div className={styles.WorkItem__details}>
