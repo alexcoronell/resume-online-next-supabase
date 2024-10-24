@@ -4,8 +4,6 @@ import WorkItem from "../../components/WorkItem";
 
 import getWorks from "@/core/services/work.services";
 
-export const revalidate = 30;
-
 export default async function Portfolio() {
   const titlePage = "Portfolio";
   const works = await getWorks();

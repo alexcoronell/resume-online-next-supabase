@@ -7,11 +7,11 @@ import { Experience } from "../models/Experience.interface";
 /* Helpers */
 import { orderExperiences } from "@/helpers/orderData";
 
-/* Revalidate  */
-export const revalidate = 60
-
 const supabase = createClient();
 const tableName = "experiences";
+
+/* Revalidate */
+export const revalidate = 60 * 60 * 24 * 7;
 
 const getExperiences = async (): Promise<Experience[]> => {
   const { data } = await supabase.from(tableName).select("*");

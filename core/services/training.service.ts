@@ -7,11 +7,11 @@ import { Training } from "../models/Training.interface";
 /* Helpers */
 import { orderByYearAndMonth } from "@/helpers/orderByDate";
 
-/* Revalidate  */
-export const revalidate = 60
-
 const supabase = createClient();
 const tableName = "trainings";
+
+/* Revalidate */
+export const revalidate = 60 * 60 * 24;
 
 const getTrainings = async (): Promise<Training[]> => {
   const { data } = await supabase.from(tableName).select("*, institute(*)").order('created_at', { ascending: false });

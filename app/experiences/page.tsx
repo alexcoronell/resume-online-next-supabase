@@ -8,8 +8,6 @@ import getExperiences from "@/core/services/experience.service";
 /* Models */
 import { Experience } from "@/core/models/Experience.interface";
 
-export const revalidate = 30;
-
 export default async function Experiences() {
   const experiences: Experience[] = await getExperiences();
   const titlePage = "Experiences";
