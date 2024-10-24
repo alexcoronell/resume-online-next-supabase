@@ -10,8 +10,6 @@ import { PersonalData } from '../core/models/PersonalData.interface';
 /* Styles */
 import styles from "../styles/home.module.css";
 
-export const revalidate = 30;
-
 export default async function Index() {
   const personalData: PersonalData = await getPersonalData();
   

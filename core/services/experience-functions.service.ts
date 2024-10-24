@@ -5,11 +5,11 @@ import { createClient } from "@/utils/supabase/client";
 import { Experience } from "../models/Experience.interface";
 import { ExperienceFunction } from "../models/ExperienceFunction";
 
-/* Revalidate  */
-export const revalidate = 60
-
 const supabase = createClient();
 const tableName = "experience_functions";
+
+/* Revalidate */
+export const revalidate = 60 * 60 * 24 * 7;
 
 const getExperienceFunctions = async (
   id: Experience["id"]

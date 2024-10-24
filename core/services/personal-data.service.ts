@@ -5,8 +5,8 @@ import { createClient } from "@/utils/supabase/client";
 import getimageUrl from "@/helpers/getImagesUrl";
 import { PersonalData } from "../models/PersonalData.interface";
 
-/* Revalidate  */
-export const revalidate = 60
+/* Revalidate */
+export const revalidate = 60 * 60 * 24;
 
 const supabase = createClient();
 const tableName = "profile";

@@ -7,11 +7,11 @@ import { Study } from "../models/Study.interface";
 /* Helpers */
 import { orderStudies } from "@/helpers/orderData";
 
-/* Revalidate  */
-export const revalidate = 60
-
 const supabase = createClient();
 const tableName = "studies";
+
+/* Revalidate */
+export const revalidate = 60 * 60 * 24 * 15;
 
 const getStudies = async (): Promise<Study[]> => {
   const { data } = await supabase.from(tableName).select("*");
