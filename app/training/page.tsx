@@ -3,6 +3,7 @@ import SectionPage from "@/components/SectionPage";
 import TrainingItem from "@/components/TrainingItem";
 
 /* Supabase */
+// Importa el cliente de Supabase para realizar consultas a la base de datos desde el navegador
 import { createClient } from "@/utils/supabase/client";
 
 /* Models */
@@ -11,10 +12,11 @@ import { Training } from "@/core/models/Training.interface";
 /* Helpers */
 import { orderByYearAndMonth } from "@/helpers/orderByDate";
 
-const supabase = createClient();
-export const revalidate = 60;
+// This line forces server-side rendering (SSR) on every request, disabling the cache
+export const dynamic = 'force-dynamic';
 
 export default async function Trainings() {
+  const supabase = createClient();
   const { data } = await supabase.from("trainings").select("*, institute(*)").order('created_at', { ascending: false });
   const trainings: Training[] = await orderByYearAndMonth(data);
   const titlePage = "Trainings";
