@@ -1,0 +1,28 @@
+.formgroup {
+  @apply relative py-1 mb-6 w-full;
+}
+
+.formgroup > * {
+  @apply transition-all ease-in-out duration-100;
+}
+
+.formgroup input,
+.formgroup textarea {
+  @apply bg-transparent border border-primary/60 rounded-md px-4 py-3 text-base text-white w-full focus:border-primary;
+}
+
+.formgroup span {
+  @apply absolute bg-backgroundsecondary left-4 top-5 px-2 text-xs text-primary/60;
+}
+
+.formgroup input:focus + span,
+.formgroup input:not(:placeholder-shown) + span,
+.formgroup textarea:focus + span,
+.formgroup textarea:not(:placeholder-shown) + span {
+  @apply top-[-0.2rem] bg-primary text-background rounded-sm;
+}
+
+.formgroup input::placeholder,
+.formgroup textarea::placeholder {
+  @apply text-transparent;
+}
