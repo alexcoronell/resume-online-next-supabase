@@ -15,8 +15,8 @@ const protectedRoutes = [
 
 export function middleware(request: NextRequest) {
   const { cookies, nextUrl } = request;
-  const token = cookies.get('sb-access-token') || cookies.get('supabase-auth-token');
-
+  const cookieName = process.env.NEXT_PUBLIC_SUPABASE_COOKIE ?? '';
+  const token = cookies.get('sb-access-token') || cookies.get('supabase-auth-token') || cookies.get(cookieName);
   const isProtected = protectedRoutes.some(route => nextUrl.pathname.startsWith(route));
 
   if (isProtected && !token) {
