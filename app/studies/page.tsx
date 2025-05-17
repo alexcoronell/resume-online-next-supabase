@@ -6,7 +6,7 @@ import StudyItem from "@/components/StudyItem";
 import getStudies from "../../core/services/study.service";
 
 /* Models */
-import { Study } from "@/core/models/Study.interface";
+import type { Study } from "@/core/models/Study.interface";
 
 export default async function Studies() {
   const studies: Study[] = await getStudies();
