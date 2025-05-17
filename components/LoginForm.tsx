@@ -75,7 +75,7 @@ export default function LoginForm() {
 
   const titlePage = 'Login';
   return (
-    <div className={styles.LoginForm}>
+    <div className={`${styles.LoginForm} special-shadow`}>
       <form onSubmit={onSubmit}>
         <Input
           name='Email'
