@@ -1,17 +1,20 @@
 'use client';
 import { useState } from 'react';
-import { ChangeEvent } from 'react';
+import { useRouter } from 'next/navigation';
+import type { ChangeEvent } from 'react';
+import { createClient } from '@/utils/supabase/client';
 
 import SectionPage from '@/components/SectionPage';
 import Input from '@/components/ui/form/Input';
 import ButtonSubmit from './ui/form/ButtonSubmit';
 
-import { RequestStatus } from '@/core/types/RequestStatus.type';
+import type { RequestStatus } from '@/core/types/RequestStatus.type';
 
 /* Styles */
 import styles from '../styles/login-form.module.css';
 
 export default function LoginForm() {
+  const router = useRouter();
   const [email, setEmail] = useState({
     field: '',
     validate: true,
@@ -29,15 +32,16 @@ export default function LoginForm() {
   };
 
   const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
-    let newValue = e.target as HTMLInputElement;
+    const newValue = e.target as HTMLInputElement;
     const newEmail = newValue.value;
     const validate = regularExpressions.email.test(newEmail);
     setEmail((prevState: any) => ({ ...prevState, field: newEmail, validate }));
   };
 
   const onChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
-    let newValue = e.target as HTMLInputElement;
+    const newValue = e.target as HTMLInputElement;
     const newPassword = newValue.value;
+    // biome-ignore lint/complexity/noUselessTernary: <explanation>
     const validate = newPassword.length > 0 ? true : false;
     setPassword((prevState: any) => ({
       ...prevState,
@@ -46,10 +50,33 @@ export default function LoginForm() {
     }));
   };
 
+  const onSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
+    e.preventDefault();
+    if (!email.validate || !password.validate) {
+      return;
+    }
+
+    const supabase = createClient();
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email: email.field,
+      password: password.field,
+    });
+
+    if (error) {
+      alert('ERROR IN LOGIN');
+      console.log(error);
+    } else {
+      router.push('/admin');
+    }
+  };
+
   const titlePage = 'Login';
   return (
     <div className={styles.LoginForm}>
-      <form>
+      <form onSubmit={onSubmit}>
         <Input
           name='Email'
           id='emailLogin'
