@@ -1,15 +1,13 @@
 import { create } from "zustand";
 
 /* Service */
-import getStudies from "@/core/services/study.service";
+import { getStudies } from "@/core/services/study.service";
 
 /* Models */
-import { Study } from "@/core/models/Study.interface";
-import { Institute } from "@/core/models/Institute.interface";
+import type { Study } from "@/core/models/Study.interface";
 
 type StudyStore = {
     studies: Study[];
-    institutes: Institute[];
     getStudies: () => Promise<Study[]>;
 }
 

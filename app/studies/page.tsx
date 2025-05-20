@@ -3,13 +3,13 @@ import SectionPage from '@/components/SectionPage';
 import StudyItem from '@/components/StudyItem';
 
 /* Api */
-import { getStudies } from '../../core/services/study.service';
+import { getSimpleStudies } from '../../core/services/study.service';
 
 /* Models */
 import type { Study } from '@/core/models/Study.interface';
 
 export default async function Studies() {
-  const { studies }: { studies: Study[]; total: number } = await getStudies();
+  const studies: Study[] = await getSimpleStudies();
   const titlePage = 'Studies';
 
   return (

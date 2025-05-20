@@ -17,6 +17,21 @@ const tableName = "studies";
 export const revalidate = 60 * 60 * 24 * 15;
 
 /**
+ * Retrieves a list of studies from the database, orders them, and returns the studies.
+ * This function uses the Supabase client to query the database for all studies.
+ * It orders the studies using the `orderStudies` helper function and returns an object containing the studies and the total count.
+ * The function is asynchronous and returns a promise that resolves to an object containing the studies.
+ *
+ * @returns A promise that resolves to an object containing an array of studies.
+ */
+const getSimpleStudies = async (): Promise<Study[]> => {
+  const { data } = await supabase.from(tableName)
+    .select("*");
+  const studies: Study[] = await orderStudies(data as Study[]);
+  return studies
+};
+
+/**
  * Retrieves a list of studies from the database, orders them, and returns the studies along with the total count.
  * This function uses the Supabase client to query the database for all studies.
  * It orders the studies using the `orderStudies` helper function and returns an object containing the studies and the total count.
@@ -106,4 +121,4 @@ const deleteStudy = async (id: string): Promise<boolean> => {
   return true;
 };
 
-export { getStudies, getStudyById, addStudy, updateStudy, deleteStudy };
+export { getSimpleStudies, getStudies, getStudyById, addStudy, updateStudy, deleteStudy };
