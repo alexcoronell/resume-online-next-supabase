@@ -1,6 +1,9 @@
 import SectionPage from '@/components/SectionPage';
+import { HeaderButtons } from '@/components/shared/admin/header-buttons';
 
 export default async function AdminPage() {
   const titlePage = 'Institutes';
-  return <SectionPage titlePage={titlePage}>CONTENT</SectionPage>;
+  return <SectionPage titlePage={titlePage}>
+    <HeaderButtons />
+  </SectionPage>;
 }

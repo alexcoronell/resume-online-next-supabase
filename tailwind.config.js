@@ -11,6 +11,7 @@ module.exports = {
         "backgroundsecondary": "#212121",
         "foreground": "#eaebdb",
         "primary": "#3fcf8e",
+        "secondary": "#FF7E4E",
         "red": "#ec5353"
       },
       screens: {
