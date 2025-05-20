@@ -33,6 +33,11 @@ const getSimpleStudies = async (): Promise<Study[]> => {
 
 /**
  * Retrieves a list of studies from the database, orders them, and returns the studies along with the total count.
+ * This function uses pagination to limit the number of studies returned.
+ * It takes two optional parameters: `page` and `pageSize`, which specify the current page number and the number of studies per page, respectively.
+ * The default values for `page` and `pageSize` are 1 and 10, respectively.
+ * The `from` and `to` variables are calculated based on the current page and page size to determine the range of studies to retrieve.
+ * The `from` variable is calculated as `(page - 1) * pageSize`, and the `to` variable is calculated as `from + pageSize - 1`.
  * This function uses the Supabase client to query the database for all studies.
  * It orders the studies using the `orderStudies` helper function and returns an object containing the studies and the total count.
  * The function is asynchronous and returns a promise that resolves to an object containing the studies and the total count.
@@ -40,10 +45,18 @@ const getSimpleStudies = async (): Promise<Study[]> => {
  *
  * @returns A promise that resolves to an object containing an array of studies and the total number of studies.
  */
-const getStudies = async (): Promise<{ studies: Study[]; total: number }> => {
+const getStudies = async (
+  page = 1,
+  pageSize = 10
+): Promise<{ studies: Study[]; total: number }> => {
+  const from = (page - 1) * pageSize;
+  const to = from + pageSize - 1;
+
   const { data, count } = await supabase
     .from(tableName)
-    .select("*", { count: "exact" });
+    .select("*", { count: "exact" })
+    .range(from, to);
+
   const studies: Study[] = await orderStudies(data as Study[]);
   return { studies, total: count ?? 0 };
 };
