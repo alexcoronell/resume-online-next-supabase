@@ -25,7 +25,7 @@ export const StudiesTable: FC = () => {
 
   const columns = [
     { title: 'Title', classes: 'text-left' },
-    { title: 'Institute', classes: 'text-left max-mdhidden' },
+    { title: 'Institute', classes: 'text-left max-md:hidden' },
     { title: 'Place', classes: 'text-left max-lg:hidden' },
     { title: 'Since', classes: 'text-center max-xl:hidden' },
     { title: 'Until', classes: 'text-center max-xl:hidden' },

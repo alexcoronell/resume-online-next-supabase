@@ -16,8 +16,11 @@
     @apply font-bold text-primary px-2 py-3;
 }
 
+.AdminTable tbody {
+    @apply bg-background;
+}
 .AdminTable tbody tr td {
-    @apply text-sm px-2 py-2 border border-primary/10 bg-background;
+    @apply text-sm px-2 py-2 border border-primary/10;
 }
 
 .AdminTable__actions {

@@ -1,0 +1,17 @@
+.HeaderButtons {
+    @apply grid gap-3 md:mb-[-1rem];
+}
+
+.HeaderButtons__actions {
+    @apply flex items-center justify-end gap-2 mb-6 md:max-w-[350px];
+}
+
+.HeaderButtons__selectBox {
+    @apply py-2 md:max-w-[200px];
+}
+
+@media screen and (min-width: 768px) {
+    .HeaderButtons {
+        grid-template-columns: 350px auto 200px;
+    }
+}

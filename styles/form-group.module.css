@@ -7,6 +7,7 @@
 }
 
 .formgroup input,
+.formgroup select,
 .formgroup textarea {
   @apply bg-transparent border border-primary/60 rounded-md px-4 py-3 text-base text-white w-full focus:border-primary;
 }
@@ -17,12 +18,15 @@
 
 .formgroup input:focus + span,
 .formgroup input:not(:placeholder-shown) + span,
+.formgroup select:focus + span,
+.formgroup select:not(:placeholder-shown) + span,
 .formgroup textarea:focus + span,
 .formgroup textarea:not(:placeholder-shown) + span {
   @apply top-[-0.2rem] bg-primary text-background rounded-sm;
 }
 
 .formgroup input::placeholder,
+.formgroup select::placeholder,
 .formgroup textarea::placeholder {
   @apply text-transparent;
 }
