@@ -1,0 +1,25 @@
+.AdminTableContainer {
+    @apply my-6 border-2 border-primary p-0 rounded-2xl overflow-hidden bg-primary/10;
+}
+
+.AdminTable {
+    @apply border-collapse w-full;
+}
+.AdminTable tr {
+    @apply border-none;
+}
+.AdminTable thead {
+    @apply bg-primary/10;
+}
+
+.AdminTable thead th {
+    @apply font-bold text-primary px-2 py-3;
+}
+
+.AdminTable tbody tr td {
+    @apply text-sm px-2 py-2 border border-primary/10 bg-background;
+}
+
+.AdminTable__actions {
+    @apply flex items-center justify-center gap-2 h-full;
+}
