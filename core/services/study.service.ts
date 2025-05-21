@@ -55,10 +55,11 @@ const getStudies = async (
   const { data, count } = await supabase
     .from(tableName)
     .select("*", { count: "exact" })
+    .order("current", { ascending: false })
+    .order("until", { ascending: false })
     .range(from, to);
 
-  const studies: Study[] = await orderStudies(data as Study[]);
-  return { studies, total: count ?? 0 };
+  return { studies: data as Study[], total: count ?? 0 };
 };
 
 

@@ -1,21 +1,63 @@
+'use client';
 import React from 'react';
 import styles from '@/styles/pagination.module.css';
 
-export function FooterPagination() {
+interface FooterPaginationProps {
+  totalPages: number;
+  currentPage: number;
+  setPage: (page: number) => void;
+}
+
+export function FooterPagination({
+  currentPage,
+  totalPages,
+  setPage,
+}: FooterPaginationProps) {
   return (
     <div className={styles.Pagination}>
-      <ButtonFirstPage />
-      <ButtonBack />
-      <p className='px-3'>Page <span className='px-1 text-primary font-bold underline underline-offset-4'>1</span> of <span>10</span></p>
-      <ButtonNext />
-      <ButtonLastPage />
+      <ButtonFirstPage
+        currentPage={currentPage}
+        setPage={setPage}
+        totalPages={totalPages}
+      />
+      <ButtonBack
+        currentPage={currentPage}
+        setPage={setPage}
+        totalPages={totalPages}
+      />
+      <p className='px-3'>
+        Page{' '}
+        <span className='px-2 text-primary font-bold underline underline-offset-4'>
+          {currentPage}
+        </span>{' '}
+        of <span className='pl-2 font-bold'>{totalPages}</span>
+      </p>
+      <ButtonNext
+        currentPage={currentPage}
+        setPage={setPage}
+        totalPages={totalPages}
+      />
+      <ButtonLastPage
+        currentPage={currentPage}
+        setPage={setPage}
+        totalPages={totalPages}
+      />
     </div>
   );
 }
 
-function ButtonFirstPage() {
+function ButtonFirstPage({ currentPage, setPage }: FooterPaginationProps) {
+  const handlePageChange = () => {
+    if (currentPage === 1) return;
+    setPage(1);
+  };
   return (
-    <button type='button' className={styles.ButtonDirection}>
+    <button
+      type='button'
+      className={styles.ButtonDirection}
+      disabled={currentPage === 1}
+      onClick={handlePageChange}
+    >
       <svg
         xmlns='http://www.w3.org/2000/svg'
         width='24'
@@ -32,9 +74,18 @@ function ButtonFirstPage() {
   );
 }
 
-function ButtonBack() {
+function ButtonBack({ currentPage, setPage }: FooterPaginationProps) {
+  const handlePageChange = () => {
+    if (currentPage === 1) return;
+    setPage(currentPage - 1);
+  };
   return (
-    <button type='button' className={styles.ButtonDirection}>
+    <button
+      type='button'
+      className={styles.ButtonDirection}
+      disabled={currentPage === 1}
+      onClick={handlePageChange}
+    >
       <svg
         xmlns='http://www.w3.org/2000/svg'
         width='24'
@@ -51,9 +102,22 @@ function ButtonBack() {
   );
 }
 
-function ButtonNext() {
+function ButtonNext({
+  currentPage,
+  setPage,
+  totalPages,
+}: FooterPaginationProps) {
+  const handlePageChange = () => {
+    if (currentPage === totalPages) return;
+    setPage(currentPage + 1);
+  };
   return (
-    <button type='button' className={styles.ButtonDirection}>
+    <button
+      type='button'
+      className={styles.ButtonDirection}
+      disabled={currentPage === totalPages}
+      onClick={handlePageChange}
+    >
       <svg
         xmlns='http://www.w3.org/2000/svg'
         width='24'
@@ -70,9 +134,22 @@ function ButtonNext() {
   );
 }
 
-function ButtonLastPage() {
+function ButtonLastPage({
+  currentPage,
+  setPage,
+  totalPages,
+}: FooterPaginationProps) {
+  const handlePageChange = () => {
+    if (currentPage === totalPages) return;
+    setPage(totalPages);
+  };
   return (
-    <button type='button' className={styles.ButtonDirection}>
+    <button
+      type='button'
+      className={styles.ButtonDirection}
+      disabled={currentPage === totalPages}
+      onClick={handlePageChange}
+    >
       <svg
         xmlns='http://www.w3.org/2000/svg'
         width='24'

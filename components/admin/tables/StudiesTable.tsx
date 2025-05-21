@@ -10,7 +10,7 @@ import { useStudyStore } from '@/store/useStudyStore';
 import styles from '@/styles/tablets.module.css';
 
 export const StudiesTable: FC = () => {
-  const { studies, total, getStudies, currentPage, currentPageSize } =
+  const { studies, total, getStudies, currentPage, currentPageSize, setPage } =
     useStudyStore();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>

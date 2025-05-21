@@ -3,5 +3,5 @@
 }
 
 .ButtonDirection {
-    @apply text-primary;
+    @apply text-primary disabled:opacity-50 disabled:cursor-not-allowed;
 }
