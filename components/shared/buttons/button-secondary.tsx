@@ -3,7 +3,7 @@ import React from "react";
 
 import styles from "@/styles/buttons.module.css";
 
-interface ButtonSubmitViewProps {
+interface ButtonSecondaryViewProps {
   title: string;
   type?: "button" | "submit" | "reset" | "link";
   onClick?: () => void;
@@ -11,13 +11,13 @@ interface ButtonSubmitViewProps {
   url?: string;
 }
 
-export default function ButtonSubmit({
+export function ButtonSecondary({
   title,
   type = "button",
   disabled = false,
   onClick = () => {},
   url = "",
-}: ButtonSubmitViewProps) {
+}: ButtonSecondaryViewProps) {
   if (type === "link") {
     return (
       <a className={styles.btnSecondary} href={url}>

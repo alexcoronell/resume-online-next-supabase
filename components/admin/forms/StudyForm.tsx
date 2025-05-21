@@ -1,19 +1,24 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/form/Input';
 import { ButtonSubmit } from '@/components/ui/form/ButtonSubmit';
+import { ButtonSecondary } from '@/components/shared/buttons/button-secondary';
 import { ButtonLight } from '../../shared/buttons/button-light';
 
 import { CreateStudyDto, UpdateStudyDto } from '@/core/dtos/Study.dto';
 import type { RequestStatus } from '@/core/types/RequestStatus.type';
 import { StatusForm } from '@/core/types/StatusForm.type';
 
-import { addStudy } from '@/core/services/study.service';
+import { addStudy, getStudyById } from '@/core/services/study.service';
 
 import styles from '@/styles/formContainer.module.css';
 
-export function StudyForm() {
+interface StudyFormProps {
+  _id?: string | null;
+}
+
+export function StudyForm({ _id = null }: StudyFormProps) {
   const router = useRouter();
   const [study, setStudy] = useState<CreateStudyDto | UpdateStudyDto>({
     title: '',
@@ -32,10 +37,42 @@ export function StudyForm() {
     until: '',
   });
 
-  const [id, setId] = useState<number | null>(null);
+  const [id, setId] = useState<string | null>(null);
+  const [titlePage, setTitlePage] = useState('Create Study');
   const [titleButton, setTitleButton] = useState('Add');
   const [requestStatus, setRequestStatus] = useState<RequestStatus>('init');
   const [statusForm, setStatusForm] = useState<StatusForm>('create');
+
+  useEffect(() => {
+    console.log(_id);
+    if (_id) {
+      setId(_id);
+      setStatusForm('details');
+      setTitlePage('Details Study');
+      getStudy(_id);
+    }
+  }, []);
+
+  const getStudy = async (id: string) => {
+    setRequestStatus('loading');
+    try {
+      const studyData = await getStudyById(id);
+      if (!studyData) throw new Error('Error fetching study');
+      setStudy({
+        title: studyData.title,
+        institute: studyData.institute,
+        place: studyData.place,
+        since: studyData.since,
+        until: studyData.until,
+        current: studyData.current,
+      });
+      setRequestStatus('success');
+    } catch (error) {
+      setRequestStatus('failed');
+      alert('Error fetching study');
+      console.log(error);
+    }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -107,7 +144,7 @@ export function StudyForm() {
 
   return (
     <div className={styles.FormContainer}>
-      <h2 className='titleForm'>Create Study</h2>
+      <h2 className='titleForm'>{titlePage}</h2>
       <div className={styles.FormContainer__box}>
         <form
           className='grid col-span-2 px-2 gap-x-3 mx-auto max-w-[600px]'
@@ -175,7 +212,14 @@ export function StudyForm() {
             validField={!errors.until}
           />
           <div className='col-span-2 grid-cols-2 grid gap-3 w-full max-w-[400px] mx-auto'>
-            <ButtonSubmit title={titleButton} requestStatus={requestStatus} />
+            {
+              statusForm !== 'details' && (
+                <ButtonSubmit
+                  title={titleButton}
+                  requestStatus={requestStatus}
+                />
+              )
+            }
             <ButtonLight title='Cancel / Back' onClick={() => router.back()} />
           </div>
         </form>

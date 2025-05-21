@@ -1,7 +1,7 @@
 import React from 'react';
 import ButtonPrimary from '@/components/shared/buttons/button-primary';
-import ButtonSecondary from '@/components/shared/buttons/button-secondary';
-import ButtonLight from '@/components/shared/buttons/button-light';
+import { ButtonSecondary } from '@/components/shared/buttons/button-secondary';
+import { ButtonLight } from '@/components/shared/buttons/button-light';
 import { Select } from '@/components/ui/form/Select';
 
 import styles from '@/styles/header-buttons.module.css';
