@@ -10,7 +10,7 @@ import { useStudyStore } from '@/store/useStudyStore';
 import styles from '@/styles/tablets.module.css';
 
 export const StudiesTable: FC = () => {
-  const { studies, total, getStudies, currentPage, currentPageSize, setPage } =
+  const { studies, total, getStudies, currentPage, currentPageSize } =
     useStudyStore();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
@@ -33,6 +33,7 @@ export const StudiesTable: FC = () => {
   ];
 
   const handleDelete = (id: string) => {
+    console.log(id);
     return;
   };
 
@@ -61,7 +62,7 @@ export const StudiesTable: FC = () => {
               <td className='max-xl:hidden text-center'>{study.current ? 'Yes' : 'No'}</td>
               <td className={styles.AdminTable__actions}>
                 <ButtonView
-                  url={`/admin/studies/${study.id}`}
+                  url={`/admin/studies/details/${study.id}`}
                   title={`View ${study.title} details`}
                 />
                 <ButtonDelete
