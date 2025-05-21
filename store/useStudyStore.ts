@@ -9,6 +9,9 @@ import type { Study } from "@/core/models/Study.interface";
 
 /* Types */
 import type { RequestStatus } from "@/core/types/RequestStatus.type";
+import { OptionLimit } from "@/core/types/OptionLimit.type";
+
+import { generateOptionsLimitePage } from "@/helpers/generateOptionsLimitePage";
 
 type StudyStore = {
     studies: Study[];
@@ -16,6 +19,7 @@ type StudyStore = {
     currentPage: number;
     currentPageSize: number;
     requestStatus: RequestStatus;
+    optionsLimit: { value: string | number; label: string }[];
     setPage: (page: number) => void;
     setCurrentPageSize: (pageSize: number) => void;
     getStudies: (page?: number, pageSize?: number) => Promise<Study[]>;
@@ -25,8 +29,9 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
     studies: [],
     total: 0,
     currentPage: 1,
-    currentPageSize: 10,
+    currentPageSize: 5,
     requestStatus: 'init',
+    optionsLimit: [],
     setPage: (page) => {
         set({ currentPage: page });
         get().getStudies();
@@ -42,6 +47,7 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
             state.currentPage,
             state.currentPageSize
         );
+        set({ optionsLimit: generateOptionsLimitePage(total) });
         set({ studies, total });
         set({ requestStatus: 'success' });
         return studies;

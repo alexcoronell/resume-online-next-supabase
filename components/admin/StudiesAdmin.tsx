@@ -6,11 +6,11 @@ import { FooterPagination } from '@/components/shared/admin/FooterPagination';
 import { useStudyStore } from '@/store/useStudyStore';
 
 export function StudiesAdmin() {
-  const { getStudies, total } = useStudyStore();
+  const { getStudies, total, optionsLimit, setCurrentPageSize } = useStudyStore();
   const createUrl = '/admin/studies/create';
   return (
     <div className='StudiesAdmin'>
-      <HeaderButtons createUrl={createUrl} refresh={getStudies} />
+      <HeaderButtons createUrl={createUrl} refresh={getStudies} optionsLimit={optionsLimit} setCurrentPageSize={setCurrentPageSize} />
       <StudiesTable />
       <TotalItems total={total} />
       <FooterPagination />

@@ -1,15 +1,25 @@
+import React from 'react';
 import styles from '@/styles/form-group.module.css';
 
-export function Select() {
+interface SelectProps {
+  options: { value: string | number; label: string }[];
+  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+}
+
+export function Select({ options, onChange }: SelectProps) {
   return (
     <div className={styles.formgroup}>
       <label htmlFor='items'>
-        <select name='items' id='items'>
-          <option value='1'>1</option>
-          <option value='2'>2</option>
-          <option value='3'>3</option>
-          <option value='4'>4</option>
-          <option value='5'>5</option>
+        <select
+          name='items'
+          id='items'
+          onChange={onChange}
+        >
+          {options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
         </select>
         <span>Items per page</span>
       </label>
