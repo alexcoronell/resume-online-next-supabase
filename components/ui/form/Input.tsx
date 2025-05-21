@@ -1,45 +1,52 @@
 import React from 'react';
-import type { ChangeEvent } from 'react';
+import type { ChangeEvent, FocusEvent } from 'react';
 
 import type { RequestStatus } from '@/core/types/RequestStatus.type';
 
 import styles from '../../../styles/form-group.module.css';
 
 interface FormViewProps {
+  placeholder: string;
   name: string;
   id: string;
   type?: string;
   value: string;
+  classes?: string
   errorMessage?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
   requestStatus: RequestStatus;
   validField: boolean;
 }
 
-export default function Input({
+export function Input({
   name,
+  placeholder,
   id,
   type = 'text',
   value,
+  classes = '',
   errorMessage = '',
   onChange,
+  onBlur,
   requestStatus,
   validField = true,
 }: FormViewProps) {
   return (
-    <div className={styles.formgroup}>
+    <div className={`${styles.formgroup} ${classes}`.trim()}>
       <label htmlFor={name}>
         <input
           type={type}
           name={name}
           value={value}
+          className={classes}
           id={id}
-          placeholder={name}
+          placeholder={placeholder}
           onChange={onChange}
-          onBlur={onChange}
+          onBlur={onBlur || onChange}
           disabled={requestStatus === 'loading'}
         />
-        <span>{name}</span>
+        <span>{placeholder}</span>
       </label>
       <p className={`text-xs absolute text-red ${!validField ? '' : 'hidden'}`}>
         {errorMessage}

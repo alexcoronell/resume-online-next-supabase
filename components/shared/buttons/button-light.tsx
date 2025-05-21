@@ -11,7 +11,7 @@ interface ButtonSubmitViewProps {
   url?: string;
 }
 
-export default function ButtonLight({
+export function ButtonLight({
   title,
   type = "button",
   disabled = false,

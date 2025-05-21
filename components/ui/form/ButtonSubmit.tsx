@@ -10,7 +10,7 @@ interface ButtonSubmitViewProps {
   requestStatus: RequestStatus;
 }
 
-export default function ButtonSubmit({
+export function ButtonSubmit({
   title,
   requestStatus,
 }: ButtonSubmitViewProps) {

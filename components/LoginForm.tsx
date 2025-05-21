@@ -5,8 +5,8 @@ import type { ChangeEvent } from 'react';
 import { createClient } from '@/utils/supabase/client';
 
 import SectionPage from '@/components/SectionPage';
-import Input from '@/components/ui/form/Input';
-import ButtonSubmit from './ui/form/ButtonSubmit';
+import { Input } from '@/components/ui/form/Input';
+import { ButtonSubmit } from './ui/form/ButtonSubmit';
 
 import type { RequestStatus } from '@/core/types/RequestStatus.type';
 
@@ -78,6 +78,7 @@ export default function LoginForm() {
     <div className={`${styles.LoginForm} special-shadow`}>
       <form onSubmit={onSubmit}>
         <Input
+          placeholder='Email'
           name='Email'
           id='emailLogin'
           type='email'
@@ -87,6 +88,7 @@ export default function LoginForm() {
           validField={email.validate}
         />
         <Input
+          placeholder='Password'
           name='Password'
           id='passwordLogin'
           type='password'

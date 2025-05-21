@@ -1,5 +1,6 @@
 'use client';
 import { useParams } from 'next/navigation';
+import { StudyForm } from '@/components/admin/forms/StudyForm';
 
 export default function DetailsStudyPage() {
   const params = useParams();
@@ -7,11 +8,9 @@ export default function DetailsStudyPage() {
 
   return (
     <div>
-      <h1>Details Study</h1>
-      <p>Form to Details and edit one study will go here.</p>
-      <p>
-        <strong>ID:</strong> {id}
-      </p>
+      <div>
+        <StudyForm />
+      </div>
     </div>
   );
 }
