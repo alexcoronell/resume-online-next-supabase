@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { HeaderButtons } from '@/components/shared/admin/header-buttons';
 import { StudiesTable } from '@/components/admin/tables/StudiesTable';
 import { TotalItems } from '@/components/shared/admin/totalItems';
@@ -6,10 +6,11 @@ import { FooterPagination } from '@/components/shared/admin/FooterPagination';
 import { useStudyStore } from '@/store/useStudyStore';
 
 export function StudiesAdmin() {
-  const { total } = useStudyStore();
+  const { getStudies, total } = useStudyStore();
+  const createUrl = '/admin/studies/create';
   return (
     <div className='StudiesAdmin'>
-      <HeaderButtons />
+      <HeaderButtons createUrl={createUrl} refresh={getStudies} />
       <StudiesTable />
       <TotalItems total={total} />
       <FooterPagination />
