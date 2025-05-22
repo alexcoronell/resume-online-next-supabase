@@ -94,6 +94,20 @@ export function StudyForm({ _id = null }: StudyFormProps) {
     }
   };
 
+    const handleCancelEdit = () => {
+    setStatusForm('details');
+    setTitlePage('Details Study');
+    getStudy(id);
+    setErrors({
+      title: '',
+      institute: '',
+      place: '',
+      since: '',
+      until: '',
+    });
+    setRequestStatus('init');
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newErrors = {
@@ -238,11 +252,7 @@ export function StudyForm({ _id = null }: StudyFormProps) {
             {statusForm === 'edit' && (
               <ButtonLight
                 title='Cancel'
-                onClick={() => {
-                  setStatusForm('details');
-                  setTitlePage('Details Study');
-                  setTitleButton('Edit');
-                }}
+                onClick={handleCancelEdit}
               />
             )}
           </div>
