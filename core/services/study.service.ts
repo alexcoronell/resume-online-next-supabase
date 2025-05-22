@@ -26,9 +26,10 @@ export const revalidate = 60 * 60 * 24 * 15;
  */
 const getSimpleStudies = async (): Promise<Study[]> => {
   const { data } = await supabase.from(tableName)
-    .select("*");
-  const studies: Study[] = await orderStudies(data as Study[]);
-  return studies
+    .select("*")
+    .order("current", { ascending: false })
+    .order("until", { ascending: false })
+  return data as Study[];
 };
 
 /**
