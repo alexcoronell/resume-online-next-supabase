@@ -24,7 +24,7 @@ type InstituteStore = {
     getInstitutes: (page?: number, pageSize?: number) => Promise<Institute[]>;
 }
 
-export const useStudyStore = create<InstituteStore>((set, get) => ({
+export const useInstituteStore = create<InstituteStore>((set, get) => ({
     institutes: [],
     total: 0,
     currentPage: 1,
