@@ -10,7 +10,11 @@ import { CreateStudyDto, UpdateStudyDto } from '@/core/dtos/Study.dto';
 import type { RequestStatus } from '@/core/types/RequestStatus.type';
 import { StatusForm } from '@/core/types/StatusForm.type';
 
-import { addStudy, getStudyById } from '@/core/services/study.service';
+import {
+  addStudy,
+  updateStudy,
+  getStudyById,
+} from '@/core/services/study.service';
 
 import styles from '@/styles/formContainer.module.css';
 
@@ -84,6 +88,7 @@ export function StudyForm({ _id = null }: StudyFormProps) {
       [name]: '',
     }));
   };
+
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     if (value.trim() === '') {
@@ -94,10 +99,10 @@ export function StudyForm({ _id = null }: StudyFormProps) {
     }
   };
 
-    const handleCancelEdit = () => {
+  const handleCancelEdit = () => {
     setStatusForm('details');
     setTitlePage('Details Study');
-    getStudy(id);
+    getStudy(id as string);
     setErrors({
       title: '',
       institute: '',
@@ -152,6 +157,28 @@ export function StudyForm({ _id = null }: StudyFormProps) {
         since: '',
         until: '',
       });
+    } else if (statusForm === 'edit') {
+      setRequestStatus('loading');
+      updateStudy(id as string, study)
+        .then((res) => {
+          if (!res) throw new Error('Error updating study');
+          setRequestStatus('success');
+          alert('Study updated successfully');
+          setStatusForm('details');
+          setTitlePage('Details Study');
+          setErrors({
+            title: '',
+            institute: '',
+            place: '',
+            since: '',
+            until: '',
+          });
+        })
+        .catch((error) => {
+          setRequestStatus('failed');
+          alert('Error updating study');
+          console.log(error);
+        });
     }
   };
 
@@ -250,10 +277,7 @@ export function StudyForm({ _id = null }: StudyFormProps) {
               />
             )}
             {statusForm === 'edit' && (
-              <ButtonLight
-                title='Cancel'
-                onClick={handleCancelEdit}
-              />
+              <ButtonLight title='Cancel' onClick={handleCancelEdit} />
             )}
           </div>
         </form>
