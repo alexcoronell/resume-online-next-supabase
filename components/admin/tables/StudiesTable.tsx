@@ -7,6 +7,8 @@ import { ButtonDelete } from '@/components/shared/buttons/ButtonDelete';
 
 import { useStudyStore } from '@/store/useStudyStore';
 
+import { deleteStudy } from '@/core/services/study.service';
+
 import styles from '@/styles/tablets.module.css';
 
 export const StudiesTable: FC = () => {
@@ -33,7 +35,18 @@ export const StudiesTable: FC = () => {
   ];
 
   const handleDelete = (id: string) => {
-    console.log(id);
+    const res = confirm('Are you sure to delete this study');
+    if (res) {
+      deleteStudy(id)
+        .then(() => {
+          alert('Study deleted successfully');
+          getStudies();
+        })
+        .catch((error) => {
+          console.error('Error deleting study:', error);
+          alert('Error deleting study: ' + error.message);
+        });
+    }
     return;
   };
 
@@ -59,7 +72,9 @@ export const StudiesTable: FC = () => {
               <td className='max-lg:hidden'>{study.place}</td>
               <td className='max-xl:hidden text-center'>{study.since}</td>
               <td className='max-xl:hidden text-center'>{study.until}</td>
-              <td className='max-xl:hidden text-center'>{study.current ? 'Yes' : 'No'}</td>
+              <td className='max-xl:hidden text-center'>
+                {study.current ? 'Yes' : 'No'}
+              </td>
               <td className={styles.AdminTable__actions}>
                 <ButtonView
                   url={`/admin/studies/details/${study.id}`}
