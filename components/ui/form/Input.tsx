@@ -17,6 +17,7 @@ interface FormViewProps {
   onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
   requestStatus: RequestStatus;
   validField: boolean;
+  readonly?: boolean;
 }
 
 export function Input({
@@ -31,6 +32,7 @@ export function Input({
   onBlur,
   requestStatus,
   validField = true,
+  readonly = false,
 }: FormViewProps) {
   return (
     <div className={`${styles.formgroup} ${classes}`.trim()}>
@@ -45,6 +47,7 @@ export function Input({
           onChange={onChange}
           onBlur={onBlur || onChange}
           disabled={requestStatus === 'loading'}
+          readOnly={readonly}
         />
         <span>{placeholder}</span>
       </label>

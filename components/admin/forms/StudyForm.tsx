@@ -44,7 +44,6 @@ export function StudyForm({ _id = null }: StudyFormProps) {
   const [statusForm, setStatusForm] = useState<StatusForm>('create');
 
   useEffect(() => {
-    console.log(_id);
     if (_id) {
       setId(_id);
       setStatusForm('details');
@@ -162,6 +161,7 @@ export function StudyForm({ _id = null }: StudyFormProps) {
             onBlur={handleBlur}
             requestStatus={requestStatus}
             validField={!errors.title}
+            readonly={statusForm === 'details'}
           />
           <Input
             placeholder='Institute'
@@ -174,6 +174,7 @@ export function StudyForm({ _id = null }: StudyFormProps) {
             onBlur={handleBlur}
             requestStatus={requestStatus}
             validField={!errors.institute}
+            readonly={statusForm === 'details'}
           />
           <Input
             placeholder='Place'
@@ -186,6 +187,7 @@ export function StudyForm({ _id = null }: StudyFormProps) {
             onBlur={handleBlur}
             requestStatus={requestStatus}
             validField={!errors.place}
+            readonly={statusForm === 'details'}
           />
           <Input
             placeholder='Since'
@@ -198,6 +200,7 @@ export function StudyForm({ _id = null }: StudyFormProps) {
             onBlur={handleBlur}
             requestStatus={requestStatus}
             validField={!errors.since}
+            readonly={statusForm === 'details'}
           />
           <Input
             placeholder='Until'
@@ -210,17 +213,38 @@ export function StudyForm({ _id = null }: StudyFormProps) {
             onBlur={handleBlur}
             requestStatus={requestStatus}
             validField={!errors.until}
+            readonly={statusForm === 'details'}
           />
           <div className='col-span-2 grid-cols-2 grid gap-3 w-full max-w-[400px] mx-auto'>
-            {
-              statusForm !== 'details' && (
-                <ButtonSubmit
-                  title={titleButton}
-                  requestStatus={requestStatus}
-                />
-              )
-            }
-            <ButtonLight title='Cancel / Back' onClick={() => router.back()} />
+            {statusForm !== 'details' && (
+              <ButtonSubmit title={titleButton} requestStatus={requestStatus} />
+            )}
+            {statusForm === 'details' && (
+              <ButtonSecondary
+                title='Edit'
+                onClick={() => {
+                  setStatusForm('edit');
+                  setTitlePage('Edit Study');
+                  setTitleButton('Update');
+                }}
+              />
+            )}
+            {statusForm !== 'edit' && (
+              <ButtonLight
+                title='Cancel / Back'
+                onClick={() => router.back()}
+              />
+            )}
+            {statusForm === 'edit' && (
+              <ButtonLight
+                title='Cancel'
+                onClick={() => {
+                  setStatusForm('details');
+                  setTitlePage('Details Study');
+                  setTitleButton('Edit');
+                }}
+              />
+            )}
           </div>
         </form>
       </div>
