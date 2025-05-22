@@ -23,6 +23,10 @@
     @apply text-sm px-2 py-2 border border-primary/10;
 }
 
+.AdminTable__actionsTh {
+    @apply text-center w-[85px];
+}
+
 .AdminTable__actions {
-    @apply flex items-center justify-center gap-2 h-full;
+    @apply flex items-center justify-center gap-2 h-full w-[85px];
 }

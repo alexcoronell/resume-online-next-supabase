@@ -15,7 +15,7 @@ export function InstitutesAdmin() {
     totalPages,
     setPage,
   } = useInstituteStore();
-  const createUrl = '/admin/studies/create';
+  const createUrl = '/admin/institutes/create';
   return (
     <div className='InstitutesAdmin'>
       <HeaderButtons

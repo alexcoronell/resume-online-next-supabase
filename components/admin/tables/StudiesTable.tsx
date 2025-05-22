@@ -61,7 +61,7 @@ export const StudiesTable: FC = () => {
                 {column.title}
               </th>
             ))}
-            <th>Actions</th>
+            <th className={styles.AdminTable__actionsTh}>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -90,7 +90,7 @@ export const StudiesTable: FC = () => {
           ))}
           {total === 0 && (
             <tr>
-              <td colSpan={columns.length} className='text-center'>
+              <td colSpan={columns.length + 1} className='text-center'>
                 No studies found
               </td>
             </tr>

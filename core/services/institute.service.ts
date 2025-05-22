@@ -8,7 +8,7 @@ import { Institute } from "@/core/models/Institute.interface";
 import { CreateInstituteDto, UpdateInstituteDto } from "@/core/dtos/Institute.dto";
 
 const supabase = createClient();
-const tableName = "studies";
+const tableName = "institutes";
 
 const getSimpleInstitutes = async (): Promise<Institute[]> => {
     const { data } = await supabase.from(tableName)
