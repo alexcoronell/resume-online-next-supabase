@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 /* Data */
-import getProfile from "@/core/services/profile.service";
+import {getProfile} from "@/core/services/profile.service";
 
 /* Models */
 import { Profile } from '../core/models/Profile.interface';
