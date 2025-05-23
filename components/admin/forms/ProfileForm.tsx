@@ -110,7 +110,7 @@ export function ProfileForm() {
       const { valid, filePath, newName } = verifyImage(file);
       if (valid) {
         setImageFile(file);
-        setImage(newName);
+        //setImage(newName);
         setImageFilename(filePath);
         setErrors((prev) => ({
           ...prev,
@@ -155,50 +155,48 @@ export function ProfileForm() {
     setRequestStatus('init');
   };
 
+  const manageImage = async () => {
+    if (imageFile) {
+      const { data, error } = await uploadImage(
+        imageFile,
+        bucketName,
+        imageFilename as string
+      );
+      if (error) {
+        alert('Error uploading image');
+        console.error('Error uploading image:', error);
+        throw new Error(error.message);
+      }
+      const { fullPath } = data;
+      return fullPath;
+    }
+    if (removeImage && currentImage) {
+      const { error } = await deleteImage(bucketName, currentImage);
+      if (error) {
+        alert('Error deleting image');
+        console.error('Error deleting image:', error);
+        throw new Error(error.message);
+      }
+      setRemoveImage(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setRequestStatus('loading');
-    const dto: UpdateProfileDto = {
-      firstname: profile.firstname,
-      lastname: profile.lastname,
-      title: profile.title,
-      email: profile.email,
-      description: profile.description,
-      image: removeImage ? '' : (currentImage as string),
-    };
     try {
-      if (imageFile) {
-        const { data, error } = await uploadImage(
-          imageFile,
-          bucketName,
-          imageFilename as string
-        );
-        console.log("data image", data);
-        if (error) {
-          alert('Error uploading image');
-          console.error('Error uploading image:', error);
-          throw new Error(error.message);
-        }
-        setProfile((prev) => ({
-          ...prev,
-          image: data?.fullPath as string,
-        }));
-      }
+      const filePath = await manageImage();
+      const dto: UpdateProfileDto = {
+        firstname: profile.firstname,
+        lastname: profile.lastname,
+        title: profile.title,
+        email: profile.email,
+        description: profile.description,
+        image: filePath || profile.image,
+      };
       const { data, error } = await updateProfile(dto);
       if (error) {
         throw new Error(error.message);
-      }
-      setProfile((prev) => ({
-        ...prev,
-        ...data[0],
-      }));
-
-      if (removeImage && currentImage) {
-        const { error } = await deleteImage(bucketName, currentImage);
-        if (error) {
-          alert('Error deleting image');
-          console.error('Error deleting image:', error);
-        }
       }
       setImageFilename(data[0].image.toString().split('/')[1]);
       setRequestStatus('success');
@@ -206,6 +204,8 @@ export function ProfileForm() {
       setTitlePage('Details Profile');
       setTitleButton('Add');
       setTitleInputFileButton('Current image');
+      alert('Profile updated successfully');
+      get();
     } catch (error) {
       setRequestStatus('failed');
       alert('Error updating profile');
@@ -300,6 +300,7 @@ export function ProfileForm() {
             classes='md:col-span-2'
             disabled={statusForm === 'details'}
             removeImage={!removeImage ? handleRemoveImage : undefined}
+            onChange={handleFileChange}
           />
           <TextArea
             placeholder='Description'
