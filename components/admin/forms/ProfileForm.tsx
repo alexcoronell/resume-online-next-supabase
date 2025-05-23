@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Input } from '@/components/ui/form/Input';
 import { TextArea } from '@/components/ui/form/TextArea';
+import { InputFile } from '@/components/ui/form/InputFile';
 import { ButtonSubmit } from '@/components/ui/form/ButtonSubmit';
 import { ButtonSecondary } from '@/components/shared/buttons/button-secondary';
 import { ButtonLight } from '@/components/shared/buttons/button-light';
@@ -95,7 +96,7 @@ export function ProfileForm() {
     <div className={styles.FormContainer}>
       <h2 className='titleForm'>{titlePage}</h2>
       <div className={styles.FormContainer__box}>
-        <form>
+        <form className='w-full'>
           <div className='w-full max-w-[300px] max-h-[300px] overflow-hidden rounded-full border-2 border-primary mb-6'>
             <Image
               src={profile.image}
@@ -166,6 +167,7 @@ export function ProfileForm() {
               readonly={statusForm === 'details'}
             />
           </div>
+          <InputFile />
           <TextArea
             placeholder='Description'
             name='description'

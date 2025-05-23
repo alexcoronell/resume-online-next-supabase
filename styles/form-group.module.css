@@ -1,4 +1,4 @@
-.formgroup {
+.formgroup, .formgroupInput {
   @apply relative py-1 mb-6 w-full;
 }
 
@@ -29,4 +29,20 @@
 .formgroup select::placeholder,
 .formgroup textarea::placeholder {
   @apply text-transparent;
+}
+
+.formgroupInput {
+  @apply flex flex-col rounded-xl overflow-hidden md:flex-row md:items-center md:border md:border-primary md:p-0 md:gap-3;
+}
+
+.formgroupInput label {
+  @apply bg-primary text-background w-[150px] text-center py-3 px-4 rounded-xl md:rounded-r-none;
+}
+
+.formgroupInput input {
+  @apply hidden;
+}
+
+.formgroupInput__message {
+  @apply mt-1 pl-1 text-primary text-sm md:m-0;
 }
