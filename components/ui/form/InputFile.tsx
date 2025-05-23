@@ -1,8 +1,13 @@
 import styles from '@/styles/form-group.module.css'
 
-export function InputFile() {
+interface InputFileProps {
+  classes?: string;
+}
+
+
+export function InputFile({classes}: InputFileProps) {
   return (
-    <div className={styles.formgroupInput}>
+    <div className={`${styles.formgroupInput} ${classes}`.trim()}>
         <label htmlFor="inputfile">
         Upload image
         </label>

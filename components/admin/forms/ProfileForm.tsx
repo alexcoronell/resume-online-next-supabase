@@ -21,6 +21,7 @@ import styles from '@/styles/formContainer.module.css';
 import { Profile } from '@/core/models/Profile.interface';
 
 export function ProfileForm() {
+  const router = useRouter();
   const [profile, setProfile] = useState<Profile>({
     id: 1,
     firstname: '',
@@ -57,8 +58,6 @@ export function ProfileForm() {
       setProfile(data);
       setRequestStatus('success');
       setId(data.id);
-      console.log('Profile data:', data);
-      console.log('Profile ID:', id);
     } catch (error) {
       setRequestStatus('failed');
       alert('Error fetching profile');
@@ -92,11 +91,26 @@ export function ProfileForm() {
     }
   };
 
+  const handleCancelEdit = () => {
+    setStatusForm('details');
+    setTitlePage('Details Institute');
+    get();
+    setErrors({
+      firstname: '',
+      lastname: '',
+      title: '',
+      email: '',
+      description: '',
+      image: '',
+    });
+    setRequestStatus('init');
+  };
+
   return (
     <div className={styles.FormContainer}>
       <h2 className='titleForm'>{titlePage}</h2>
       <div className={styles.FormContainer__box}>
-        <form className='w-full'>
+        <form className='w-full md:grid md:grid-cols-2 gap-3 max-w-[650px] mx-auto'>
           <div className='w-full max-w-[300px] max-h-[300px] overflow-hidden rounded-full border-2 border-primary mb-6'>
             <Image
               src={profile.image}
@@ -167,11 +181,12 @@ export function ProfileForm() {
               readonly={statusForm === 'details'}
             />
           </div>
-          <InputFile />
+          <h5 className='px-1'>Profile Image</h5>
+          <InputFile classes="md:col-span-2" />
           <TextArea
             placeholder='Description'
             name='description'
-            classes='col-span-2'
+            classes='md:col-span-2'
             id='description'
             value={profile.description}
             errorMessage={errors.description}
@@ -182,6 +197,30 @@ export function ProfileForm() {
             readonly={statusForm === 'details'}
             rows={8}
           />
+          <div className='col-span-2 grid-cols-2 grid gap-3 w-full max-w-[400px] mx-auto'>
+            {statusForm !== 'details' && (
+              <ButtonSubmit title={titleButton} requestStatus={requestStatus} />
+            )}
+            {statusForm === 'details' && (
+              <ButtonSecondary
+                title='Edit'
+                onClick={() => {
+                  setStatusForm('edit');
+                  setTitlePage('Edit Study');
+                  setTitleButton('Update');
+                }}
+              />
+            )}
+            {statusForm !== 'edit' && (
+              <ButtonLight
+                title='Cancel / Back'
+                onClick={() => router.back()}
+              />
+            )}
+            {statusForm === 'edit' && (
+              <ButtonLight title='Cancel' onClick={handleCancelEdit} />
+            )}
+          </div>
         </form>
       </div>
     </div>
