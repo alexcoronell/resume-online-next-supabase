@@ -18,11 +18,11 @@ const supabase = createClient();
 const tableName = "profile";
 const tableBucketName = "personalData";
 
-const getProfile = async (): Promise<Profile> => {
+const getProfile = async (): Promise<{ profile: Profile, imageUrl: string }> => {
   const { data } = await supabase.from(tableName).select("*").single();
   const profile: Profile = data;
-  profile.image = await getimageUrl(tableBucketName, profile.image);
-  return await profile;
+  const imageUrl = await getimageUrl(tableBucketName, profile.image);
+  return await { profile, imageUrl };
 };
 
 const updateProfile = async (dto: UpdateProfileDto) => {

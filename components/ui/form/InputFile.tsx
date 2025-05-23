@@ -1,18 +1,38 @@
-import styles from '@/styles/form-group.module.css'
+'use client';
+import styles from '@/styles/form-group.module.css';
 
 interface InputFileProps {
+  titleInputFileButton?: string;
   classes?: string;
+  imageFilename?: string | null;
+  disabled?: boolean;
+  removeImage?: () => void;
 }
 
-
-export function InputFile({classes}: InputFileProps) {
+export function InputFile({
+  titleInputFileButton = 'Upload image',
+  classes,
+  imageFilename,
+  disabled = false,
+}: InputFileProps) {
   return (
     <div className={`${styles.formgroupInput} ${classes}`.trim()}>
-        <label htmlFor="inputfile">
-        Upload image
-        </label>
-            <input name="inputfile" type='file' id='inputfile' />
-        <p className={styles.formgroupInput__message}>No file selected</p>
+      {!disabled && imageFilename ? (
+        <button type='button'>Remove Image</button>
+      ) : (
+        <>
+          <label htmlFor='inputfile'>{titleInputFileButton}</label>
+          <input
+            name='inputfile'
+            type='file'
+            id='inputfile'
+            disabled={disabled}
+          />
+        </>
+      )}
+      <p className={styles.formgroupInput__message}>
+        {imageFilename ? imageFilename : 'No file selected'}
+      </p>
     </div>
   );
 }

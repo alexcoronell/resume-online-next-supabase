@@ -40,10 +40,13 @@ export function ProfileForm() {
     description: '',
     image: '',
   });
-
+  const [image, setImage] = useState<string>('');
+  const [imageFilename, setImageFilename] = useState<string | null>(null);
   const [id, setId] = useState<number | null>(null);
   const [titlePage, setTitlePage] = useState('Details Profile');
   const [titleButton, setTitleButton] = useState('Add');
+  const [titleInputFileButton, setTitleInputFileButton] =
+    useState('Current image');
   const [requestStatus, setRequestStatus] = useState<RequestStatus>('init');
   const [statusForm, setStatusForm] = useState<StatusForm>('details');
 
@@ -54,10 +57,13 @@ export function ProfileForm() {
   const get = async () => {
     setRequestStatus('loading');
     try {
-      const data = await getProfile();
-      setProfile(data);
+      const { profile, imageUrl } = await getProfile();
+      setProfile(profile);
+      const imageName = profile.image.toString().split('/')[1];
+      setImageFilename(imageName);
+      setImage(imageUrl);
       setRequestStatus('success');
-      setId(data.id);
+      setId(profile.id);
     } catch (error) {
       setRequestStatus('failed');
       alert('Error fetching profile');
@@ -112,16 +118,18 @@ export function ProfileForm() {
       <div className={styles.FormContainer__box}>
         <form className='w-full md:grid md:grid-cols-2 gap-3 max-w-[650px] mx-auto'>
           <div className='w-full max-w-[300px] max-h-[300px] overflow-hidden rounded-full border-2 border-primary mb-6'>
-            <Image
-              src={profile.image}
-              alt={
-                profile.firstname + ' ' + profile.lastname + ' profile image'
-              }
-              width={300}
-              height={300}
-              priority={true}
-              className='profileImage'
-            />
+            {image && (
+              <Image
+                src={image}
+                alt={
+                  profile.firstname + ' ' + profile.lastname + ' profile image'
+                }
+                width={300}
+                height={300}
+                priority={true}
+                className='profileImage'
+              />
+            )}
           </div>
           <div>
             <Input
@@ -182,7 +190,12 @@ export function ProfileForm() {
             />
           </div>
           <h5 className='px-1'>Profile Image</h5>
-          <InputFile classes="md:col-span-2" />
+          <InputFile
+            titleInputFileButton={titleInputFileButton}
+            imageFilename={imageFilename}
+            classes='md:col-span-2'
+            disabled={statusForm === 'details'}
+          />
           <TextArea
             placeholder='Description'
             name='description'
@@ -204,10 +217,12 @@ export function ProfileForm() {
             {statusForm === 'details' && (
               <ButtonSecondary
                 title='Edit'
+                type='button'
                 onClick={() => {
                   setStatusForm('edit');
                   setTitlePage('Edit Study');
                   setTitleButton('Update');
+                  setTitleInputFileButton('Upload image');
                 }}
               />
             )}
