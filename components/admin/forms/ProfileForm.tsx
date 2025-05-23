@@ -15,6 +15,8 @@ import type { RequestStatus } from '@/core/types/RequestStatus.type';
 import { StatusForm } from '@/core/types/StatusForm.type';
 
 import { getProfile, updateProfile } from '@/core/services/profile.service';
+import { uploadImage, verifyImage } from '@/helpers/uploadImage';
+import deleteImage from '@/helpers/deleteImages';
 
 import styles from '@/styles/formContainer.module.css';
 
@@ -42,13 +44,17 @@ export function ProfileForm() {
   });
   const [image, setImage] = useState<string>('');
   const [imageFilename, setImageFilename] = useState<string | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [removeImage, setRemoveImage] = useState(false);
   const [id, setId] = useState<number | null>(null);
+  const [currentImage, setCurrentImage] = useState<string | null>(null);
   const [titlePage, setTitlePage] = useState('Details Profile');
   const [titleButton, setTitleButton] = useState('Add');
   const [titleInputFileButton, setTitleInputFileButton] =
     useState('Current image');
   const [requestStatus, setRequestStatus] = useState<RequestStatus>('init');
   const [statusForm, setStatusForm] = useState<StatusForm>('details');
+  const bucketName = 'personalData';
 
   useEffect(() => {
     get();
@@ -59,6 +65,7 @@ export function ProfileForm() {
     try {
       const { profile, imageUrl } = await getProfile();
       setProfile(profile);
+      setCurrentImage(profile.image);
       const imageName = profile.image.toString().split('/')[1];
       setImageFilename(imageName);
       setImage(imageUrl);
@@ -97,6 +104,41 @@ export function ProfileForm() {
     }
   };
 
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const { valid, filePath, newName } = verifyImage(file);
+      if (valid) {
+        setImageFile(file);
+        setImage(newName);
+        setImageFilename(filePath);
+        setErrors((prev) => ({
+          ...prev,
+          image: '',
+        }));
+      } else {
+        setErrors((prev) => ({
+          ...prev,
+          image: 'Invalid file type',
+        }));
+      }
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setImage('');
+    setImageFilename(null);
+    setRemoveImage(true);
+    setProfile((prev) => ({
+      ...prev,
+      image: '',
+    }));
+    setErrors((prev) => ({
+      ...prev,
+      image: '',
+    }));
+  };
+
   const handleCancelEdit = () => {
     setStatusForm('details');
     setTitlePage('Details Institute');
@@ -109,14 +151,76 @@ export function ProfileForm() {
       description: '',
       image: '',
     });
+    setRemoveImage(false);
     setRequestStatus('init');
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setRequestStatus('loading');
+    const dto: UpdateProfileDto = {
+      firstname: profile.firstname,
+      lastname: profile.lastname,
+      title: profile.title,
+      email: profile.email,
+      description: profile.description,
+      image: removeImage ? '' : (currentImage as string),
+    };
+    try {
+      if (imageFile) {
+        const { data, error } = await uploadImage(
+          imageFile,
+          bucketName,
+          imageFilename as string
+        );
+        console.log("data image", data);
+        if (error) {
+          alert('Error uploading image');
+          console.error('Error uploading image:', error);
+          throw new Error(error.message);
+        }
+        setProfile((prev) => ({
+          ...prev,
+          image: data?.fullPath as string,
+        }));
+      }
+      const { data, error } = await updateProfile(dto);
+      if (error) {
+        throw new Error(error.message);
+      }
+      setProfile((prev) => ({
+        ...prev,
+        ...data[0],
+      }));
+
+      if (removeImage && currentImage) {
+        const { error } = await deleteImage(bucketName, currentImage);
+        if (error) {
+          alert('Error deleting image');
+          console.error('Error deleting image:', error);
+        }
+      }
+      setImageFilename(data[0].image.toString().split('/')[1]);
+      setRequestStatus('success');
+      setStatusForm('details');
+      setTitlePage('Details Profile');
+      setTitleButton('Add');
+      setTitleInputFileButton('Current image');
+    } catch (error) {
+      setRequestStatus('failed');
+      alert('Error updating profile');
+      console.error('Error updating profile:', error);
+    }
   };
 
   return (
     <div className={styles.FormContainer}>
       <h2 className='titleForm'>{titlePage}</h2>
       <div className={styles.FormContainer__box}>
-        <form className='w-full md:grid md:grid-cols-2 gap-3 max-w-[650px] mx-auto'>
+        <form
+          className='w-full md:grid md:grid-cols-2 gap-3 max-w-[650px] mx-auto'
+          onSubmit={handleSubmit}
+        >
           <div className='w-full max-w-[300px] max-h-[300px] overflow-hidden rounded-full border-2 border-primary mb-6'>
             {image && (
               <Image
@@ -195,6 +299,7 @@ export function ProfileForm() {
             imageFilename={imageFilename}
             classes='md:col-span-2'
             disabled={statusForm === 'details'}
+            removeImage={!removeImage ? handleRemoveImage : undefined}
           />
           <TextArea
             placeholder='Description'

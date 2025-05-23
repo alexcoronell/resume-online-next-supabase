@@ -6,6 +6,7 @@ interface InputFileProps {
   classes?: string;
   imageFilename?: string | null;
   disabled?: boolean;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   removeImage?: () => void;
 }
 
@@ -14,11 +15,13 @@ export function InputFile({
   classes,
   imageFilename,
   disabled = false,
+  onChange,
+  removeImage
 }: InputFileProps) {
   return (
     <div className={`${styles.formgroupInput} ${classes}`.trim()}>
       {!disabled && imageFilename ? (
-        <button type='button'>Remove Image</button>
+        <button type='button' onClick={removeImage}>Remove Image</button>
       ) : (
         <>
           <label htmlFor='inputfile'>{titleInputFileButton}</label>
@@ -27,6 +30,8 @@ export function InputFile({
             type='file'
             id='inputfile'
             disabled={disabled}
+            onChange={onChange}
+            accept='image/png, image/jpeg, image/jpg, image/webp, image/bmp'
           />
         </>
       )}
