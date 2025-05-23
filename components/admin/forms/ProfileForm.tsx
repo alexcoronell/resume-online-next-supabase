@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { Input } from '@/components/ui/form/Input';
 import { TextArea } from '@/components/ui/form/TextArea';
 import { ButtonSubmit } from '@/components/ui/form/ButtonSubmit';
@@ -95,63 +96,76 @@ export function ProfileForm() {
       <h2 className='titleForm'>{titlePage}</h2>
       <div className={styles.FormContainer__box}>
         <form>
-          <div>IMAGE</div>
-          <Input
-            placeholder='Firstname'
-            name='firstname'
-            classes='col-span-2'
-            id='firstname'
-            type='text'
-            value={profile.firstname}
-            errorMessage={errors.firstname}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            requestStatus={requestStatus}
-            validField={!errors.firstname}
-            readonly={statusForm === 'details'}
-          />
-          <Input
-            placeholder='Lastname'
-            name='lastname'
-            classes='col-span-2'
-            id='lastname'
-            type='text'
-            value={profile.lastname}
-            errorMessage={errors.lastname}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            requestStatus={requestStatus}
-            validField={!errors.lastname}
-            readonly={statusForm === 'details'}
-          />
-          <Input
-            placeholder='Title'
-            name='title'
-            classes='col-span-2'
-            id='title'
-            type='text'
-            value={profile.title}
-            errorMessage={errors.title}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            requestStatus={requestStatus}
-            validField={!errors.title}
-            readonly={statusForm === 'details'}
-          />
-          <Input
-            placeholder='Email'
-            name='email'
-            classes='col-span-2'
-            id='email'
-            type='email'
-            value={profile.email}
-            errorMessage={errors.email}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            requestStatus={requestStatus}
-            validField={!errors.email}
-            readonly={statusForm === 'details'}
-          />
+          <div className='w-full max-w-[300px] max-h-[300px] overflow-hidden rounded-full border-2 border-primary mb-6'>
+            <Image
+              src={profile.image}
+              alt={
+                profile.firstname + ' ' + profile.lastname + ' profile image'
+              }
+              width={300}
+              height={300}
+              priority={true}
+              className='profileImage'
+            />
+          </div>
+          <div>
+            <Input
+              placeholder='Firstname'
+              name='firstname'
+              classes='col-span-2'
+              id='firstname'
+              type='text'
+              value={profile.firstname}
+              errorMessage={errors.firstname}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              requestStatus={requestStatus}
+              validField={!errors.firstname}
+              readonly={statusForm === 'details'}
+            />
+            <Input
+              placeholder='Lastname'
+              name='lastname'
+              classes='col-span-2'
+              id='lastname'
+              type='text'
+              value={profile.lastname}
+              errorMessage={errors.lastname}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              requestStatus={requestStatus}
+              validField={!errors.lastname}
+              readonly={statusForm === 'details'}
+            />
+            <Input
+              placeholder='Title'
+              name='title'
+              classes='col-span-2'
+              id='title'
+              type='text'
+              value={profile.title}
+              errorMessage={errors.title}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              requestStatus={requestStatus}
+              validField={!errors.title}
+              readonly={statusForm === 'details'}
+            />
+            <Input
+              placeholder='Email'
+              name='email'
+              classes='col-span-2'
+              id='email'
+              type='email'
+              value={profile.email}
+              errorMessage={errors.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              requestStatus={requestStatus}
+              validField={!errors.email}
+              readonly={statusForm === 'details'}
+            />
+          </div>
           <TextArea
             placeholder='Description'
             name='description'

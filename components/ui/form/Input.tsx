@@ -3,9 +3,9 @@ import type { ChangeEvent, FocusEvent } from 'react';
 
 import type { RequestStatus } from '@/core/types/RequestStatus.type';
 
-import styles from '../../../styles/form-group.module.css';
+import styles from "@/styles/form-group.module.css";
 
-interface FormViewProps {
+interface InputProps {
   placeholder: string;
   name: string;
   id: string;
@@ -33,7 +33,7 @@ export function Input({
   requestStatus,
   validField = true,
   readonly = false,
-}: FormViewProps) {
+}: InputProps) {
   return (
     <div className={`${styles.formgroup} ${classes}`.trim()}>
       <label htmlFor={name}>
