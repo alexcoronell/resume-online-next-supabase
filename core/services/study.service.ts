@@ -48,7 +48,7 @@ const getSimpleStudies = async (): Promise<Study[]> => {
  */
 const getStudies = async (
   page = 1,
-  pageSize = 10
+  pageSize = 5
 ): Promise<{ studies: Study[]; total: number }> => {
   const from = (page - 1) * pageSize;
   const to = from + pageSize - 1;

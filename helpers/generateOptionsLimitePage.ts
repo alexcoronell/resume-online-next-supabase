@@ -1,10 +1,6 @@
 
 export const generateOptionsLimitePage = (totalItems: number) => {
     const options: { value: number; label: string }[] = [
-        { value: 1, label: '1 item' },
-        { value: 2, label: '2 items' },
-        { value: 3, label: '3 items' },
-        { value: 4, label: '4 items' },
         { value: 5, label: '5 items' },
     ];
 

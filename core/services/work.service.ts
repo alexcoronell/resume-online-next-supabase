@@ -4,6 +4,7 @@ import { createClient } from "@/utils/supabase/client";
 /* Models */
 import { Work } from "../models/Work.interface";
 
+/* DTO's */
 import { CreateWorkDto, UpdateWorkDto } from "../dtos/Work,dto";
 
 const supabase = createClient();
@@ -20,11 +21,13 @@ const getSimpleWorks = async () => {
 }
 
 const getWorks = async (page = 1, pageSize = 5) => {
-  const {data, count} = await supabase
+  const from = (page - 1) * pageSize;
+  const to = from + pageSize - 1;
+  const { data, count } = await supabase
     .from(tableName)
     .select("*", { count: "exact" })
     .order("order", { ascending: false })
-    .range(page, pageSize)
+    .range(from, to)
   return { works: data as Work[], total: count ?? 0 };
 };
 

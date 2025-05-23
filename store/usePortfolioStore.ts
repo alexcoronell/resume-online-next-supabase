@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 /* Service */
-import { getWorks as fetchWorks } from "@/core/services/work.services";
+import { getWorks as fetchWorks } from "@/core/services/work.service";
 
 /* Models */
 import { Work } from "@/core/models/Work.interface";
