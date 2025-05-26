@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/form/Input';
+import { InputCheck } from '@/components/ui/form/InputCheck';
 import { ButtonSubmit } from '@/components/ui/form/ButtonSubmit';
 import { ButtonSecondary } from '@/components/shared/buttons/button-secondary';
 import { ButtonLight } from '../../shared/buttons/button-light';
@@ -79,6 +80,14 @@ export function StudyForm({ _id = null }: StudyFormProps) {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    if(e.target.type === 'checkbox') {
+      const checked = e.target.checked;
+      setStudy((prev) => ({
+        ...prev,
+        [name]: checked,
+      }));
+      return;
+    }
     setStudy((prev) => ({
       ...prev,
       [name]: value,
@@ -254,6 +263,15 @@ export function StudyForm({ _id = null }: StudyFormProps) {
             onBlur={handleBlur}
             requestStatus={requestStatus}
             validField={!errors.until}
+            readonly={statusForm === 'details'}
+          />
+          <InputCheck
+            name='current'
+            id='current'
+            checked={study.current}
+            classes='col-span-2'
+            onChange={handleChange}
+            requestStatus={requestStatus}
             readonly={statusForm === 'details'}
           />
           <div className='col-span-2 grid-cols-2 grid gap-3 w-full max-w-[400px] mx-auto'>
