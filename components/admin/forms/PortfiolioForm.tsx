@@ -67,36 +67,33 @@ export function PortfolioForm({ _id = null }: PortfolioFormProps) {
     { value: 'Completed', label: 'Completed' },
   ];
 
-  const technologyOptions: { value: string; label: string }[] = [
-    { value: 'HTML', label: 'HTML' },
-    { value: 'CSS', label: 'CSS' },
-    { value: 'Javascript', label: 'Javascript' },
-    { value: 'GIT', label: 'GIT' },
-    { value: 'Typescript', label: 'Typescript' },
-    { value: 'Angular', label: 'Angular' },
-    { value: 'React', label: 'React' },
-    { value: 'Astro', label: 'Astro' },
-    { value: 'Linux', label: 'Linux' },
-    { value: 'NestJS', label: 'NestJS' },
-    { value: 'NodeJS', label: 'NodeJS' },
-    { value: 'Bootstrap', label: 'Bootstrap' },
-    { value: 'Sass', label: 'Sass' },
-    { value: 'TailwindCSS', label: 'TailwindCSS' },
-    { value: 'NextJS', label: 'NextJS' },
-    { value: 'Angular', label: 'Angular Material' },
-    { value: 'PostgreSQL', label: 'PostgreSQL' },
-    { value: 'AlpineJS', label: 'AlpineJS' },
-    { value: 'PreactJS', label: 'PreactJS' },
-    { value: 'Svelte', label: 'Svelte' },
-    { value: 'Material', label: 'Material UI' },
-    { value: 'Firebase', label: 'Firebase' },
-    { value: 'MongoDB', label: 'MongoDB' },
-    { value: 'PHP', label: 'PHP' },
-    { value: 'JQuery', label: 'JQuery' },
-    { value: 'MySQL', label: 'MySQL' },
+  const technologyOptions: string[] = [
+    'AlpineJS',
+    'Angular',
+    'Astro',
+    'Bootstrap',
+    'CSS',
+    'Firebase',
+    'GIT',
+    'HTML',
+    'JQuery',
+    'Javascript',
+    'Linux',
+    'Material',
+    'MongoDB',
+    'MySQL',
+    'NestJS',
+    'NextJS',
+    'NodeJS',
+    'PHP',
+    'PostgreSQL',
+    'PreactJS',
+    'React',
+    'Sass',
+    'Svelte',
+    'TailwindCSS',
+    'Typescript',
   ];
-
-  const filteredTechnologyOptions: { value: string; label: string }[] = [];
 
   const [id, setId] = useState<string | null>(null);
   const [titlePage, setTitlePage] = useState('Create Work');
@@ -109,6 +106,12 @@ export function PortfolioForm({ _id = null }: PortfolioFormProps) {
   const [imageFilename, setImageFilename] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [removeImage, setRemoveImage] = useState(false);
+  const [currentSkillOptions, setCurrentSkillOptions] = useState<Array<string>>(
+    []
+  );
+  const [filteredTechnologyOptions, setFilteredTechnologyOptions] = useState<
+    string[]
+  >([]);
 
   useEffect(() => {
     if (_id) {
@@ -116,8 +119,22 @@ export function PortfolioForm({ _id = null }: PortfolioFormProps) {
       setStatusForm('details');
       setTitlePage('Details Portfolio');
       getWork(_id);
+    } else {
+      setFilteredTechnologyOptions(technologyOptions);
     }
   }, []);
+
+  const filterSkillOptions = (skills: string[] | null = null) => {
+    const currentSkills = skills || work.technologies;
+    const filteredOptions = technologyOptions.filter(
+      (item) => !currentSkills.includes(item)
+    );
+    setFilteredTechnologyOptions(filteredOptions);
+  };
+
+  useEffect(() => {
+    filterSkillOptions();
+  }, [work.technologies]);
 
   const getWork = async (id: string) => {
     setRequestStatus('loading');
@@ -136,6 +153,8 @@ export function PortfolioForm({ _id = null }: PortfolioFormProps) {
         technologies: data.technologies,
       });
       setRequestStatus('success');
+      setCurrentSkillOptions(await data.technologies);
+      await filterSkillOptions(data.technologies);
     } catch (error) {
       console.error(error);
       alert('Error fetching work');
@@ -212,7 +231,7 @@ export function PortfolioForm({ _id = null }: PortfolioFormProps) {
 
   const handleCancelEdit = () => {
     setStatusForm('details');
-    setTitlePage('Details Study');
+    setTitlePage('Details Work');
     getWork(id as string);
     setErrors({
       title: '',
@@ -295,6 +314,7 @@ export function PortfolioForm({ _id = null }: PortfolioFormProps) {
               id='publicRepo'
               name='Is Public'
               checked={work.publicRepo}
+              onChange={handleChange}
               requestStatus={requestStatus}
               readonly={statusForm === 'details' || requestStatus === 'loading'}
             />
@@ -311,13 +331,15 @@ export function PortfolioForm({ _id = null }: PortfolioFormProps) {
 
             <div className='lg:mt-[30px] lg:mb-[28px]'>
               <InputSelect
-              name='technologiesSelect'
-              placeholder='Select   Technologies'
-              value={null}
-              options={filteredTechnologyOptions}
-              onChange={handleChange}
-              disabled={statusForm === 'details' || requestStatus === 'loading'}
-            />
+                name='technologiesSelect'
+                placeholder='Select   Technologies'
+                value={''}
+                options={filteredTechnologyOptions}
+                onChange={handleChange}
+                disabled={
+                  statusForm === 'details' || requestStatus === 'loading'
+                }
+              />
             </div>
 
             <TextArea
@@ -348,7 +370,7 @@ export function PortfolioForm({ _id = null }: PortfolioFormProps) {
                 title='Edit'
                 onClick={() => {
                   setStatusForm('edit');
-                  setTitlePage('Edit Study');
+                  setTitlePage('Edit Work');
                   setTitleButton('Update');
                 }}
               />
