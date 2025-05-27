@@ -4,7 +4,7 @@ import styles from "@/styles/form-group.module.css";
 interface SelectProps {
   name: string;
   placeholder?: string;
-  value: string | number;
+  value: string | number | null;
   options: { value: string | number; label: string }[];
   disabled?: boolean;
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
@@ -30,7 +30,7 @@ export function InputSelect({
         <select
           name={name}
           id={name}
-          value={value}
+          value={value as string | number}
           onChange={onChange}
           disabled={disabled}
           required={required}

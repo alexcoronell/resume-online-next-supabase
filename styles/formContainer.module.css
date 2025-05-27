@@ -6,5 +6,5 @@
     @apply mb-6;
 }
 .FormContainer__box {
-    @apply flex items-center justify-center w-full min-h-[76vh] my-auto;
+    @apply py-[80px] flex items-center justify-center w-full min-h-[76vh] my-auto;
 }

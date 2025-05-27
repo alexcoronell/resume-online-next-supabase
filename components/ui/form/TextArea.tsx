@@ -15,7 +15,7 @@ interface TextAreaProps {
   onChange?: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   onBlur?: (e: FocusEvent<HTMLTextAreaElement>) => void;
   requestStatus: RequestStatus;
-  validField: boolean;
+  validField?: boolean;
   readonly?: boolean;
   rows?: number;
 }
