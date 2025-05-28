@@ -10,7 +10,7 @@ import { ButtonSubmit } from '@/components/ui/form/ButtonSubmit';
 import { ButtonSecondary } from '@/components/shared/buttons/button-secondary';
 import { ButtonLight } from '../../shared/buttons/button-light';
 
-import { CreateWorkDto, UpdateWorkDto } from '@/core/dtos/Work,dto';
+import { CreateWorkDto, UpdateWorkDto } from '@/core/dtos/Work.dto';
 
 import type { RequestStatus } from '@/core/types/RequestStatus.type';
 import { StatusForm } from '@/core/types/StatusForm.type';

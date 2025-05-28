@@ -5,7 +5,7 @@ import { createClient } from "@/utils/supabase/client";
 import { Work } from "../models/Work.interface";
 
 /* DTO's */
-import { CreateWorkDto, UpdateWorkDto } from "../dtos/Work,dto";
+import { CreateWorkDto, UpdateWorkDto } from "../dtos/Work.dto";
 
 /* Helpers */
 import getimageUrl from "@/helpers/getImagesUrl";
