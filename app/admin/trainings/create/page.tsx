@@ -1,5 +1,5 @@
 import { TrainingForm } from '@/components/admin/forms/TrainingForm';
 
-export function CreatePortfolioPage() {
+export default function CreatePortfolioPage() {
   return <TrainingForm />;
 }

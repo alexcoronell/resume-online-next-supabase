@@ -7,7 +7,7 @@ export const generateOptionsLimitePage = (totalItems: number) => {
     if (totalItems > 5) options.push({ value: 10, label: "10 items" });
     if (totalItems > 10) options.push({ value: 25, label: "25 items" });
     if (totalItems > 25) options.push({ value: 50, label: "50 items" });
-    if (totalItems > 50) options.push({ value: 10, label: "100 items" });
+    if (totalItems > 50) options.push({ value: 100, label: "100 items" });
 
     return options;
 }

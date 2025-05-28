@@ -27,11 +27,10 @@ const getTrainings = async (
 
   const { data, count } = await supabase
     .from(tableName)
-    .select("*", { count: "exact" })
+    .select("*, institute(*)", { count: "exact" })
     .order("year", { ascending: false })
     .order("month", { ascending: false })
     .range(from, to);
-
   return { trainings: data as Training[], total: count ?? 0 };
 };
 
