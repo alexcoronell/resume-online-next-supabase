@@ -14,12 +14,15 @@ import { ImageOffIcon } from '@/components/ui/mdi--image-off-outline';
 import { useWorkStore } from '@/store/usePortfolioStore';
 
 import { deleteWork } from '@/core/services/work.service';
+import deleteImage from '@/helpers/deleteImages';
 
 import styles from '@/styles/tablets.module.css';
 
 export function PortfolioTable() {
   const { works, total, getWorks, currentPage, currentPageSize } =
     useWorkStore();
+
+  const bucketName = 'works';
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     getWorks();
@@ -41,13 +44,18 @@ export function PortfolioTable() {
     { title: 'Technologies', classes: 'text-left' },
   ];
 
-  const handleDelete = (id: string) => {
+  const handleDelete = (id: string, image: string | null = null) => {
     const res = confirm('Are you sure to delete this work');
     if (res) {
       deleteWork(id)
         .then(() => {
           alert('work deleted successfully');
           getWorks();
+        })
+        .then(async() => {
+          const res = await deleteImage(bucketName, image as string);
+          console.log(res);
+          if (!res) alert('Error deleting image');
         })
         .catch((error) => {
           console.error('Error deleting work:', error);
@@ -90,12 +98,16 @@ export function PortfolioTable() {
                 )}
               </td>
               <td className='text-center'>
-                {work.originRepo === 'Github' && <SvgLogoGithubIcon className="size-6 inline" />}
-                {work.originRepo === 'Gitlab' && <SvgLogoGitlabIcon className="size-6 inline" />}
+                {work.originRepo === 'Github' && (
+                  <SvgLogoGithubIcon className='size-6 inline' />
+                )}
+                {work.originRepo === 'Gitlab' && (
+                  <SvgLogoGitlabIcon className='size-6 inline' />
+                )}
               </td>
-              <td className='text-center'>{
-                work.publicRepo ? (<span>Yes</span>) : (<span>No</span>)
-            }</td>
+              <td className='text-center'>
+                {work.publicRepo ? <span>Yes</span> : <span>No</span>}
+              </td>
               <td className='text-center'>
                 {work.image ? (
                   <ImageIcon className='text-primary inline' />
@@ -112,7 +124,7 @@ export function PortfolioTable() {
                 />
                 <ButtonDelete
                   id={work.id}
-                  deleteFunction={handleDelete}
+                  deleteFunction={() => handleDelete(work.id, work.image)}
                   title={`Delete ${work.title}`}
                 />{' '}
               </td>
