@@ -7,8 +7,12 @@ import { Work } from "../models/Work.interface";
 /* DTO's */
 import { CreateWorkDto, UpdateWorkDto } from "../dtos/Work,dto";
 
+/* Helpers */
+import getimageUrl from "@/helpers/getImagesUrl";
+
 const supabase = createClient();
 const tableName = "works";
+const tableBucketName = "works";
 
 /* Revalidate */
 export const revalidate = 60 * 60 * 24 * 7;
@@ -32,7 +36,10 @@ const getWorks = async (page = 1, pageSize = 5) => {
 };
 
 const getWorkById = async (id: Work['id']) => {
-  return await supabase.from(tableName).select("*").eq("id", id).single();
+  const { data } = await supabase.from(tableName).select("*").eq("id", id).single();
+  const work: Work = data
+  const imageUrl = await getimageUrl(tableBucketName, work.image);
+  return await { work, imageUrl }
 };
 
 const addWork = async (Work: CreateWorkDto) => {

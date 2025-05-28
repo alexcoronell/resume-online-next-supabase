@@ -10,13 +10,13 @@ interface InputProps {
   name: string;
   id: string;
   type?: string;
-  value: string;
+  value: string | number;
   classes?: string
   errorMessage?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
   requestStatus: RequestStatus;
-  validField: boolean;
+  validField?: boolean;
   readonly?: boolean;
 }
 

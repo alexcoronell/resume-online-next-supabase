@@ -80,7 +80,7 @@ export function StudyForm({ _id = null }: StudyFormProps) {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    if(e.target.type === 'checkbox') {
+    if (e.target.type === 'checkbox') {
       const checked = e.target.checked;
       setStudy((prev) => ({
         ...prev,
@@ -143,6 +143,21 @@ export function StudyForm({ _id = null }: StudyFormProps) {
           if (!res) throw new Error('Error adding study');
           setRequestStatus('success');
           alert('Study added successfully');
+          setStudy({
+            title: '',
+            institute: '',
+            place: '',
+            since: 2000,
+            until: 2000,
+            current: false,
+          });
+          setErrors({
+            title: '',
+            institute: '',
+            place: '',
+            since: '',
+            until: '',
+          });
           router.push('/admin/studies');
         })
         .catch((error) => {
@@ -151,21 +166,6 @@ export function StudyForm({ _id = null }: StudyFormProps) {
           console.log(error);
         });
       // Reset the form
-      setStudy({
-        title: '',
-        institute: '',
-        place: '',
-        since: 2000,
-        until: 2000,
-        current: false,
-      });
-      setErrors({
-        title: '',
-        institute: '',
-        place: '',
-        since: '',
-        until: '',
-      });
     } else if (statusForm === 'edit') {
       setRequestStatus('loading');
       updateStudy(id as string, study)
@@ -267,7 +267,7 @@ export function StudyForm({ _id = null }: StudyFormProps) {
           />
           <InputCheck
             name='current'
-            id='current'
+            placeholder='Current'
             checked={study.current}
             classes='col-span-2'
             onChange={handleChange}

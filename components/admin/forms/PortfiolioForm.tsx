@@ -40,14 +40,8 @@ export function PortfolioForm({ _id = null }: PortfolioFormProps) {
 
   const [errors, setErrors] = useState({
     title: '',
-    url: '',
-    repoUrl: '',
-    originRepo: '',
-    publicRepo: '',
-    image: '',
     order: '',
     status: '',
-    technologies: '',
   });
 
   const originRepositoryOptions = [
@@ -106,6 +100,8 @@ export function PortfolioForm({ _id = null }: PortfolioFormProps) {
   const [imageFilename, setImageFilename] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [removeImage, setRemoveImage] = useState(false);
+  const [currentImage, setCurrentImage] = useState<string | null>(null);
+  const [currentSkills, setCurrentSkills] = useState<string[]>([]);
   const [currentSkillOptions, setCurrentSkillOptions] = useState<Array<string>>(
     []
   );
@@ -132,6 +128,29 @@ export function PortfolioForm({ _id = null }: PortfolioFormProps) {
     setFilteredTechnologyOptions(filteredOptions);
   };
 
+  const addNewSkill = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const skill = e.target.value;
+    const newSkills = currentSkills;
+    const newSkillsSet = new Set(newSkills);
+    newSkillsSet.add(skill);
+    const newSkillsArr = Array.from(newSkillsSet);
+    setCurrentSkills((prev) => [...prev, skill]);
+    filterSkillOptions(newSkillsArr);
+    setWork((prev) => ({
+      ...prev,
+      technologies: newSkillsArr.toString(),
+    }));
+  };
+
+  const removeSkill = (skill: string) => {
+    const newSkills = currentSkills.filter((item) => item !== skill);
+    setCurrentSkills(newSkills);
+    setWork((prev) => ({
+      ...prev,
+      technologies: newSkills.toString(),
+    }));
+  };
+
   useEffect(() => {
     filterSkillOptions();
   }, [work.technologies]);
@@ -139,7 +158,7 @@ export function PortfolioForm({ _id = null }: PortfolioFormProps) {
   const getWork = async (id: string) => {
     setRequestStatus('loading');
     try {
-      const { data } = await getWorkById(id);
+      const { work: data, imageUrl } = await getWorkById(id);
       if (!data) throw new Error('Error fetching work');
       setWork({
         title: data.title,
@@ -153,8 +172,17 @@ export function PortfolioForm({ _id = null }: PortfolioFormProps) {
         technologies: data.technologies,
       });
       setRequestStatus('success');
-      setCurrentSkillOptions(await data.technologies);
-      await filterSkillOptions(data.technologies);
+      const originCurrentSkills = await data.technologies.split(',');
+      const finalCurrentSkills =
+        originCurrentSkills.length > 0 && originCurrentSkills[0] !== ''
+          ? originCurrentSkills
+          : [];
+      setCurrentSkills(finalCurrentSkills);
+      await filterSkillOptions(await data.technologies.split(','));
+      setCurrentImage(data.image);
+      const imageName = data.image.toString().split('/')[1];
+      setImageFilename(imageName);
+      setImage(imageUrl);
     } catch (error) {
       console.error(error);
       alert('Error fetching work');
@@ -235,21 +263,74 @@ export function PortfolioForm({ _id = null }: PortfolioFormProps) {
     getWork(id as string);
     setErrors({
       title: '',
-      url: '',
-      repoUrl: '',
-      originRepo: '',
-      publicRepo: '',
-      image: '',
       order: '',
       status: '',
-      technologies: '',
     });
     setRequestStatus('init');
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    return;
+    const newErrors = {
+      title: work.title.trim() === '' ? 'Title is required' : '',
+      order: work.order === 0 || null ? 'Order is required' : '',
+      status: !work.status ? 'Status is required' : '',
+    };
+    setErrors(newErrors);
+    if (Object.values(newErrors).some((error) => error !== '')) {
+      return;
+    }
+    setRequestStatus('loading');
+    if (statusForm === 'create') {
+      addWork(work)
+        .then((res) => {
+          if (!res) throw new Error('Error adding work');
+          console.log(work);
+          setRequestStatus('success');
+          setWork({
+            title: '',
+            url: '',
+            repoUrl: '',
+            originRepo: 'Github',
+            publicRepo: false,
+            image: '',
+            order: 0,
+            status: 'Inactive',
+            technologies: '',
+          });
+          setErrors({
+            title: '',
+            order: '',
+            status: '',
+          });
+          alert('Work added successfully');
+          router.push('/admin/portfolio');
+        })
+        .catch((error) => {
+          setRequestStatus('failed');
+          alert(error.message);
+          console.log(error);
+        });
+    } else if (statusForm === 'edit') {
+      updateWork(id as string, work)
+        .then((res) => {
+          if (!res) throw new Error('Error updating Work');
+          setRequestStatus('success');
+          alert('Word updated successfully');
+          setStatusForm('details');
+          setTitlePage('Details Work');
+          setErrors({
+            title: '',
+            status: '',
+            order: '',
+          });
+        })
+        .catch((error) => {
+          setRequestStatus('failed');
+          alert('Error updating work');
+          console.log(error);
+        });
+    }
   };
 
   return (
@@ -281,11 +362,9 @@ export function PortfolioForm({ _id = null }: PortfolioFormProps) {
               id='url'
               type='url'
               value={work.url}
-              errorMessage={errors.url}
               onChange={handleChange}
               onBlur={handleBlur}
               requestStatus={requestStatus}
-              validField={!errors.url}
               readonly={statusForm === 'details'}
             />
 
@@ -295,11 +374,9 @@ export function PortfolioForm({ _id = null }: PortfolioFormProps) {
               id='repoUrl'
               type='url'
               value={work.repoUrl}
-              errorMessage={errors.repoUrl}
               onChange={handleChange}
               onBlur={handleBlur}
               requestStatus={requestStatus}
-              validField={!errors.repoUrl}
               readonly={statusForm === 'details'}
             />
             <InputSelect
@@ -311,8 +388,8 @@ export function PortfolioForm({ _id = null }: PortfolioFormProps) {
               disabled={statusForm === 'details' || requestStatus === 'loading'}
             />
             <InputCheck
-              id='publicRepo'
-              name='Is Public'
+              name='publicRepo'
+              placeholder='Is Public'
               checked={work.publicRepo}
               onChange={handleChange}
               requestStatus={requestStatus}
@@ -335,20 +412,38 @@ export function PortfolioForm({ _id = null }: PortfolioFormProps) {
                 placeholder='Select   Technologies'
                 value={''}
                 options={filteredTechnologyOptions}
-                onChange={handleChange}
+                onChange={addNewSkill}
                 disabled={
                   statusForm === 'details' || requestStatus === 'loading'
                 }
               />
             </div>
 
-            <TextArea
-              id='technologies'
-              name='Techonogies'
-              value={work.technologies}
-              placeholder='Technologies'
+            <div className='flex flex-wrap mb-6 gap-x-3 gap-y-1 m-0 items-start justify-start p-3 border border-primary h-[130px] rounded-xl overflow-y-scroll'>
+              {currentSkills.map((item) => (
+                <button
+                  className='border border-primary/70 rounded-full px-3 text-sm'
+                  key={item}
+                  onClick={() => removeSkill(item)}
+                  disabled={
+                    requestStatus === 'loading' || statusForm === 'details'
+                  }
+                >
+                  {item} <span className='text-red text-xs ml-1'>X</span>
+                </button>
+              ))}
+            </div>
+
+            <Input
+              placeholder='Order'
+              name='order'
+              id='order'
+              type='number'
+              value={work.order}
+              onChange={handleChange}
+              onBlur={handleBlur}
               requestStatus={requestStatus}
-              readonly={true}
+              readonly={statusForm === 'details'}
             />
           </div>
           <div className='lg:col-span-2'>
