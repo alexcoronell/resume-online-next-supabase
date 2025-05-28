@@ -17,6 +17,7 @@ import { StatusForm } from '@/core/types/StatusForm.type';
 
 import { addWork, updateWork, getWorkById } from '@/core/services/work.service';
 import { uploadImage, verifyImage } from '@/helpers/uploadImage';
+import deleteImage from '@/helpers/deleteImages';
 
 import styles from '@/styles/formContainer.module.css';
 
@@ -108,6 +109,8 @@ export function PortfolioForm({ _id = null }: PortfolioFormProps) {
   const [filteredTechnologyOptions, setFilteredTechnologyOptions] = useState<
     string[]
   >([]);
+
+  const bucketName = 'works';
 
   useEffect(() => {
     if (_id) {
@@ -269,6 +272,34 @@ export function PortfolioForm({ _id = null }: PortfolioFormProps) {
     setRequestStatus('init');
   };
 
+  const manageImage = async () => {
+    let fullPathImage = null
+    if (imageFile) {
+      const { data, error } = await uploadImage(
+        imageFile,
+        bucketName,
+        imageFilename as string
+      );
+      if (error) {
+        alert('Error uploading image');
+        console.error('Error uploading image:', error);
+        throw new Error(error.message);
+      }
+      const { fullPath } = data;
+      fullPathImage = fullPath 
+    }
+    if (removeImage && currentImage) {
+      const { error } = await deleteImage(bucketName, currentImage);
+      if (error) {
+        alert('Error deleting image');
+        console.error('Error deleting image:', error);
+        throw new Error(error.message);
+      }
+      setRemoveImage(false);
+    }
+    return fullPathImage;
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newErrors = {
@@ -281,55 +312,73 @@ export function PortfolioForm({ _id = null }: PortfolioFormProps) {
       return;
     }
     setRequestStatus('loading');
-    if (statusForm === 'create') {
-      addWork(work)
-        .then((res) => {
-          if (!res) throw new Error('Error adding work');
-          console.log(work);
-          setRequestStatus('success');
-          setWork({
-            title: '',
-            url: '',
-            repoUrl: '',
-            originRepo: 'Github',
-            publicRepo: false,
-            image: '',
-            order: 0,
-            status: 'Inactive',
-            technologies: '',
+    try {
+      const filePath = await manageImage();
+      const dto: CreateWorkDto | UpdateWorkDto = {
+        title: work.title,
+        url: work.url,
+        repoUrl: work.repoUrl,
+        originRepo: work.originRepo,
+        publicRepo: work.publicRepo,
+        image: filePath || work.image,
+        order: work.order,
+        status: work.status,
+        technologies: work.technologies,
+      };
+      if (statusForm === 'create') {
+        addWork(dto)
+          .then((res) => {
+            if (!res) throw new Error('Error adding work');
+            console.log(dto);
+            setRequestStatus('success');
+            setWork({
+              title: '',
+              url: '',
+              repoUrl: '',
+              originRepo: 'Github',
+              publicRepo: false,
+              image: '',
+              order: 0,
+              status: 'Inactive',
+              technologies: '',
+            });
+            setErrors({
+              title: '',
+              order: '',
+              status: '',
+            });
+            alert('Work added successfully');
+            router.push('/admin/portfolio');
+          })
+          .catch((error) => {
+            setRequestStatus('failed');
+            alert(error.message);
+            console.log(error);
           });
-          setErrors({
-            title: '',
-            order: '',
-            status: '',
+      } else if (statusForm === 'edit') {
+        updateWork(id as string, dto)
+          .then((res) => {
+            if (!res) throw new Error('Error updating Work');
+            setRequestStatus('success');
+            alert('Word updated successfully');
+            setStatusForm('details');
+            setTitlePage('Details Work');
+            setErrors({
+              title: '',
+              status: '',
+              order: '',
+            });
+          })
+          .catch((error) => {
+            setRequestStatus('failed');
+            alert('Error updating work');
+            console.log(error);
           });
-          alert('Work added successfully');
-          router.push('/admin/portfolio');
-        })
-        .catch((error) => {
-          setRequestStatus('failed');
-          alert(error.message);
-          console.log(error);
-        });
-    } else if (statusForm === 'edit') {
-      updateWork(id as string, work)
-        .then((res) => {
-          if (!res) throw new Error('Error updating Work');
-          setRequestStatus('success');
-          alert('Word updated successfully');
-          setStatusForm('details');
-          setTitlePage('Details Work');
-          setErrors({
-            title: '',
-            status: '',
-            order: '',
-          });
-        })
-        .catch((error) => {
-          setRequestStatus('failed');
-          alert('Error updating work');
-          console.log(error);
-        });
+      }
+    } catch (error) {
+      setRequestStatus('failed');
+      alert('Error updating profile');
+      console.error('Error updating profile:', error);
     }
   };
 

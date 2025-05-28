@@ -156,6 +156,7 @@ export function ProfileForm() {
   };
 
   const manageImage = async () => {
+    let fullPathImage = null;
     if (imageFile) {
       const { data, error } = await uploadImage(
         imageFile,
@@ -168,7 +169,7 @@ export function ProfileForm() {
         throw new Error(error.message);
       }
       const { fullPath } = data;
-      return fullPath;
+      fullPathImage = fullPath;
     }
     if (removeImage && currentImage) {
       const { error } = await deleteImage(bucketName, currentImage);
@@ -179,6 +180,7 @@ export function ProfileForm() {
       }
       setRemoveImage(false);
     }
+    return fullPathImage;
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
