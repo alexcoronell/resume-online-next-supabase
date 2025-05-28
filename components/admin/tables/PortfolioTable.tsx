@@ -34,14 +34,15 @@ export function PortfolioTable() {
   }, [currentPage, currentPageSize]);
 
   const columns = [
+    { title: 'Order', classes: 'text-left' },
     { title: 'Name', classes: 'text-left' },
-    { title: 'Url', classes: 'text-left' },
-    { title: 'UrlRepo', classes: 'text-left' },
-    { title: 'ServiceRepo', classes: 'text-left' },
-    { title: 'Public', classes: 'text-left' },
-    { title: 'Image', classes: 'text-left' },
-    { title: 'Status', classes: 'text-left' },
-    { title: 'Technologies', classes: 'text-left' },
+    { title: 'Url', classes: 'text-left max-sm:hidden' },
+    { title: 'UrlRepo', classes: 'text-left max-sm:hidden' },
+    { title: 'ServiceRepo', classes: 'text-left max-md:hidden' },
+    { title: 'Public', classes: 'text-left max-lg:hidden' },
+    { title: 'Image', classes: 'text-left max-lg:hidden' },
+    { title: 'Status', classes: 'text-left max-xl:hidden' },
+    { title: 'Technologies', classes: 'text-left max-2xl:hidden' },
   ];
 
   const handleDelete = (id: string, image: string | null = null) => {
@@ -52,9 +53,8 @@ export function PortfolioTable() {
           alert('work deleted successfully');
           getWorks();
         })
-        .then(async() => {
+        .then(async () => {
           const res = await deleteImage(bucketName, image as string);
-          console.log(res);
           if (!res) alert('Error deleting image');
         })
         .catch((error) => {
@@ -82,22 +82,23 @@ export function PortfolioTable() {
           {works.map((work, index) => (
             // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
             <tr key={index}>
+              <td className='text-left'>{work.order}</td>
               <td className='text-left'>{work.title}</td>
-              <td className='text-center'>
+              <td className='text-center max-sm:hidden'>
                 {work.url ? (
                   <MdiLinkIcon className='text-primary inline' />
                 ) : (
                   <MdiLinkOffIcon className='text-secondary inline' />
                 )}
               </td>
-              <td className='text-center'>
+              <td className='text-center max-sm:hidden'>
                 {work.repoUrl ? (
                   <MdiLinkIcon className='text-primary inline' />
                 ) : (
                   <MdiLinkOffIcon className='text-secondary inline' />
                 )}
               </td>
-              <td className='text-center'>
+              <td className='text-center max-md:hidden'>
                 {work.originRepo === 'Github' && (
                   <SvgLogoGithubIcon className='size-6 inline' />
                 )}
@@ -105,18 +106,18 @@ export function PortfolioTable() {
                   <SvgLogoGitlabIcon className='size-6 inline' />
                 )}
               </td>
-              <td className='text-center'>
+              <td className='text-center max-lg:hidden'>
                 {work.publicRepo ? <span>Yes</span> : <span>No</span>}
               </td>
-              <td className='text-center'>
+              <td className='text-center max-lg:hidden'>
                 {work.image ? (
                   <ImageIcon className='text-primary inline' />
                 ) : (
                   <ImageOffIcon className='text-secondary inline' />
                 )}
               </td>
-              <td className='text-left'>{work.status}</td>
-              <td className='text-left'>{work.technologies}</td>
+              <td className='text-left max-xl:hidden'>{work.status}</td>
+              <td className='text-left max-2xl:hidden'>{work.technologies}</td>
               <td className={styles.AdminTable__actions}>
                 <ButtonView
                   url={`/admin/portfolio/details/${work.id}`}
