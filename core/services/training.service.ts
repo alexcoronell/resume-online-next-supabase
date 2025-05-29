@@ -5,9 +5,11 @@ import { createClient } from "@/utils/supabase/client";
 import { Training } from "../models/Training.interface";
 
 import { CreateTrainingDto, UpdateTrainingDto } from "../dtos/Training.dto";
+import getimageUrl from "@/helpers/getImagesUrl";
 
 const supabase = createClient();
 const tableName = "trainings";
+const tableBucketName = 'trainings'
 
 /* Revalidate */
 export const revalidate = 60 * 60 * 24;
@@ -34,9 +36,11 @@ const getTrainings = async (
   return { trainings: data as Training[], total: count ?? 0 };
 };
 
-const getTrainingById = async (id: Training['id']): Promise<Training | null> => {
+const getTrainingById = async (id: Training['id']) => {
   const { data } = await supabase.from(tableName).select("*").eq("id", id).single();
-  return data as Training | null;
+  const training: Training = data
+  const imageUrl = await getimageUrl(tableBucketName, training.image as string)
+  return await { training, imageUrl }
 };
 
 const addTraining = async (dto: CreateTrainingDto): Promise<Training | null> => {
