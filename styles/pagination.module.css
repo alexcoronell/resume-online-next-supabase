@@ -1,0 +1,7 @@
+.Pagination {
+  @apply flex items-center justify-center gap-2 border border-primary py-3 rounded-2xl;
+}
+
+.ButtonDirection {
+    @apply text-primary disabled:opacity-50 disabled:cursor-not-allowed;
+}

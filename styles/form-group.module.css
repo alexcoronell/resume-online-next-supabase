@@ -1,0 +1,72 @@
+.formgroup, .formgroupInput {
+  @apply relative py-1 mb-6 w-full;
+}
+
+.formgroup > * {
+  @apply transition-all ease-in-out duration-100;
+}
+
+.formgroup input,
+.formgroup select,
+.formgroup textarea {
+  @apply bg-transparent border border-primary/60 rounded-md px-4 py-3 text-base text-white w-full focus:border-primary;
+}
+
+.formgroup select {
+  @apply py-[0.90rem];
+}
+
+.formgroup span {
+  @apply absolute bg-backgroundsecondary left-4 top-5 px-2 text-xs text-primary/60;
+}
+
+.formgroup input:focus + span,
+.formgroup input:not(:placeholder-shown) + span,
+.formgroup select:focus + span,
+.formgroup select:not(:placeholder-shown) + span,
+.formgroup textarea:focus + span,
+.formgroup textarea:not(:placeholder-shown) + span {
+  @apply top-[-0.2rem] bg-primary text-background rounded-sm;
+}
+
+.formgroup input::placeholder,
+.formgroup select::placeholder,
+.formgroup textarea::placeholder {
+  @apply text-transparent;
+}
+
+.formgroupInput {
+  @apply flex flex-col rounded-xl overflow-hidden md:flex-row md:items-center md:border md:border-primary md:p-0 md:gap-3;
+}
+
+.formgroupInput label, .formgroupInput button {
+  @apply text-background w-[150px] text-center py-3 px-4 rounded-xl md:rounded-r-none;
+}
+
+.formgroupInput label {
+  @apply bg-primary;
+}
+
+.formgroupInput button {
+  @apply bg-red;
+}
+
+.formgroupInput input {
+  @apply hidden;
+}
+
+.formgroupInput__message {
+  @apply mt-1 pl-1 text-primary text-sm md:m-0;
+}
+
+.formgroupCheckbox {
+  @apply mb-6;
+}
+
+.formgroupCheckbox label {
+  @apply text-primary flex items-center gap-3;
+}
+
+.formgroupCheckbox input {
+  @apply hidden;
+}

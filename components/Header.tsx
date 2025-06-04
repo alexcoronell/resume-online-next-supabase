@@ -28,8 +28,8 @@ export default function Header() {
       url: "/studies",
     },
     {
-      title: "Training",
-      url: "/training",
+      title: "Courses",
+      url: "/courses",
     },
     {
       title: "Experiences",
