@@ -211,83 +211,93 @@ export function TrainingForm({ _id = null }: TrainingFormProps) {
       }
       setRemoveImage(false);
     }
-
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      const newErrors = {
-        title: training.title.trim() === '' ? 'Title is required' : '',
-        englishTitle:
-          training.englishTitle === '' ? 'English title is required' : '',
-        institute: !training.institute ? 'Institute is required' : '',
-      };
-      setErrors(newErrors);
-      if (Object.values(newErrors).some((error) => error !== '')) {
-        return;
-      }
-      setRequestStatus('loading');
-      try {
-        const filePath = await manageImage();
-        if (statusForm === 'create') {
-          addTraining(training)
-            .then((res) => {
-              if (!res) throw new Error('Error adding training');
-              setRequestStatus('success');
-              setTraining({
-                title: '',
-                englishTitle: '',
-                institute: null,
-                year: 2025,
-                month: 1,
-                image: '',
-              });
-              setErrors({
-                title: '',
-                englishTitle: '',
-                institute: '',
-              });
-              alert('Work added successfully');
-              router.push('/admin/portfolio');
-            })
-            .catch((error) => {
-              setRequestStatus('failed');
-              alert(error.message);
-              console.log(error);
-            });
-        } else if (statusForm === 'edit') {
-          updateTraining(id as string, training)
-            .then((res) => {
-              if (!res) throw new Error('Error updating Work');
-              setRequestStatus('success');
-              alert('Word updated successfully');
-              setStatusForm('details');
-              setTitlePage('Details Work');
-              setErrors({
-                title: '',
-                englishTitle: '',
-                institute: '',
-              });
-            })
-            .catch((error) => {
-              setRequestStatus('failed');
-              alert('Error updating work');
-              console.log(error);
-            });
-        }
-      } catch (error) {
-        setRequestStatus('failed');
-        alert('Error updating profile');
-        console.error('Error updating profile:', error);
-      }
-    };
-
     return fullPathImage;
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const newErrors = {
+      title: training.title.trim() === '' ? 'Title is required' : '',
+      englishTitle:
+        training.englishTitle === '' ? 'English title is required' : '',
+      institute: !training.institute ? 'Institute is required' : '',
+    };
+    setErrors(newErrors);
+    if (Object.values(newErrors).some((error) => error !== '')) {
+      return;
+    }
+    setRequestStatus('loading');
+    try {
+      const filePath = await manageImage();
+      const dto: CreateTrainingDto | UpdateTrainingDto = {
+        title: training.title,
+        englishTitle: training.englishTitle,
+        institute: training.institute,
+        year: training.year,
+        month: training.month,
+        image: filePath || training.image
+      }
+      if (statusForm === 'create') {
+        addTraining(dto)
+          .then((res) => {
+            if (!res) throw new Error('Error adding training');
+            setRequestStatus('success');
+            setTraining({
+              title: '',
+              englishTitle: '',
+              institute: null,
+              year: 2025,
+              month: 1,
+              image: '',
+            });
+            setErrors({
+              title: '',
+              englishTitle: '',
+              institute: '',
+            });
+            alert('Work added successfully');
+            router.push('/admin/trainings');
+          })
+          .catch((error) => {
+            setRequestStatus('failed');
+            alert(error.message);
+            console.log(error);
+          });
+      } else if (statusForm === 'edit') {
+        updateTraining(id as string, dto)
+          .then((res) => {
+            if (!res) throw new Error('Error updating Work');
+            setRequestStatus('success');
+            alert('Word updated successfully');
+            setStatusForm('details');
+            setTitlePage('Details Work');
+            setErrors({
+              title: '',
+              englishTitle: '',
+              institute: '',
+            });
+          })
+          .catch((error) => {
+            setRequestStatus('failed');
+            alert('Error updating work');
+            console.log(error);
+          });
+      }
+    } catch (error) {
+      setRequestStatus('failed');
+      alert('Error updating profile');
+      console.error('Error updating profile:', error);
+    }
   };
 
   return (
     <div className={styles.FormContainer}>
       <h2 className='titleForm'>{titlePage}</h2>
       <div className={styles.FormContainer__box}>
-        <form className='px-2 mx-auto w-full max-w-[700px] lg:max-w-[900px] lg:grid lg:grid-cols-2 gap-x-3'>
+        <form
+          className='px-2 mx-auto w-full max-w-[700px] lg:max-w-[900px] lg:grid lg:grid-cols-2 gap-x-3'
+          onSubmit={handleSubmit}
+        >
           <Input
             placeholder='Spanish Title'
             name='title'
@@ -320,7 +330,7 @@ export function TrainingForm({ _id = null }: TrainingFormProps) {
               name='institute'
               placeholder='Institute'
               classes='md:col-span-2 lg:col-span-1'
-              value={''}
+              value={training.institute as unknown as string}
               options={institutes}
               onChange={handleChange}
               disabled={statusForm === 'details' || requestStatus === 'loading'}
@@ -341,7 +351,7 @@ export function TrainingForm({ _id = null }: TrainingFormProps) {
             <InputSelect
               name='month'
               placeholder='Month'
-              value={''}
+              value={training.month as number}
               options={months}
               onChange={handleChange}
               disabled={statusForm === 'details' || requestStatus === 'loading'}
