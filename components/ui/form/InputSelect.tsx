@@ -42,7 +42,7 @@ export function InputSelect({
 
   }
   return (
-    <div className={styles.formgroup}>
+    <div className={`${styles.formgroup} ${classes}`.trim()}>
       <label htmlFor={name}>
         <select
           name={name}

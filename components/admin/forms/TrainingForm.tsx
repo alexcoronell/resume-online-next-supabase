@@ -27,6 +27,9 @@ import deleteImage from '@/helpers/deleteImages';
 /* DTO's */
 import { CreateTrainingDto, UpdateTrainingDto } from '@/core/dtos/Training.dto';
 
+/* Data Options */
+import { months } from '@/core/data/months.options';
+
 /* Types */
 import type { RequestStatus } from '@/core/types/RequestStatus.type';
 import { StatusForm } from '@/core/types/StatusForm.type';
@@ -57,7 +60,9 @@ export function TrainingForm({ _id = null }: TrainingFormProps) {
     institute: '',
   });
 
-  let institutes: Institute[] = [];
+  const [institutes, setInstitutes] = useState<
+    { value: string; label: string }[]
+  >([]);
   const [id, setId] = useState<string | null>(null);
   const [titlePage, setTitlePage] = useState('Create Training');
   const [titleButton, setTitleButton] = useState('Add');
@@ -85,7 +90,11 @@ export function TrainingForm({ _id = null }: TrainingFormProps) {
 
   const getInstitutes = async () => {
     const { institutes: data } = await fetchInstitutes();
-    institutes = data;
+    const institutes = data.map((item) => ({
+      value: item.id,
+      label: item.name,
+    }));
+    setInstitutes(institutes);
   };
 
   const getTraining = async (id: string) => {
@@ -274,5 +283,105 @@ export function TrainingForm({ _id = null }: TrainingFormProps) {
     return fullPathImage;
   };
 
-  return <h1>TRaining Form</h1>;
+  return (
+    <div className={styles.FormContainer}>
+      <h2 className='titleForm'>{titlePage}</h2>
+      <div className={styles.FormContainer__box}>
+        <form className='px-2 mx-auto w-full max-w-[700px] lg:max-w-[900px] lg:grid lg:grid-cols-2 gap-x-3'>
+          <Input
+            placeholder='Spanish Title'
+            name='title'
+            id='title'
+            type='text'
+            value={training.title}
+            errorMessage={errors.title}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            requestStatus={requestStatus}
+            validField={!errors.title}
+            readonly={statusForm === 'details'}
+          />
+
+          <Input
+            placeholder='English Title'
+            name='englishTitle'
+            id='englishTitle'
+            type='text'
+            value={training.englishTitle}
+            errorMessage={errors.englishTitle}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            requestStatus={requestStatus}
+            validField={!errors.englishTitle}
+            readonly={statusForm === 'details'}
+          />
+          <div className='md:grid md:grid-cols-2 gap-x-3 lg:col-span-2 lg:grid-cols-3'>
+            <InputSelect
+              name='institute'
+              placeholder='Institute'
+              classes='md:col-span-2 lg:col-span-1'
+              value={''}
+              options={institutes}
+              onChange={handleChange}
+              disabled={statusForm === 'details' || requestStatus === 'loading'}
+            />
+
+            <Input
+              placeholder='Year'
+              name='year'
+              id='year'
+              type='number'
+              value={training.year}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              requestStatus={requestStatus}
+              readonly={statusForm === 'details'}
+            />
+
+            <InputSelect
+              name='month'
+              placeholder='Month'
+              value={''}
+              options={months}
+              onChange={handleChange}
+              disabled={statusForm === 'details' || requestStatus === 'loading'}
+            />
+          </div>
+
+          <InputFile
+            titleInputFileButton={titleInputFileButton}
+            imageFilename={imageFilename}
+            classes='md:col-span-2'
+            disabled={statusForm === 'details'}
+            removeImage={!removeImage ? handleRemoveImage : undefined}
+            onChange={handleFileChange}
+          />
+          <div className='col-span-2 grid-cols-2 grid gap-3 w-full max-w-[400px] mx-auto'>
+            {statusForm !== 'details' && (
+              <ButtonSubmit title={titleButton} requestStatus={requestStatus} />
+            )}
+            {statusForm === 'details' && (
+              <ButtonSecondary
+                title='Edit'
+                onClick={() => {
+                  setStatusForm('edit');
+                  setTitlePage('Edit Work');
+                  setTitleButton('Update');
+                }}
+              />
+            )}
+            {statusForm !== 'edit' && (
+              <ButtonLight
+                title='Cancel / Back'
+                onClick={() => router.back()}
+              />
+            )}
+            {statusForm === 'edit' && (
+              <ButtonLight title='Cancel' onClick={handleCancelEdit} />
+            )}
+          </div>
+        </form>
+      </div>
+    </div>
+  );
 }

@@ -12,6 +12,10 @@
   @apply bg-transparent border border-primary/60 rounded-md px-4 py-3 text-base text-white w-full focus:border-primary;
 }
 
+.formgroup select {
+  @apply py-[0.90rem];
+}
+
 .formgroup span {
   @apply absolute bg-backgroundsecondary left-4 top-5 px-2 text-xs text-primary/60;
 }
