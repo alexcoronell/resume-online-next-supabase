@@ -1,3 +1,5 @@
+export const runtime = 'edge';
+
 /* Components */
 import SectionPage from "@/components/SectionPage";
 import TrainingItem from "@/components/TrainingItem";
@@ -7,7 +9,7 @@ import TrainingItem from "@/components/TrainingItem";
 import { createClient } from "@/utils/supabase/client";
 
 /* Models */
-import { Training } from "@/core/models/Training.interface";
+import type { Training } from "@/core/models/Training.interface";
 
 /* Helpers */
 import { orderByYearAndMonth } from "@/helpers/orderByDate";

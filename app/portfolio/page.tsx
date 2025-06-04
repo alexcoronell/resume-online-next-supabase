@@ -1,7 +1,5 @@
-/* Components */
 import SectionPage from '@/components/SectionPage';
 import WorkItem from '../../components/WorkItem';
-
 import { getSimpleWorks } from '@/core/services/work.service';
 
 export default async function Portfolio() {
