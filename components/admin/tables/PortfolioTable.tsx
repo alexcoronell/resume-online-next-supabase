@@ -99,10 +99,9 @@ export function PortfolioTable() {
                 )}
               </td>
               <td className='text-center max-md:hidden'>
-                {work.originRepo === 'Github' && (
+                {work.originRepo === 'Github' ? (
                   <SvgLogoGithubIcon className='size-6 inline' />
-                )}
-                {work.originRepo === 'Gitlab' && (
+                ) : (
                   <SvgLogoGitlabIcon className='size-6 inline' />
                 )}
               </td>
