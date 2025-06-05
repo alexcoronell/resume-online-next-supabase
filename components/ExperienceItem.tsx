@@ -6,6 +6,7 @@ import { getExperienceFunctions } from '@/core/services/experience-functions.ser
 
 /* Models */
 import { Experience } from '@/core/models/Experience.interface';
+import { ExperienceFunction } from '@/core/models/ExperienceFunction';
 
 /* Props */
 interface ExpetienceItemViewProps {
@@ -13,14 +14,14 @@ interface ExpetienceItemViewProps {
 }
 
 /* Styles */
-import styles from '../styles/experience-item.module.css';
+import styles from '@/styles/experience-item.module.css';
 
 export default async function ExperienceItem({
   experience,
 }: ExpetienceItemViewProps) {
   const { id, nameBusiness, position, place, since, until, current } =
     experience;
-  const functions = await getExperienceFunctions(id);
+  const { data: functions } = await getExperienceFunctions(id);
   return (
     <article className={styles.ExperienceItem + ' special-shadow'}>
       <h3>{nameBusiness}</h3>
@@ -44,7 +45,7 @@ export default async function ExperienceItem({
           )}
         </ul>
       </div>
-      <ExperienceFunctions functions={functions} />
+      <ExperienceFunctions functions={functions as ExperienceFunction[]} />
     </article>
   );
 }
