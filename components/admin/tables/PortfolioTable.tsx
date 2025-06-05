@@ -1,9 +1,10 @@
 'use client';
-import React, { useEffect } from 'react';
-import type { FC } from 'react';
+import React, { useEffect, useState } from 'react';
 
+/* Components */
 import { ButtonView } from '@/components/shared/buttons/ButtonView';
 import { ButtonDelete } from '@/components/shared/buttons/ButtonDelete';
+import { TrDefault } from '@/components/ui/table/TrDefault';
 import { MdiLinkIcon } from '@/components/ui/mdi--link';
 import { MdiLinkOffIcon } from '@/components/ui/mdi--link-off';
 import { SvgLogoGithubIcon } from '@/components/ui/svglogos--github-icon';
@@ -11,27 +12,41 @@ import { SvgLogoGitlabIcon } from '@/components/ui/svglogos--gitlab';
 import { ImageIcon } from '@/components/ui/mdi--image-outline';
 import { ImageOffIcon } from '@/components/ui/mdi--image-off-outline';
 
+/* Store */
 import { useWorkStore } from '@/store/usePortfolioStore';
 
+/* Services */
 import { deleteWork } from '@/core/services/work.service';
 import deleteImage from '@/helpers/deleteImages';
 
+/* Types */
+import { RequestStatus } from '@/core/types/RequestStatus.type';
+
+/* Styles */
 import styles from '@/styles/tablets.module.css';
 
 export function PortfolioTable() {
   const { works, total, getWorks, currentPage, currentPageSize } =
     useWorkStore();
+  const [requestStatus, setRequestStatus] = useState<RequestStatus>('init');
 
   const bucketName = 'works';
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    getWorks();
+    fetchData();
   }, []);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    getWorks();
+    fetchData();
   }, [currentPage, currentPageSize]);
+
+  const fetchData = () => {
+    setRequestStatus('loading');
+    getWorks()
+      .then(() => setRequestStatus('success'))
+      .catch(() => setRequestStatus('failed'));
+  };
 
   const columns = [
     { title: 'Order', classes: 'text-left' },
@@ -70,7 +85,6 @@ export function PortfolioTable() {
         <thead>
           <tr>
             {columns.map((column, index) => (
-              // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
               <th key={index} className={column.classes}>
                 {column.title}
               </th>
@@ -79,57 +93,63 @@ export function PortfolioTable() {
           </tr>
         </thead>
         <tbody>
-          {works.map((work, index) => (
-            // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-            <tr key={index}>
-              <td className='text-left'>{work.order}</td>
-              <td className='text-left'>{work.title}</td>
-              <td className='text-center max-sm:hidden'>
-                {work.url ? (
-                  <MdiLinkIcon className='text-primary inline' />
-                ) : (
-                  <MdiLinkOffIcon className='text-secondary inline' />
-                )}
-              </td>
-              <td className='text-center max-sm:hidden'>
-                {work.repoUrl ? (
-                  <MdiLinkIcon className='text-primary inline' />
-                ) : (
-                  <MdiLinkOffIcon className='text-secondary inline' />
-                )}
-              </td>
-              <td className='text-center max-md:hidden'>
-                {work.originRepo === 'Github' ? (
-                  <SvgLogoGithubIcon className='size-6 inline' />
-                ) : (
-                  <SvgLogoGitlabIcon className='size-6 inline' />
-                )}
-              </td>
-              <td className='text-center max-lg:hidden'>
-                {work.publicRepo ? <span>Yes</span> : <span>No</span>}
-              </td>
-              <td className='text-center max-lg:hidden'>
-                {work.image ? (
-                  <ImageIcon className='text-primary inline' />
-                ) : (
-                  <ImageOffIcon className='text-secondary inline' />
-                )}
-              </td>
-              <td className='text-left max-xl:hidden'>{work.status}</td>
-              <td className='text-left max-2xl:hidden'>{work.technologies}</td>
-              <td className={styles.AdminTable__actions}>
-                <ButtonView
-                  url={`/admin/portfolio/details/${work.id}`}
-                  title={`View ${work.title} details`}
-                />
-                <ButtonDelete
-                  id={work.id}
-                  deleteFunction={() => handleDelete(work.id, work.image)}
-                  title={`Delete ${work.title}`}
-                />{' '}
-              </td>
-            </tr>
-          ))}
+          {requestStatus === 'success' && (
+            works.map((work) => (
+              <tr key={work.id}>
+                <td className='text-left'>{work.order}</td>
+                <td className='text-left'>{work.title}</td>
+                <td className='text-center max-sm:hidden'>
+                  {work.url ? (
+                    <MdiLinkIcon className='text-primary inline' />
+                  ) : (
+                    <MdiLinkOffIcon className='text-secondary inline' />
+                  )}
+                </td>
+                <td className='text-center max-sm:hidden'>
+                  {work.repoUrl ? (
+                    <MdiLinkIcon className='text-primary inline' />
+                  ) : (
+                    <MdiLinkOffIcon className='text-secondary inline' />
+                  )}
+                </td>
+                <td className='text-center max-md:hidden'>
+                  {work.originRepo === 'Github' ? (
+                    <SvgLogoGithubIcon className='size-6 inline' />
+                  ) : (
+                    <SvgLogoGitlabIcon className='size-6 inline' />
+                  )}
+                </td>
+                <td className='text-center max-lg:hidden'>
+                  {work.publicRepo ? <span>Yes</span> : <span>No</span>}
+                </td>
+                <td className='text-center max-lg:hidden'>
+                  {work.image ? (
+                    <ImageIcon className='text-primary inline' />
+                  ) : (
+                    <ImageOffIcon className='text-secondary inline' />
+                  )}
+                </td>
+                <td className='text-left max-xl:hidden'>{work.status}</td>
+                <td className='text-left max-2xl:hidden'>{work.technologies}</td>
+                <td className={styles.AdminTable__actions}>
+                  <ButtonView
+                    url={`/admin/portfolio/details/${work.id}`}
+                    title={`View ${work.title} details`}
+                  />
+                  <ButtonDelete
+                    id={work.id}
+                    deleteFunction={() => handleDelete(work.id, work.image)}
+                    title={`Delete ${work.title}`}
+                  />{' '}
+                </td>
+              </tr>
+            ))
+          )}
+          <TrDefault
+          total={total}
+          columns={columns.length}
+          requestStatus={requestStatus}
+           />
         </tbody>
       </table>
     </div>

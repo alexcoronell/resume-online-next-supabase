@@ -1,29 +1,44 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { FC } from 'react';
 
 import { ButtonView } from '@/components/shared/buttons/ButtonView';
 import { ButtonDelete } from '@/components/shared/buttons/ButtonDelete';
+import { TrDefault } from '@/components/ui/table/TrDefault';
 
+/* Store */
 import { useStudyStore } from '@/store/useStudyStore';
 
+/* Services */
 import { deleteStudy } from '@/core/services/study.service';
 
+/* Types */
+import { RequestStatus } from '@/core/types/RequestStatus.type';
+
+/* Styles */
 import styles from '@/styles/tablets.module.css';
 
 export const StudiesTable: FC = () => {
   const { studies, total, getStudies, currentPage, currentPageSize } =
     useStudyStore();
+  const [requestStatus, setRequestStatus] = useState<RequestStatus>('init');
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    getStudies();
+    fetchData();
   }, []);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    getStudies();
+    fetchData();
   }, [currentPage, currentPageSize]);
+
+  const fetchData = () => {
+    setRequestStatus('loading');
+    getStudies()
+      .then(() => setRequestStatus('success'))
+      .catch(() => setRequestStatus('failed'));
+  };
 
   const columns = [
     { title: 'Title', classes: 'text-left' },
@@ -65,36 +80,35 @@ export const StudiesTable: FC = () => {
           </tr>
         </thead>
         <tbody>
-          {studies.map((study) => (
-            <tr key={study.id}>
-              <td>{study.title}</td>
-              <td className='max-md:hidden'>{study.institute}</td>
-              <td className='max-lg:hidden'>{study.place}</td>
-              <td className='max-xl:hidden text-center'>{study.since}</td>
-              <td className='max-xl:hidden text-center'>{study.until}</td>
-              <td className='max-xl:hidden text-center'>
-                {study.current ? 'Yes' : 'No'}
-              </td>
-              <td className={styles.AdminTable__actions}>
-                <ButtonView
-                  url={`/admin/studies/details/${study.id}`}
-                  title={`View ${study.title} details`}
-                />
-                <ButtonDelete
-                  id={study.id}
-                  deleteFunction={handleDelete}
-                  title={`Delete ${study.title}`}
-                />{' '}
-              </td>
-            </tr>
-          ))}
-          {total === 0 && (
-            <tr>
-              <td colSpan={columns.length + 1} className='text-center'>
-                No studies found
-              </td>
-            </tr>
-          )}
+          {requestStatus === 'success' &&
+            studies.map((study) => (
+              <tr key={study.id}>
+                <td>{study.title}</td>
+                <td className='max-md:hidden'>{study.institute}</td>
+                <td className='max-lg:hidden'>{study.place}</td>
+                <td className='max-xl:hidden text-center'>{study.since}</td>
+                <td className='max-xl:hidden text-center'>{study.until}</td>
+                <td className='max-xl:hidden text-center'>
+                  {study.current ? 'Yes' : 'No'}
+                </td>
+                <td className={styles.AdminTable__actions}>
+                  <ButtonView
+                    url={`/admin/studies/details/${study.id}`}
+                    title={`View ${study.title} details`}
+                  />
+                  <ButtonDelete
+                    id={study.id}
+                    deleteFunction={handleDelete}
+                    title={`Delete ${study.title}`}
+                  />{' '}
+                </td>
+              </tr>
+            ))}
+          <TrDefault
+            total={total}
+            columns={columns.length}
+            requestStatus={requestStatus}
+          />
         </tbody>
       </table>
     </div>

@@ -1,31 +1,45 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { ImageIcon } from '@/components/ui/mdi--image-outline';
-import { ImageOffIcon } from '@/components/ui/mdi--image-off-outline';
+/* Components */
 import { ButtonView } from '@/components/shared/buttons/ButtonView';
 import { ButtonDelete } from '@/components/shared/buttons/ButtonDelete';
+import { TrDefault } from '@/components/ui/table/TrDefault';
 
+/* Store */
 import { useExperienceStore } from '@/store/useExperienceStore';
 
+/* Services */
 import { deleteExperience } from '@/core/services/experience.service';
 import { deleteExperienceFunctionByExperienceId } from '@/core/services/experience-functions.service';
 
+/* Types */
+import { RequestStatus } from '@/core/types/RequestStatus.type';
+
+/* Styles */
 import styles from '@/styles/tablets.module.css';
 
 export function ExperiencesTable() {
   const { experiences, total, getExperiences, currentPage, currentPageSize } =
     useExperienceStore();
+  const [requestStatus, setRequestStatus] = useState<RequestStatus>('init');
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    getExperiences();
+    fetchData();
   }, []);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    getExperiences();
+    fetchData();
   }, [currentPage, currentPageSize]);
+
+  const fetchData = () => {
+    setRequestStatus('loading');
+    getExperiences()
+      .then(() => setRequestStatus('success'))
+      .catch(() => setRequestStatus('failed'));
+  };
 
   const columns = [
     { title: 'Business', classes: 'text-left' },
@@ -63,33 +77,32 @@ export function ExperiencesTable() {
           </tr>
         </thead>
         <tbody>
-          {experiences.map((item) => (
-            <tr key={item.id}>
-              <td>{item.nameBusiness}</td>
-              <td className=''>{item.position}</td>
-              <td className=''>{item.place}</td>
-              <td className=''>{item.since}</td>
-              <td className=''>{item.current ? 'Current' : item.until}</td>
-              <td className={styles.AdminTable__actions}>
-                <ButtonView
-                  url={`/admin/experiences/details/${item.id}`}
-                  title={`View ${item.nameBusiness} details`}
-                />
-                <ButtonDelete
-                  id={item.id}
-                  deleteFunction={handleDelete}
-                  title={`Delete ${item.nameBusiness}`}
-                />{' '}
-              </td>
-            </tr>
-          ))}
-          {total === 0 && (
-            <tr>
-              <td colSpan={columns.length + 1} className='text-center'>
-                No trainings found
-              </td>
-            </tr>
-          )}
+          {requestStatus === 'success' &&
+            experiences.map((item) => (
+              <tr key={item.id}>
+                <td>{item.nameBusiness}</td>
+                <td className=''>{item.position}</td>
+                <td className=''>{item.place}</td>
+                <td className=''>{item.since}</td>
+                <td className=''>{item.current ? 'Current' : item.until}</td>
+                <td className={styles.AdminTable__actions}>
+                  <ButtonView
+                    url={`/admin/experiences/details/${item.id}`}
+                    title={`View ${item.nameBusiness} details`}
+                  />
+                  <ButtonDelete
+                    id={item.id}
+                    deleteFunction={handleDelete}
+                    title={`Delete ${item.nameBusiness}`}
+                  />{' '}
+                </td>
+              </tr>
+            ))}
+          <TrDefault
+            total={total}
+            columns={columns.length}
+            requestStatus={requestStatus}
+          />
         </tbody>
       </table>
     </div>
