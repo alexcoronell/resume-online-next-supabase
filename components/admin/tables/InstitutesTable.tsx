@@ -1,28 +1,44 @@
 'use client';
-import React, { useEffect } from 'react';
-import type { FC } from 'react';
+import React, { useEffect, useState } from 'react';
 
+/* Components */
 import { ButtonView } from '@/components/shared/buttons/ButtonView';
 import { ButtonDelete } from '@/components/shared/buttons/ButtonDelete';
+import { TrDefault } from '@/components/ui/table/TrDefault';
 
+/* Store */
 import { useInstituteStore } from '@/store/useInstituteStore';
 
+/* Services */
 import { deleteInstitute } from '@/core/services/institute.service';
 
+/* Types */
+import { RequestStatus } from '@/core/types/RequestStatus.type';
+
+/* Styles */
 import styles from '@/styles/tablets.module.css';
 
 export function InstitutesTable() {
   const { institutes, total, getInstitutes, currentPage, currentPageSize } =
     useInstituteStore();
+  const [requestStatus, setRequestStatus] = useState<RequestStatus>('init');
+
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    getInstitutes();
+    fetchData();
   }, []);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    getInstitutes();
+    fetchData();
   }, [currentPage, currentPageSize]);
+
+  const fetchData = () => {
+    setRequestStatus('loading');
+    getInstitutes()
+      .then(() => setRequestStatus('success'))
+      .catch(() => setRequestStatus('failed'));
+  };
 
   const columns = [
     { title: 'Name', classes: 'text-left' },
@@ -59,31 +75,30 @@ export function InstitutesTable() {
           </tr>
         </thead>
         <tbody>
-          {institutes.map((institute, index) => (
-            // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-            <tr key={index}>
-              <td className='text-left'>{institute.name}</td>
-              <td className='text-left max-md:hidden'>{institute.url}</td>
-              <td className={styles.AdminTable__actions}>
-                <ButtonView
-                  url={`/admin/institutes/details/${institute.id}`}
-                  title={`View ${institute.name} details`}
-                />
-                <ButtonDelete
-                  id={institute.id}
-                  deleteFunction={handleDelete}
-                  title={`Delete ${institute.name}`}
-                />{' '}
-              </td>
-            </tr>
-          ))}
-          {total === 0 && (
-            <tr>
-              <td colSpan={columns.length + 1} className='text-center'>
-                No institutes found
-              </td>
-            </tr>
-          )}
+          {requestStatus === 'success' &&
+            institutes.map((institute, index) => (
+              // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+              <tr key={index}>
+                <td className='text-left'>{institute.name}</td>
+                <td className='text-left max-md:hidden'>{institute.url}</td>
+                <td className={styles.AdminTable__actions}>
+                  <ButtonView
+                    url={`/admin/institutes/details/${institute.id}`}
+                    title={`View ${institute.name} details`}
+                  />
+                  <ButtonDelete
+                    id={institute.id}
+                    deleteFunction={handleDelete}
+                    title={`Delete ${institute.name}`}
+                  />{' '}
+                </td>
+              </tr>
+            ))}
+          <TrDefault
+            total={total}
+            columns={columns.length}
+            requestStatus={requestStatus}
+          />
         </tbody>
       </table>
     </div>
