@@ -1,30 +1,46 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
+/* Components */
 import { ImageIcon } from '@/components/ui/mdi--image-outline';
 import { ImageOffIcon } from '@/components/ui/mdi--image-off-outline';
 import { ButtonView } from '@/components/shared/buttons/ButtonView';
 import { ButtonDelete } from '@/components/shared/buttons/ButtonDelete';
+import { TrDefault } from '@/components/ui/table/TrDefault';
 
+/* Store */
 import { useTrainingStore } from '@/store/useTrainingStore';
 
+/* Services */
 import { deleteTraining } from '@/core/services/training.service';
 
+/* Types */
+import { RequestStatus } from '@/core/types/RequestStatus.type';
+
+/* Styles */
 import styles from '@/styles/tablets.module.css';
 
 export function TrainingsTable() {
   const { trainings, total, getTrainings, currentPage, currentPageSize } =
     useTrainingStore();
+  const [requestStatus, setRequestStatus] = useState<RequestStatus>('init');
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    getTrainings();
+    fetchData();
   }, []);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    getTrainings();
+    fetchData();
   }, [currentPage, currentPageSize]);
+
+  const fetchData = () => {
+    setRequestStatus('loading');
+    getTrainings()
+      .then(() => setRequestStatus('success'))
+      .catch(() => setRequestStatus('failed'));
+  };
 
   const columns = [
     { title: 'Title', classes: 'text-left' },
@@ -64,40 +80,39 @@ export function TrainingsTable() {
           </tr>
         </thead>
         <tbody>
-          {trainings.map((item) => (
-            <tr key={item.id}>
-              <td>{item.title}</td>
-              <td className=''>{item.institute.name}</td>
-              <td className=''>
-                {item.year}/{item.month}
-              </td>
-              <td className='text-center'>
-                {item.image ? (
-                  <ImageIcon className='text-primary inline' />
-                ) : (
-                  <ImageOffIcon className='text-secondary inline' />
-                )}
-              </td>
-              <td className={styles.AdminTable__actions}>
-                <ButtonView
-                  url={`/admin/trainings/details/${item.id}`}
-                  title={`View ${item.title} details`}
-                />
-                <ButtonDelete
-                  id={item.id}
-                  deleteFunction={handleDelete}
-                  title={`Delete ${item.title}`}
-                />{' '}
-              </td>
-            </tr>
-          ))}
-          {total === 0 && (
-            <tr>
-              <td colSpan={columns.length + 1} className='text-center'>
-                No trainings found
-              </td>
-            </tr>
-          )}
+          {requestStatus === 'success' &&
+            trainings.map((item) => (
+              <tr key={item.id}>
+                <td>{item.title}</td>
+                <td className=''>{item.institute.name}</td>
+                <td className=''>
+                  {item.year}/{item.month}
+                </td>
+                <td className='text-center'>
+                  {item.image ? (
+                    <ImageIcon className='text-primary inline' />
+                  ) : (
+                    <ImageOffIcon className='text-secondary inline' />
+                  )}
+                </td>
+                <td className={styles.AdminTable__actions}>
+                  <ButtonView
+                    url={`/admin/trainings/details/${item.id}`}
+                    title={`View ${item.title} details`}
+                  />
+                  <ButtonDelete
+                    id={item.id}
+                    deleteFunction={handleDelete}
+                    title={`Delete ${item.title}`}
+                  />{' '}
+                </td>
+              </tr>
+            ))}
+          <TrDefault
+            total={total}
+            columns={columns.length}
+            requestStatus={requestStatus}
+          />
         </tbody>
       </table>
     </div>
