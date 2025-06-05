@@ -1,17 +1,16 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import type { FC } from 'react';
 
 /* Components */
 import { ButtonView } from '@/components/shared/buttons/ButtonView';
 import { ButtonDelete } from '@/components/shared/buttons/ButtonDelete';
+import { TrDefault } from '@/components/ui/table/TrDefault';
 import { MdiLinkIcon } from '@/components/ui/mdi--link';
 import { MdiLinkOffIcon } from '@/components/ui/mdi--link-off';
 import { SvgLogoGithubIcon } from '@/components/ui/svglogos--github-icon';
 import { SvgLogoGitlabIcon } from '@/components/ui/svglogos--gitlab';
 import { ImageIcon } from '@/components/ui/mdi--image-outline';
 import { ImageOffIcon } from '@/components/ui/mdi--image-off-outline';
-import { SvgSpinnnersBarsScale } from '@/components/ui/spinners/svg-spinners--bars-scale';
 
 /* Store */
 import { useWorkStore } from '@/store/usePortfolioStore';
@@ -146,27 +145,11 @@ export function PortfolioTable() {
               </tr>
             ))
           )}
-          {requestStatus === 'loading' && (
-            <tr>
-              <td colSpan={columns.length + 1} className='text-center'>
-                <SvgSpinnnersBarsScale className='text-primary mx-auto size-12' />
-              </td>
-            </tr>
-          )}
-          {total === 0 && requestStatus === 'success' && (
-            <tr>
-              <td colSpan={columns.length + 1} className='text-center'>
-                No trainings found
-              </td>
-            </tr>
-          )}
-          {requestStatus === 'failed' && (
-            <tr>
-              <td colSpan={columns.length + 1} className='text-center text-red'>
-                Error fetching Data
-              </td>
-            </tr>
-          )}
+          <TrDefault
+          total={total}
+          columns={columns.length}
+          requestStatus={requestStatus}
+           />
         </tbody>
       </table>
     </div>
