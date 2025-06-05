@@ -1,6 +1,7 @@
 'use client';
 import { useParams } from 'next/navigation';
 import { InstitutesForm } from '@/components/admin/forms/InstituteForm';
+export const runtime = 'edge';
 
 export default function DetailsInstitutePage() {
   const params = useParams();
