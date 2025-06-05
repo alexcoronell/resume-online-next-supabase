@@ -36,7 +36,16 @@ export function ExperiencesTable() {
   ];
 
   const handleDelete = (id: string) => {
-    alert(id);
+    const res = confirm('Are you sure to delete this training');
+    if (res) {
+      deleteExperience(id)
+        .then(() => deleteExperienceFunctionByExperienceId(id))
+        .then(() => getExperiences())
+        .catch((e) => {
+          console.error(e);
+          alert('Error deleting experience');
+        });
+    }
   };
 
   return (
@@ -60,7 +69,7 @@ export function ExperiencesTable() {
               <td className=''>{item.position}</td>
               <td className=''>{item.place}</td>
               <td className=''>{item.since}</td>
-              <td className=''>{item.current ? "Current" : item.until}</td>
+              <td className=''>{item.current ? 'Current' : item.until}</td>
               <td className={styles.AdminTable__actions}>
                 <ButtonView
                   url={`/admin/experiences/details/${item.id}`}
