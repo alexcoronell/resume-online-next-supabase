@@ -4,7 +4,7 @@ export interface Experience {
     position: string;
     place: string;
     since: string;
-    until: string;
+    until: string | null;
     current: boolean;
     functions?: string[];
   }

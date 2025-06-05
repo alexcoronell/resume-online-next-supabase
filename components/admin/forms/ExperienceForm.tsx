@@ -25,6 +25,7 @@ import {
 import {
   getExperienceFunctions,
   addExperienceFunctions as createExperienceFunctions,
+  deleteExperienceFunction,
 } from '@/core/services/experience-functions.service';
 
 /* DTO's */
@@ -156,7 +157,7 @@ export function ExperiencesForm({ _id = null }: ExperienceFormProps) {
     }
   };
 
-  const deleteExperienceFunction = (options: RemoveOptions) => {
+  const deleteCurrentExperienceFunction = (options: RemoveOptions) => {
     let updatedFunctions = experienceFunctions;
     if (typeof options.indexToRemove === 'number') {
       // Delete by index
@@ -224,6 +225,8 @@ export function ExperiencesForm({ _id = null }: ExperienceFormProps) {
       since: '',
       until: '',
     });
+
+    setExperienceFunctions([]);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -237,9 +240,7 @@ export function ExperiencesForm({ _id = null }: ExperienceFormProps) {
       place: experience.place.trim() === '' ? 'Place is required' : '',
       since: experience.since.trim() === '' ? 'Since Date is required' : '',
       until:
-        experience.until.trim() === '' && !experience.current
-          ? 'Until Date is required'
-          : '',
+        experience.until && !experience.current ? 'Until Date is required' : '',
     };
 
     setErrors(newErrors);
@@ -252,7 +253,7 @@ export function ExperiencesForm({ _id = null }: ExperienceFormProps) {
       position: experience.position,
       place: experience.place,
       since: experience.since,
-      until: experience.current ? '' : experience.until,
+      until: experience.current ? null : experience.until,
       current: experience.current,
     };
     if (statusForm === 'create') {
@@ -274,6 +275,37 @@ export function ExperiencesForm({ _id = null }: ExperienceFormProps) {
         })
         .catch((e) => {
           console.error(e);
+          setRequestStatus('failed');
+        });
+    } else {
+      updateExperience(id as string, dto)
+        .then(() => {
+          if (experienceFunctionsToRemove.length === 0) return;
+          const ids = experienceFunctionsToRemove.map((item) => item.id);
+          deleteExperienceFunction(ids);
+        })
+        .then(() => {
+          if (experienceFunctions.length === 0) return;
+          const filteredFunctions = experienceFunctions.filter(
+            (item) => !item.id
+          );
+          const newFunctions: CreateExperienceFunctionDto[] = filteredFunctions.map(item => ({
+            functionDetail: item.functionDetail,
+            experienceId: id as string
+          }))
+          createExperienceFunctions(newFunctions);
+        })
+        .then(() => {
+          resetForm();
+          setRequestStatus('success');
+          alert('Experience was updated');
+        })
+        .then(() => {
+          getData(id as string);
+        })
+        .catch((e) => {
+          console.error(e);
+          alert('Experience could not be updated');
           setRequestStatus('failed');
         });
     }
@@ -353,7 +385,7 @@ export function ExperiencesForm({ _id = null }: ExperienceFormProps) {
               id='until'
               type='date'
               classes={experience.current ? 'opacity-0' : ''}
-              value={experience.until}
+              value={experience.until as string}
               errorMessage={errors.until}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -402,7 +434,9 @@ export function ExperiencesForm({ _id = null }: ExperienceFormProps) {
                           type='button'
                           className='text-red'
                           onClick={() =>
-                            deleteExperienceFunction({ idToRemove: func.id })
+                            deleteCurrentExperienceFunction({
+                              idToRemove: func.id,
+                            })
                           }
                           disabled={
                             statusForm === 'details' ||
@@ -416,7 +450,9 @@ export function ExperiencesForm({ _id = null }: ExperienceFormProps) {
                           type='button'
                           className='text-red'
                           onClick={() =>
-                            deleteExperienceFunction({ indexToRemove: index })
+                            deleteCurrentExperienceFunction({
+                              indexToRemove: index,
+                            })
                           }
                         >
                           X
