@@ -1,11 +1,11 @@
 /* Components */
-import ExperienceFunctions from "./ExperienceFunctions";
+import ExperienceFunctions from './ExperienceFunctions';
 
 /* Services */
-import getExperienceFunctions from "@/core/services/experience-functions.service";
+import { getExperienceFunctions } from '@/core/services/experience-functions.service';
 
 /* Models */
-import { Experience } from "@/core/models/Experience.interface";
+import { Experience } from '@/core/models/Experience.interface';
 
 /* Props */
 interface ExpetienceItemViewProps {
@@ -13,21 +13,19 @@ interface ExpetienceItemViewProps {
 }
 
 /* Styles */
-import styles from '../styles/experience-item.module.css'
+import styles from '../styles/experience-item.module.css';
 
 export default async function ExperienceItem({
   experience,
 }: ExpetienceItemViewProps) {
   const { id, nameBusiness, position, place, since, until, current } =
     experience;
-const functions = await getExperienceFunctions(id)
+  const functions = await getExperienceFunctions(id);
   return (
     <article className={styles.ExperienceItem + ' special-shadow'}>
       <h3>{nameBusiness}</h3>
       <div className={styles.ExperienceItem__details}>
-        <h5>
-          Position: {position}
-        </h5>
+        <h5>Position: {position}</h5>
         <ul>
           <li>
             <p>Place: {place}</p>

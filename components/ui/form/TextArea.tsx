@@ -1,5 +1,5 @@
 import React from 'react';
-import type { ChangeEvent, FocusEvent } from 'react';
+import type { ChangeEvent, FocusEvent, KeyboardEvent } from 'react';
 
 import type { RequestStatus } from '@/core/types/RequestStatus.type';
 
@@ -14,6 +14,7 @@ interface TextAreaProps {
   errorMessage?: string;
   onChange?: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   onBlur?: (e: FocusEvent<HTMLTextAreaElement>) => void;
+  onKeyUp?: (e: KeyboardEvent<HTMLTextAreaElement>) => void | undefined;
   requestStatus: RequestStatus;
   validField?: boolean;
   readonly?: boolean;
@@ -29,6 +30,7 @@ export function TextArea({
   errorMessage = '',
   onChange,
   onBlur,
+  onKeyUp,
   requestStatus,
   validField = true,
   readonly = false,
@@ -45,6 +47,7 @@ export function TextArea({
           placeholder={placeholder}
           onChange={onChange}
           onBlur={onBlur || onChange}
+          onKeyUp={onKeyUp || undefined}
           disabled={requestStatus === 'loading'}
           readOnly={readonly}
           rows={rows}

@@ -6,47 +6,46 @@ import { ImageOffIcon } from '@/components/ui/mdi--image-off-outline';
 import { ButtonView } from '@/components/shared/buttons/ButtonView';
 import { ButtonDelete } from '@/components/shared/buttons/ButtonDelete';
 
-import { useTrainingStore } from '@/store/useTrainingStore';
+import { useExperienceStore } from '@/store/useExperienceStore';
 
-import { deleteTraining } from '@/core/services/training.service';
+import { deleteExperience } from '@/core/services/experience.service';
+import { deleteExperienceFunctionByExperienceId } from '@/core/services/experience-functions.service';
 
 import styles from '@/styles/tablets.module.css';
 
-export function TrainingsTable() {
-  const { trainings, total, getTrainings, currentPage, currentPageSize } =
-    useTrainingStore();
+export function ExperiencesTable() {
+  const { experiences, total, getExperiences, currentPage, currentPageSize } =
+    useExperienceStore();
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    getTrainings();
+    getExperiences();
   }, []);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    getTrainings();
+    getExperiences();
   }, [currentPage, currentPageSize]);
 
   const columns = [
-    { title: 'Title', classes: 'text-left' },
-    { title: 'Institute', classes: 'text-left' },
-    { title: 'Date', classes: 'text-left' },
-    { title: 'Image', classes: 'text-center' },
+    { title: 'Business', classes: 'text-left' },
+    { title: 'Position', classes: 'text-left' },
+    { title: 'Place', classes: 'text-left' },
+    { title: 'Since', classes: 'text-left' },
+    { title: 'Until', classes: 'text-left' },
   ];
 
   const handleDelete = (id: string) => {
     const res = confirm('Are you sure to delete this training');
     if (res) {
-      deleteTraining(id)
-        .then(() => {
-          alert('Training deleted successfully');
-          getTrainings();
-        })
-        .catch((error) => {
-          console.error('Error deleting training:', error);
-          alert('Error deleting training: ' + error.message);
+      deleteExperience(id)
+        .then(() => deleteExperienceFunctionByExperienceId(id))
+        .then(() => getExperiences())
+        .catch((e) => {
+          console.error(e);
+          alert('Error deleting experience');
         });
     }
-    return;
   };
 
   return (
@@ -64,29 +63,22 @@ export function TrainingsTable() {
           </tr>
         </thead>
         <tbody>
-          {trainings.map((item) => (
+          {experiences.map((item) => (
             <tr key={item.id}>
-              <td>{item.title}</td>
-              <td className=''>{item.institute.name}</td>
-              <td className=''>
-                {item.year}/{item.month}
-              </td>
-              <td className='text-center'>
-                {item.image ? (
-                  <ImageIcon className='text-primary inline' />
-                ) : (
-                  <ImageOffIcon className='text-secondary inline' />
-                )}
-              </td>
+              <td>{item.nameBusiness}</td>
+              <td className=''>{item.position}</td>
+              <td className=''>{item.place}</td>
+              <td className=''>{item.since}</td>
+              <td className=''>{item.current ? 'Current' : item.until}</td>
               <td className={styles.AdminTable__actions}>
                 <ButtonView
-                  url={`/admin/trainings/details/${item.id}`}
-                  title={`View ${item.title} details`}
+                  url={`/admin/experiences/details/${item.id}`}
+                  title={`View ${item.nameBusiness} details`}
                 />
                 <ButtonDelete
                   id={item.id}
                   deleteFunction={handleDelete}
-                  title={`Delete ${item.title}`}
+                  title={`Delete ${item.nameBusiness}`}
                 />{' '}
               </td>
             </tr>
