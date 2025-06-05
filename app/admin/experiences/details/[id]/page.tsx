@@ -9,7 +9,7 @@ export default function DetailsInstitutePage() {
 
   return (
     <div>
-      <ExperiencesForm />
+      <ExperiencesForm _id={id} />
     </div>
   );
 }

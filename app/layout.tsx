@@ -13,8 +13,8 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "CV - Alex Coronell",
-  description: "Fullstack Developer in Angular, NestJS and more",
+  title: "Alex Coronell | Fullstack Developer",
+  description: "Fullstack Developer in Angular, Astro, React, NestJS and more",
 };
 
 export default function RootLayout({
