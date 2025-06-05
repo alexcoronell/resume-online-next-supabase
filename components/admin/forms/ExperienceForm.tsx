@@ -78,7 +78,6 @@ export function ExperiencesForm({ _id = null }: ExperienceFormProps) {
     place: '',
     since: '',
     until: '',
-    current: '',
   });
 
   const [id, setId] = useState<string | null>(null);
@@ -143,7 +142,6 @@ export function ExperiencesForm({ _id = null }: ExperienceFormProps) {
 
   const addExperienceFunction = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     e.preventDefault();
-    console.log(e);
     if (e.key === 'Enter') {
       if (currentExperienceFunction.trim() !== '') {
         const newExperienceFunction: CreateExperienceFunctionDto = {
@@ -153,6 +151,7 @@ export function ExperiencesForm({ _id = null }: ExperienceFormProps) {
         setCurrentExperienceFunction('');
       }
     }
+    console.log(experienceFunctions);
   };
 
   const deleteExperienceFunction = (options: RemoveOptions) => {
@@ -192,7 +191,6 @@ export function ExperiencesForm({ _id = null }: ExperienceFormProps) {
       place: '',
       since: '',
       until: '',
-      current: '',
     });
     setRequestStatus('init');
   };
@@ -209,8 +207,38 @@ export function ExperiencesForm({ _id = null }: ExperienceFormProps) {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(experience);
-    console.log(experienceFunctions);
+    const newErrors = {
+      nameBusiness:
+        experience.nameBusiness.trim() === ''
+          ? 'Name Business is required'
+          : '',
+      position: experience.position.trim() === '' ? 'Position is required' : '',
+      place: experience.place.trim() === '' ? 'Place is required' : '',
+      since: experience.since.trim() === '' ? 'Since Date is required' : '',
+      until:
+        experience.until.trim() === '' && !experience.current
+          ? 'Until Date is required'
+          : '',
+    };
+
+    setErrors(newErrors);
+    if (Object.values(newErrors).some((error) => error !== '')) {
+      return;
+    }
+    setRequestStatus('loading');
+    const dto: CreateExperienceDto | UpdateExperienceDto = {
+      nameBusiness: experience.nameBusiness,
+      position: experience.position,
+      place: experience.place,
+      since: experience.since,
+      until: experience.current ? '' : experience.until,
+      current: experience.current,
+    };
+    if (statusForm === 'create') {
+      addExperience(dto)
+        .then((response) => console.log(response))
+        .catch((e) => console.error(e));
+    }
   };
 
   return (
@@ -286,7 +314,7 @@ export function ExperiencesForm({ _id = null }: ExperienceFormProps) {
               name='until'
               id='until'
               type='date'
-              classes={experience.current ? 'opacity-0' : ""}
+              classes={experience.current ? 'opacity-0' : ''}
               value={experience.until}
               errorMessage={errors.until}
               onChange={handleChange}
