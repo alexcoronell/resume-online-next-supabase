@@ -17,9 +17,9 @@ export function ExperiencesAdmin() {
     totalPages,
     setPage,
   } = useExperienceStore();
-  const createUrl = '/admin/portfolio/create';
+  const createUrl = '/admin/experiences/create';
   return (
-    <div className='PortfolioAdmin'>
+    <div className='ExperiencesAdmin'>
       <HeaderButtons
         createUrl={createUrl}
         refresh={getExperiences}

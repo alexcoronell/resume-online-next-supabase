@@ -1,6 +1,5 @@
 'use client';
 import React, { useEffect } from 'react';
-import type { FC } from 'react';
 
 import { ImageIcon } from '@/components/ui/mdi--image-outline';
 import { ImageOffIcon } from '@/components/ui/mdi--image-off-outline';
