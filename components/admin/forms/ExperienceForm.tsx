@@ -22,6 +22,7 @@ import {
   addExperience,
   updateExperience,
 } from '@/core/services/experience.service';
+import { getExperienceFunctions } from '@/core/services/experience-functions.service';
 
 /* DTO's */
 import {
@@ -66,9 +67,8 @@ export function ExperiencesForm({ _id = null }: ExperienceFormProps) {
   const [experienceFunctions, setExperienceFunctions] = useState<
     ExperienceFunction[]
   >([]);
-  const [experienceFunctionsToRemove, setExperienceFunctionsToRemove] = useState<
-    ExperienceFunction[]
-  >([]);
+  const [experienceFunctionsToRemove, setExperienceFunctionsToRemove] =
+    useState<ExperienceFunction[]>([]);
   const [currentExperienceFunction, setCurrentExperienceFunction] =
     useState('');
 
@@ -91,32 +91,27 @@ export function ExperiencesForm({ _id = null }: ExperienceFormProps) {
     if (_id) {
       setId(_id);
       setStatusForm('details');
-      setTitlePage('Details Study');
-      getExperience(_id);
+      setTitlePage('Details Experience');
+      getData(_id);
     }
   }, []);
 
-  const getExperience = async (id: string) => {
-    setRequestStatus('loading');
-    try {
-      const response = await getExperienceById(id);
-      if (!response || !response.data)
-        throw new Error('Error fetching experience');
-      const experienceData = response.data;
-      setExperience({
-        nameBusiness: experienceData.nameBusiness,
-        position: experienceData.position,
-        place: experienceData.place,
-        since: experienceData.since,
-        until: experienceData.until,
-        current: experienceData.current,
+  const getData = (id: Experience['id']) => {
+    getExperienceById(id)
+      .then((response) => {
+        const { data } = response;
+        setExperience(data);
+        return data.id;
+      })
+      .then(getExperienceFunctions)
+      .then((response) => {
+        const { data } = response;
+        setExperienceFunctions(data as ExperienceFunction[]);
+      })
+      .catch((e) => {
+        console.error('Error fetching Data ', e);
+        alert('Error fetching Data');
       });
-      setRequestStatus('success');
-    } catch (error) {
-      setRequestStatus('failed');
-      alert('Error fetching Experience');
-      console.log(error);
-    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -169,8 +164,13 @@ export function ExperiencesForm({ _id = null }: ExperienceFormProps) {
       );
     } else if (typeof options.idToRemove === 'string') {
       // Delete by ID
-      const experienceToRemove = experienceFunctions.filter(item => item.id === options.idToRemove);
-      setExperienceFunctionsToRemove((prev) => [...prev, ...experienceToRemove]);
+      const experienceToRemove = experienceFunctions.filter(
+        (item) => item.id === options.idToRemove
+      );
+      setExperienceFunctionsToRemove((prev) => [
+        ...prev,
+        ...experienceToRemove,
+      ]);
       updatedFunctions = experienceFunctions.filter(
         (func) => func.id !== options.idToRemove
       );
@@ -185,7 +185,7 @@ export function ExperiencesForm({ _id = null }: ExperienceFormProps) {
   const handleCancelEdit = () => {
     setStatusForm('details');
     setTitlePage('Details Experience');
-    getExperience(id as string);
+    getData(id as string);
     setErrors({
       nameBusiness: '',
       position: '',
@@ -222,7 +222,7 @@ export function ExperiencesForm({ _id = null }: ExperienceFormProps) {
           className='w-full px-2 max-w-[500px] lg:max-w-[950px] lg:grid lg:grid-cols-2 lg:gap-x-6'
         >
           <div className='lg:grid lg:grid-cols-2 lg:gap-x-3'>
-            <h3>Basic Information</h3>
+            <h3 className='mb-0'>Basic Information</h3>
             <Input
               placeholder='Name Bussiness'
               name='nameBusiness'
@@ -270,7 +270,6 @@ export function ExperiencesForm({ _id = null }: ExperienceFormProps) {
             <Input
               placeholder='Since'
               name='since'
-              classes='col-span-2'
               id='since'
               type='date'
               value={experience.since}
@@ -285,9 +284,9 @@ export function ExperiencesForm({ _id = null }: ExperienceFormProps) {
             <Input
               placeholder='Until'
               name='until'
-              classes='col-span-2'
               id='until'
               type='date'
+              classes={experience.current ? 'opacity-0' : ""}
               value={experience.until}
               errorMessage={errors.until}
               onChange={handleChange}
@@ -309,7 +308,7 @@ export function ExperiencesForm({ _id = null }: ExperienceFormProps) {
           </div>
 
           <div>
-            <h3>Functions</h3>
+            <h3 className='mb-4'>Functions</h3>
             <TextArea
               placeholder='Function'
               id='function'
@@ -318,33 +317,40 @@ export function ExperiencesForm({ _id = null }: ExperienceFormProps) {
               onChange={handleChangeCurrentFunction}
               onKeyUp={addExperienceFunction}
               requestStatus={'init'}
+              readonly={statusForm === 'details' || requestStatus === 'loading'}
             />
 
             <div className='pb-6'>
               {experienceFunctions.length === 0 ? (
                 <p>No experience functions.</p>
               ) : (
-                <ul>
+                <ul className='max-h-[300px] border border-primary rounded-2xl p-3 overflow-y-scroll'>
                   {experienceFunctions.map((func, index) => (
                     <li
-                      className='w-full flex items-center justify-between py-1'
+                      className='w-full flex items-center justify-between py-1 gap-x-6 text-sm'
                       key={func.id || index}
                     >
-                      {func.functionDetail} ({!func.id && `New`})
-                      <button
-                        type='button'
-                        className='text-red'
-                        onClick={() =>
-                          deleteExperienceFunction({ indexToRemove: index })
-                        }
-                      >
-                        X
-                      </button>
-                      {func.id && (
+                      {func.functionDetail}
+                      {func.id ? (
                         <button
                           type='button'
+                          className='text-red'
                           onClick={() =>
                             deleteExperienceFunction({ idToRemove: func.id })
+                          }
+                          disabled={
+                            statusForm === 'details' ||
+                            requestStatus === 'loading'
+                          }
+                        >
+                          X
+                        </button>
+                      ) : (
+                        <button
+                          type='button'
+                          className='text-red'
+                          onClick={() =>
+                            deleteExperienceFunction({ indexToRemove: index })
                           }
                         >
                           X

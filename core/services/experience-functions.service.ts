@@ -16,14 +16,12 @@ export const revalidate = 60 * 60 * 24 * 7;
 
 const getExperienceFunctions = async (
   id: Experience["id"]
-): Promise<ExperienceFunction[]> => {
-  const { data } = await supabase
+) => {
+  console.log(id)
+  return await supabase
     .from(tableName)
     .select("*")
     .eq("experienceId", id);
-  const experienceFunctions: ExperienceFunction[] =
-    (await data) as ExperienceFunction[];
-  return await experienceFunctions;
 };
 
 const addExperienceFunctions = async (dto: CreateExperienceFunctionDto[]): Promise<ExperienceFunction[] | null> => {
