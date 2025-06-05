@@ -22,7 +22,10 @@ import {
   addExperience,
   updateExperience,
 } from '@/core/services/experience.service';
-import { getExperienceFunctions } from '@/core/services/experience-functions.service';
+import {
+  getExperienceFunctions,
+  addExperienceFunctions as createExperienceFunctions,
+} from '@/core/services/experience-functions.service';
 
 /* DTO's */
 import {
@@ -151,7 +154,6 @@ export function ExperiencesForm({ _id = null }: ExperienceFormProps) {
         setCurrentExperienceFunction('');
       }
     }
-    console.log(experienceFunctions);
   };
 
   const deleteExperienceFunction = (options: RemoveOptions) => {
@@ -205,6 +207,25 @@ export function ExperiencesForm({ _id = null }: ExperienceFormProps) {
     }
   };
 
+  const resetForm = () => {
+    setExperience({
+      nameBusiness: '',
+      position: '',
+      place: '',
+      since: '',
+      until: '',
+      current: false,
+    });
+
+    setErrors({
+      nameBusiness: '',
+      position: '',
+      place: '',
+      since: '',
+      until: '',
+    });
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newErrors = {
@@ -236,8 +257,25 @@ export function ExperiencesForm({ _id = null }: ExperienceFormProps) {
     };
     if (statusForm === 'create') {
       addExperience(dto)
-        .then((response) => console.log(response))
-        .catch((e) => console.error(e));
+        .then((response) => {
+          if (experienceFunctions.length === 0) return;
+          const { data } = response;
+          const newFunctions: CreateExperienceFunctionDto[] =
+            experienceFunctions.map((item) => ({
+              experienceId: data.id,
+              functionDetail: item.functionDetail,
+            }));
+          createExperienceFunctions(newFunctions);
+        })
+        .then(() => {
+          alert('Experience added');
+          setRequestStatus('success');
+          resetForm();
+        })
+        .catch((e) => {
+          console.error(e);
+          setRequestStatus('failed');
+        });
     }
   };
 

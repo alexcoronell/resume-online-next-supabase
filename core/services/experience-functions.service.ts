@@ -17,7 +17,6 @@ export const revalidate = 60 * 60 * 24 * 7;
 const getExperienceFunctions = async (
   id: Experience["id"]
 ) => {
-  console.log(id)
   return await supabase
     .from(tableName)
     .select("*")
@@ -25,7 +24,7 @@ const getExperienceFunctions = async (
 };
 
 const addExperienceFunctions = async (dto: CreateExperienceFunctionDto[]): Promise<ExperienceFunction[] | null> => {
-  const { data, error } = await supabase.from(tableName).insert([dto]).select();
+  const { data, error } = await supabase.from(tableName).insert(dto).select();
   if (error) {
     console.error("Error adding Expeerience Functions:", error);
     return null;
