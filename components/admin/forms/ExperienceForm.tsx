@@ -240,7 +240,7 @@ export function ExperiencesForm({ _id = null }: ExperienceFormProps) {
       place: experience.place.trim() === '' ? 'Place is required' : '',
       since: experience.since.trim() === '' ? 'Since Date is required' : '',
       until:
-        experience.until && !experience.current ? 'Until Date is required' : '',
+        !experience.until && !experience.current ? 'Until Date is required' : '',
     };
 
     setErrors(newErrors);
