@@ -19,6 +19,8 @@ import { RequestStatus } from '@/core/types/RequestStatus.type';
 
 /* Styles */
 import styles from '@/styles/tablets.module.css';
+import { FlowbiteCloseCircleOutline } from '@/components/ui/FlowbiteCloseCircleOutline';
+import { FlowbiteCheckCircleOutline } from '@/components/ui/FlowbiteCheckCircleOutline';
 
 export function TrainingsTable() {
   const { trainings, total, getTrainings, currentPage, currentPageSize } =
@@ -47,6 +49,7 @@ export function TrainingsTable() {
     { title: 'Institute', classes: 'text-left' },
     { title: 'Date', classes: 'text-left' },
     { title: 'Image', classes: 'text-center' },
+    { title: 'Show', classes: 'text-center' },
   ];
 
   const handleDelete = (id: string) => {
@@ -93,6 +96,13 @@ export function TrainingsTable() {
                     <ImageIcon className='text-primary inline' />
                   ) : (
                     <ImageOffIcon className='text-secondary inline' />
+                  )}
+                </td> 
+                <td className='text-center'>
+                  {item.show ? (
+                    <FlowbiteCheckCircleOutline className="size-[20px] inline text-primary" />
+                  ) : (
+                    <FlowbiteCloseCircleOutline className="size-[20px] inline text-red" />
                   )}
                 </td>
                 <td className={styles.AdminTable__actions}>
