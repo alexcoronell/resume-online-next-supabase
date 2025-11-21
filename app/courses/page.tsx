@@ -19,7 +19,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function Trainings() {
   const supabase = createClient();
-  const { data } = await supabase.from("trainings").select("*, institute(*)").order('created_at', { ascending: false });
+  const { data } = await supabase.from("trainings").select("*, institute(*)").eq('show', true).order('created_at', { ascending: false });
   const trainings: Training[] = await orderByYearAndMonth(data);
   const titlePage = "Courses";
 
