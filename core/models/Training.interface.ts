@@ -8,4 +8,5 @@ export interface Training {
   year: number;
   month?: number;
   image?: string;
+  show?: boolean;
 }

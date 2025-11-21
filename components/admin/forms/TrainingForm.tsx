@@ -52,6 +52,7 @@ export function TrainingForm({ _id = null }: TrainingFormProps) {
     year: 2025,
     month: 1,
     image: '',
+    show: true
   });
 
   const [errors, setErrors] = useState({
@@ -112,13 +113,21 @@ export function TrainingForm({ _id = null }: TrainingFormProps) {
       console.error(error);
       alert('Error fetching training');
       setRequestStatus('failed');
-    }
+    } 
   };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
+    if (e.target.type === 'checkbox') {
+      const checked = e.target.checked;
+      setTraining((prev) => ({
+        ...prev,
+        [name]: checked,
+      }));
+      return;
+    }
     setTraining((prev) => ({
       ...prev,
       [name]: value,
@@ -235,7 +244,8 @@ export function TrainingForm({ _id = null }: TrainingFormProps) {
         institute: training.institute,
         year: training.year,
         month: training.month,
-        image: filePath || training.image
+        image: filePath || training.image,
+        show: training.show
       }
       if (statusForm === 'create') {
         addTraining(dto)
@@ -261,7 +271,6 @@ export function TrainingForm({ _id = null }: TrainingFormProps) {
           .catch((error) => {
             setRequestStatus('failed');
             alert(error.message);
-            console.log(error);
           });
       } else if (statusForm === 'edit') {
         updateTraining(id as string, dto)
@@ -280,7 +289,6 @@ export function TrainingForm({ _id = null }: TrainingFormProps) {
           .catch((error) => {
             setRequestStatus('failed');
             alert('Error updating work');
-            console.log(error);
           });
       }
     } catch (error) {
@@ -365,6 +373,15 @@ export function TrainingForm({ _id = null }: TrainingFormProps) {
             disabled={statusForm === 'details'}
             removeImage={!removeImage ? handleRemoveImage : undefined}
             onChange={handleFileChange}
+          />
+           <InputCheck
+            name='show'
+            placeholder='Show'
+            checked={training.show ?? true}
+            classes='col-span-2'
+            onChange={handleChange}
+            requestStatus={requestStatus}
+            readonly={statusForm === 'details'}
           />
           <div className='col-span-2 grid-cols-2 grid gap-3 w-full max-w-[400px] mx-auto'>
             {statusForm !== 'details' && (
