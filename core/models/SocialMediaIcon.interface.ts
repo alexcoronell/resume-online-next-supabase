@@ -1,5 +1,4 @@
 export interface SocialMediaIcon {
-    name: string;
-    iconClass: string;
-  }
-  
+  name: string
+  iconClass: string
+}

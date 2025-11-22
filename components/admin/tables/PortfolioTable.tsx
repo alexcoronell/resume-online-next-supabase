@@ -1,52 +1,52 @@
-'use client';
-import React, { useEffect, useState } from 'react';
+'use client'
+import React, { useEffect, useState } from 'react'
 
 /* Components */
-import { ButtonView } from '@/components/shared/buttons/ButtonView';
-import { ButtonDelete } from '@/components/shared/buttons/ButtonDelete';
-import { TrDefault } from '@/components/ui/table/TrDefault';
-import { MdiLinkIcon } from '@/components/ui/mdi--link';
-import { MdiLinkOffIcon } from '@/components/ui/mdi--link-off';
-import { SvgLogoGithubIcon } from '@/components/ui/svglogos--github-icon';
-import { SvgLogoGitlabIcon } from '@/components/ui/svglogos--gitlab';
-import { ImageIcon } from '@/components/ui/mdi--image-outline';
-import { ImageOffIcon } from '@/components/ui/mdi--image-off-outline';
+import { ButtonView } from '@/components/shared/buttons/ButtonView'
+import { ButtonDelete } from '@/components/shared/buttons/ButtonDelete'
+import { TrDefault } from '@/components/ui/table/TrDefault'
+import { MdiLinkIcon } from '@/components/ui/mdi--link'
+import { MdiLinkOffIcon } from '@/components/ui/mdi--link-off'
+import { SvgLogoGithubIcon } from '@/components/ui/svglogos--github-icon'
+import { SvgLogoGitlabIcon } from '@/components/ui/svglogos--gitlab'
+import { ImageIcon } from '@/components/ui/mdi--image-outline'
+import { ImageOffIcon } from '@/components/ui/mdi--image-off-outline'
 
 /* Store */
-import { useWorkStore } from '@/store/usePortfolioStore';
+import { useWorkStore } from '@/store/usePortfolioStore'
 
 /* Services */
-import { deleteWork } from '@/core/services/work.service';
-import deleteImage from '@/helpers/deleteImages';
+import { deleteWork } from '@/core/services/work.service'
+import deleteImage from '@/helpers/deleteImages'
 
 /* Types */
-import { RequestStatus } from '@/core/types/RequestStatus.type';
+import { RequestStatus } from '@/core/types/RequestStatus.type'
 
 /* Styles */
-import styles from '@/styles/tablets.module.css';
+import styles from '@/styles/tablets.module.css'
 
 export function PortfolioTable() {
   const { works, total, getWorks, currentPage, currentPageSize } =
-    useWorkStore();
-  const [requestStatus, setRequestStatus] = useState<RequestStatus>('init');
+    useWorkStore()
+  const [requestStatus, setRequestStatus] = useState<RequestStatus>('init')
 
-  const bucketName = 'works';
+  const bucketName = 'works'
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    fetchData();
-  }, [currentPage, currentPageSize]);
+    fetchData()
+  }, [currentPage, currentPageSize])
 
   const fetchData = () => {
-    setRequestStatus('loading');
+    setRequestStatus('loading')
     getWorks()
       .then(() => setRequestStatus('success'))
-      .catch(() => setRequestStatus('failed'));
-  };
+      .catch(() => setRequestStatus('failed'))
+  }
 
   const columns = [
     { title: 'Order', classes: 'text-left' },
@@ -58,27 +58,27 @@ export function PortfolioTable() {
     { title: 'Image', classes: 'text-left max-lg:hidden' },
     { title: 'Status', classes: 'text-left max-xl:hidden' },
     { title: 'Technologies', classes: 'text-left max-2xl:hidden' },
-  ];
+  ]
 
   const handleDelete = (id: string, image: string | null = null) => {
-    const res = confirm('Are you sure to delete this work');
+    const res = confirm('Are you sure to delete this work')
     if (res) {
       deleteWork(id)
         .then(() => {
-          alert('work deleted successfully');
-          getWorks();
+          alert('work deleted successfully')
+          getWorks()
         })
         .then(async () => {
-          const res = await deleteImage(bucketName, image as string);
-          if (!res) alert('Error deleting image');
+          const res = await deleteImage(bucketName, image as string)
+          if (!res) alert('Error deleting image')
         })
-        .catch((error) => {
-          console.error('Error deleting work:', error);
-          alert('Error deleting work: ' + error.message);
-        });
+        .catch(error => {
+          console.error('Error deleting work:', error)
+          alert('Error deleting work: ' + error.message)
+        })
     }
-    return;
-  };
+    return
+  }
   return (
     <div className={styles.AdminTableContainer}>
       <table className={styles.AdminTable}>
@@ -93,44 +93,46 @@ export function PortfolioTable() {
           </tr>
         </thead>
         <tbody>
-          {requestStatus === 'success' && (
-            works.map((work) => (
+          {requestStatus === 'success' &&
+            works.map(work => (
               <tr key={work.id}>
-                <td className='text-left'>{work.order}</td>
-                <td className='text-left'>{work.title}</td>
-                <td className='text-center max-sm:hidden'>
+                <td className="text-left">{work.order}</td>
+                <td className="text-left">{work.title}</td>
+                <td className="text-center max-sm:hidden">
                   {work.url ? (
-                    <MdiLinkIcon className='text-primary inline' />
+                    <MdiLinkIcon className="inline text-primary" />
                   ) : (
-                    <MdiLinkOffIcon className='text-secondary inline' />
+                    <MdiLinkOffIcon className="inline text-secondary" />
                   )}
                 </td>
-                <td className='text-center max-sm:hidden'>
+                <td className="text-center max-sm:hidden">
                   {work.repoUrl ? (
-                    <MdiLinkIcon className='text-primary inline' />
+                    <MdiLinkIcon className="inline text-primary" />
                   ) : (
-                    <MdiLinkOffIcon className='text-secondary inline' />
+                    <MdiLinkOffIcon className="inline text-secondary" />
                   )}
                 </td>
-                <td className='text-center max-md:hidden'>
+                <td className="text-center max-md:hidden">
                   {work.originRepo === 'Github' ? (
-                    <SvgLogoGithubIcon className='size-6 inline' />
+                    <SvgLogoGithubIcon className="inline size-6" />
                   ) : (
-                    <SvgLogoGitlabIcon className='size-6 inline' />
+                    <SvgLogoGitlabIcon className="inline size-6" />
                   )}
                 </td>
-                <td className='text-center max-lg:hidden'>
+                <td className="text-center max-lg:hidden">
                   {work.publicRepo ? <span>Yes</span> : <span>No</span>}
                 </td>
-                <td className='text-center max-lg:hidden'>
+                <td className="text-center max-lg:hidden">
                   {work.image ? (
-                    <ImageIcon className='text-primary inline' />
+                    <ImageIcon className="inline text-primary" />
                   ) : (
-                    <ImageOffIcon className='text-secondary inline' />
+                    <ImageOffIcon className="inline text-secondary" />
                   )}
                 </td>
-                <td className='text-left max-xl:hidden'>{work.status}</td>
-                <td className='text-left max-2xl:hidden'>{work.technologies}</td>
+                <td className="text-left max-xl:hidden">{work.status}</td>
+                <td className="text-left max-2xl:hidden">
+                  {work.technologies}
+                </td>
                 <td className={styles.AdminTable__actions}>
                   <ButtonView
                     url={`/admin/portfolio/details/${work.id}`}
@@ -143,15 +145,14 @@ export function PortfolioTable() {
                   />{' '}
                 </td>
               </tr>
-            ))
-          )}
+            ))}
           <TrDefault
-          total={total}
-          columns={columns.length}
-          requestStatus={requestStatus}
-           />
+            total={total}
+            columns={columns.length}
+            requestStatus={requestStatus}
+          />
         </tbody>
       </table>
     </div>
-  );
+  )
 }

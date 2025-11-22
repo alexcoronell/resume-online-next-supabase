@@ -1,1 +1,1 @@
-export type OriginRepo = 'Github' | 'GitLab' | 'Bitbucket' | 'Other' | 'none';
+export type OriginRepo = 'Github' | 'GitLab' | 'Bitbucket' | 'Other' | 'none'

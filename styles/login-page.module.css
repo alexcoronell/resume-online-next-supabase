@@ -1,3 +1,3 @@
 .LoginPage {
-    @apply w-full h-full flex items-center justify-center;
+  @apply flex h-full w-full items-center justify-center;
 }

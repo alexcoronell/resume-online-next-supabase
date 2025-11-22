@@ -1,10 +1,10 @@
-'use client';
-import { HeaderButtons } from '@/components/shared/admin/header-buttons';
-import { TotalItems } from '@/components/shared/admin/totalItems';
-import { FooterPagination } from '@/components/shared/admin/FooterPagination';
-import { useWorkStore } from '@/store/usePortfolioStore';
+'use client'
+import { HeaderButtons } from '@/components/shared/admin/header-buttons'
+import { TotalItems } from '@/components/shared/admin/totalItems'
+import { FooterPagination } from '@/components/shared/admin/FooterPagination'
+import { useWorkStore } from '@/store/usePortfolioStore'
 
-import { PortfolioTable } from '@/components/admin/tables/PortfolioTable';
+import { PortfolioTable } from '@/components/admin/tables/PortfolioTable'
 export function PortfolioAdmin() {
   const {
     getWorks,
@@ -14,10 +14,10 @@ export function PortfolioAdmin() {
     currentPage,
     totalPages,
     setPage,
-  } = useWorkStore();
-  const createUrl = '/admin/portfolio/create';
+  } = useWorkStore()
+  const createUrl = '/admin/portfolio/create'
   return (
-    <div className='PortfolioAdmin'>
+    <div className="PortfolioAdmin">
       <HeaderButtons
         createUrl={createUrl}
         refresh={getWorks}
@@ -32,5 +32,5 @@ export function PortfolioAdmin() {
         setPage={setPage}
       />
     </div>
-  );
+  )
 }

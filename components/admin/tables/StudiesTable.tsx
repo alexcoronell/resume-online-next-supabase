@@ -1,44 +1,44 @@
-'use client';
-import React, { useEffect, useState } from 'react';
-import type { FC } from 'react';
+'use client'
+import React, { useEffect, useState } from 'react'
+import type { FC } from 'react'
 
-import { ButtonView } from '@/components/shared/buttons/ButtonView';
-import { ButtonDelete } from '@/components/shared/buttons/ButtonDelete';
-import { TrDefault } from '@/components/ui/table/TrDefault';
+import { ButtonView } from '@/components/shared/buttons/ButtonView'
+import { ButtonDelete } from '@/components/shared/buttons/ButtonDelete'
+import { TrDefault } from '@/components/ui/table/TrDefault'
 
 /* Store */
-import { useStudyStore } from '@/store/useStudyStore';
+import { useStudyStore } from '@/store/useStudyStore'
 
 /* Services */
-import { deleteStudy } from '@/core/services/study.service';
+import { deleteStudy } from '@/core/services/study.service'
 
 /* Types */
-import { RequestStatus } from '@/core/types/RequestStatus.type';
+import { RequestStatus } from '@/core/types/RequestStatus.type'
 
 /* Styles */
-import styles from '@/styles/tablets.module.css';
+import styles from '@/styles/tablets.module.css'
 
 export const StudiesTable: FC = () => {
   const { studies, total, getStudies, currentPage, currentPageSize } =
-    useStudyStore();
-  const [requestStatus, setRequestStatus] = useState<RequestStatus>('init');
+    useStudyStore()
+  const [requestStatus, setRequestStatus] = useState<RequestStatus>('init')
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    fetchData();
-  }, [currentPage, currentPageSize]);
+    fetchData()
+  }, [currentPage, currentPageSize])
 
   const fetchData = () => {
-    setRequestStatus('loading');
+    setRequestStatus('loading')
     getStudies()
       .then(() => setRequestStatus('success'))
-      .catch(() => setRequestStatus('failed'));
-  };
+      .catch(() => setRequestStatus('failed'))
+  }
 
   const columns = [
     { title: 'Title', classes: 'text-left' },
@@ -47,23 +47,23 @@ export const StudiesTable: FC = () => {
     { title: 'Since', classes: 'text-center max-xl:hidden' },
     { title: 'Until', classes: 'text-center max-xl:hidden' },
     { title: 'Current', classes: 'text-center max-xl:hidden' },
-  ];
+  ]
 
   const handleDelete = (id: string) => {
-    const res = confirm('Are you sure to delete this study');
+    const res = confirm('Are you sure to delete this study')
     if (res) {
       deleteStudy(id)
         .then(() => {
-          alert('Study deleted successfully');
-          getStudies();
+          alert('Study deleted successfully')
+          getStudies()
         })
-        .catch((error) => {
-          console.error('Error deleting study:', error);
-          alert('Error deleting study: ' + error.message);
-        });
+        .catch(error => {
+          console.error('Error deleting study:', error)
+          alert('Error deleting study: ' + error.message)
+        })
     }
-    return;
-  };
+    return
+  }
 
   return (
     <div className={styles.AdminTableContainer}>
@@ -81,14 +81,14 @@ export const StudiesTable: FC = () => {
         </thead>
         <tbody>
           {requestStatus === 'success' &&
-            studies.map((study) => (
+            studies.map(study => (
               <tr key={study.id}>
                 <td>{study.title}</td>
-                <td className='max-md:hidden'>{study.institute}</td>
-                <td className='max-lg:hidden'>{study.place}</td>
-                <td className='max-xl:hidden text-center'>{study.since}</td>
-                <td className='max-xl:hidden text-center'>{study.until}</td>
-                <td className='max-xl:hidden text-center'>
+                <td className="max-md:hidden">{study.institute}</td>
+                <td className="max-lg:hidden">{study.place}</td>
+                <td className="text-center max-xl:hidden">{study.since}</td>
+                <td className="text-center max-xl:hidden">{study.until}</td>
+                <td className="text-center max-xl:hidden">
                   {study.current ? 'Yes' : 'No'}
                 </td>
                 <td className={styles.AdminTable__actions}>
@@ -112,5 +112,5 @@ export const StudiesTable: FC = () => {
         </tbody>
       </table>
     </div>
-  );
-};
+  )
+}

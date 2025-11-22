@@ -1,27 +1,27 @@
 /* Components */
-import ExperienceFunctions from './ExperienceFunctions';
+import ExperienceFunctions from './ExperienceFunctions'
 
 /* Services */
-import { getExperienceFunctions } from '@/core/services/experience-functions.service';
+import { getExperienceFunctions } from '@/core/services/experience-functions.service'
 
 /* Models */
-import { Experience } from '@/core/models/Experience.interface';
-import { ExperienceFunction } from '@/core/models/ExperienceFunction';
+import { Experience } from '@/core/models/Experience.interface'
+import { ExperienceFunction } from '@/core/models/ExperienceFunction'
 
 /* Props */
 interface ExpetienceItemViewProps {
-  experience: Experience;
+  experience: Experience
 }
 
 /* Styles */
-import styles from '@/styles/experience-item.module.css';
+import styles from '@/styles/experience-item.module.css'
 
 export default async function ExperienceItem({
   experience,
 }: ExpetienceItemViewProps) {
   const { id, nameBusiness, position, place, since, until, current } =
-    experience;
-  const { data: functions } = await getExperienceFunctions(id);
+    experience
+  const { data: functions } = await getExperienceFunctions(id)
   return (
     <article className={styles.ExperienceItem + ' special-shadow'}>
       <h3>{nameBusiness}</h3>
@@ -47,5 +47,5 @@ export default async function ExperienceItem({
       </div>
       <ExperienceFunctions functions={functions as ExperienceFunction[]} />
     </article>
-  );
+  )
 }

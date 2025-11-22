@@ -1,23 +1,23 @@
-import React from 'react';
-import type { ChangeEvent, FocusEvent } from 'react';
+import React from 'react'
+import type { ChangeEvent, FocusEvent } from 'react'
 
-import type { RequestStatus } from '@/core/types/RequestStatus.type';
+import type { RequestStatus } from '@/core/types/RequestStatus.type'
 
-import styles from "@/styles/form-group.module.css";
+import styles from '@/styles/form-group.module.css'
 
 interface InputProps {
-  placeholder: string;
-  name: string;
-  id: string;
-  type?: string;
-  value: string | number;
+  placeholder: string
+  name: string
+  id: string
+  type?: string
+  value: string | number
   classes?: string
-  errorMessage?: string;
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
-  onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
-  requestStatus: RequestStatus;
-  validField?: boolean;
-  readonly?: boolean;
+  errorMessage?: string
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void
+  onBlur?: (e: FocusEvent<HTMLInputElement>) => void
+  requestStatus: RequestStatus
+  validField?: boolean
+  readonly?: boolean
 }
 
 export function Input({
@@ -51,9 +51,9 @@ export function Input({
         />
         <span>{placeholder}</span>
       </label>
-      <p className={`text-xs absolute text-red ${!validField ? '' : 'hidden'}`}>
+      <p className={`absolute text-xs text-red ${!validField ? '' : 'hidden'}`}>
         {errorMessage}
       </p>
     </div>
-  );
+  )
 }

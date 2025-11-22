@@ -1,48 +1,48 @@
-'use client';
-import React, { useEffect, useState } from 'react';
+'use client'
+import React, { useEffect, useState } from 'react'
 
 /* Components */
-import { ImageIcon } from '@/components/ui/mdi--image-outline';
-import { ImageOffIcon } from '@/components/ui/mdi--image-off-outline';
-import { ButtonView } from '@/components/shared/buttons/ButtonView';
-import { ButtonDelete } from '@/components/shared/buttons/ButtonDelete';
-import { TrDefault } from '@/components/ui/table/TrDefault';
+import { ImageIcon } from '@/components/ui/mdi--image-outline'
+import { ImageOffIcon } from '@/components/ui/mdi--image-off-outline'
+import { ButtonView } from '@/components/shared/buttons/ButtonView'
+import { ButtonDelete } from '@/components/shared/buttons/ButtonDelete'
+import { TrDefault } from '@/components/ui/table/TrDefault'
 
 /* Store */
-import { useTrainingStore } from '@/store/useTrainingStore';
+import { useTrainingStore } from '@/store/useTrainingStore'
 
 /* Services */
-import { deleteTraining } from '@/core/services/training.service';
+import { deleteTraining } from '@/core/services/training.service'
 
 /* Types */
-import { RequestStatus } from '@/core/types/RequestStatus.type';
+import { RequestStatus } from '@/core/types/RequestStatus.type'
 
 /* Styles */
-import styles from '@/styles/tablets.module.css';
-import { FlowbiteCloseCircleOutline } from '@/components/ui/FlowbiteCloseCircleOutline';
-import { FlowbiteCheckCircleOutline } from '@/components/ui/FlowbiteCheckCircleOutline';
+import styles from '@/styles/tablets.module.css'
+import { FlowbiteCloseCircleOutline } from '@/components/ui/FlowbiteCloseCircleOutline'
+import { FlowbiteCheckCircleOutline } from '@/components/ui/FlowbiteCheckCircleOutline'
 
 export function TrainingsTable() {
   const { trainings, total, getTrainings, currentPage, currentPageSize } =
-    useTrainingStore();
-  const [requestStatus, setRequestStatus] = useState<RequestStatus>('init');
+    useTrainingStore()
+  const [requestStatus, setRequestStatus] = useState<RequestStatus>('init')
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    fetchData();
-  }, [currentPage, currentPageSize]);
+    fetchData()
+  }, [currentPage, currentPageSize])
 
   const fetchData = () => {
-    setRequestStatus('loading');
+    setRequestStatus('loading')
     getTrainings()
       .then(() => setRequestStatus('success'))
-      .catch(() => setRequestStatus('failed'));
-  };
+      .catch(() => setRequestStatus('failed'))
+  }
 
   const columns = [
     { title: 'Title', classes: 'text-left' },
@@ -50,23 +50,23 @@ export function TrainingsTable() {
     { title: 'Date', classes: 'text-left' },
     { title: 'Image', classes: 'text-center' },
     { title: 'Show', classes: 'text-center' },
-  ];
+  ]
 
   const handleDelete = (id: string) => {
-    const res = confirm('Are you sure to delete this training');
+    const res = confirm('Are you sure to delete this training')
     if (res) {
       deleteTraining(id)
         .then(() => {
-          alert('Training deleted successfully');
-          getTrainings();
+          alert('Training deleted successfully')
+          getTrainings()
         })
-        .catch((error) => {
-          console.error('Error deleting training:', error);
-          alert('Error deleting training: ' + error.message);
-        });
+        .catch(error => {
+          console.error('Error deleting training:', error)
+          alert('Error deleting training: ' + error.message)
+        })
     }
-    return;
-  };
+    return
+  }
 
   return (
     <div className={styles.AdminTableContainer}>
@@ -84,25 +84,25 @@ export function TrainingsTable() {
         </thead>
         <tbody>
           {requestStatus === 'success' &&
-            trainings.map((item) => (
+            trainings.map(item => (
               <tr key={item.id}>
                 <td>{item.title}</td>
-                <td className=''>{item.institute.name}</td>
-                <td className=''>
+                <td className="">{item.institute.name}</td>
+                <td className="">
                   {item.year}/{item.month}
                 </td>
-                <td className='text-center'>
+                <td className="text-center">
                   {item.image ? (
-                    <ImageIcon className='text-primary inline' />
+                    <ImageIcon className="inline text-primary" />
                   ) : (
-                    <ImageOffIcon className='text-secondary inline' />
+                    <ImageOffIcon className="inline text-secondary" />
                   )}
-                </td> 
-                <td className='text-center'>
+                </td>
+                <td className="text-center">
                   {item.show ? (
-                    <FlowbiteCheckCircleOutline className="size-[20px] inline text-primary" />
+                    <FlowbiteCheckCircleOutline className="inline size-[20px] text-primary" />
                   ) : (
-                    <FlowbiteCloseCircleOutline className="size-[20px] inline text-red" />
+                    <FlowbiteCloseCircleOutline className="inline size-[20px] text-red" />
                   )}
                 </td>
                 <td className={styles.AdminTable__actions}>
@@ -126,5 +126,5 @@ export function TrainingsTable() {
         </tbody>
       </table>
     </div>
-  );
+  )
 }

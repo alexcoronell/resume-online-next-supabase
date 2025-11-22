@@ -1,16 +1,16 @@
-import React from "react";
-import styles from "@/styles/form-group.module.css";
+import React from 'react'
+import styles from '@/styles/form-group.module.css'
 
 interface SelectProps {
-  name: string;
-  placeholder?: string;
-  value: string | number | null;
-  options: { value: string | number; label: string }[] | string[];
-  disabled?: boolean;
-  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-  classes?: string;
-  required?: boolean;
-  errorMessage?: string;
+  name: string
+  placeholder?: string
+  value: string | number | null
+  options: { value: string | number; label: string }[] | string[]
+  disabled?: boolean
+  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void
+  classes?: string
+  required?: boolean
+  errorMessage?: string
 }
 
 export function InputSelect({
@@ -22,24 +22,23 @@ export function InputSelect({
   required = false,
   onChange,
   classes,
-  errorMessage = "",
+  errorMessage = '',
 }: SelectProps) {
-  let finalOptions: { value: string | number; label: string }[] = [];
+  let finalOptions: { value: string | number; label: string }[] = []
 
   if (
     Array.isArray(options) &&
-    typeof options[0] === "object" &&
+    typeof options[0] === 'object' &&
     options[0] !== null &&
-    "value" in options[0] &&
-    "label" in options[0]
+    'value' in options[0] &&
+    'label' in options[0]
   ) {
-    finalOptions = options as { value: string | number; label: string }[];
+    finalOptions = options as { value: string | number; label: string }[]
   } else if (Array.isArray(options)) {
-    finalOptions = (options as string[]).map((item) => ({
+    finalOptions = (options as string[]).map(item => ({
       value: item,
       label: item,
-    }));
-
+    }))
   }
   return (
     <div className={`${styles.formgroup} ${classes}`.trim()}>
@@ -58,7 +57,7 @@ export function InputSelect({
               {placeholder}
             </option>
           )}
-          {finalOptions.map((option) => (
+          {finalOptions.map(option => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>
@@ -66,7 +65,7 @@ export function InputSelect({
         </select>
         <span>{placeholder}</span>
       </label>
-      <p className={`text-xs absolute text-red`}>{errorMessage}</p>
+      <p className={`absolute text-xs text-red`}>{errorMessage}</p>
     </div>
-  );
+  )
 }

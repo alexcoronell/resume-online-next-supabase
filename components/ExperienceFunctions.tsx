@@ -1,26 +1,26 @@
-"use client";
-import { useState } from "react";
+'use client'
+import { useState } from 'react'
 
 /* Component */
-import { MajesticonsClose } from "./ui/MajesticonsClose";
+import { MajesticonsClose } from './ui/MajesticonsClose'
 
 /* Models */
-import { ExperienceFunction } from "@/core/models/ExperienceFunction";
+import { ExperienceFunction } from '@/core/models/ExperienceFunction'
 
 /* Props */
 interface ExperienceFunctionViewProps {
-  functions: ExperienceFunction[];
+  functions: ExperienceFunction[]
 }
 
 /* Styles */
-import styles from "../styles/experience-functions.module.css";
+import styles from '../styles/experience-functions.module.css'
 
 export default function ExperienceFunctions({
   functions,
 }: ExperienceFunctionViewProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const functionItems = functions;
-  const handleClick = (open: boolean) => setIsOpen(open);
+  const [isOpen, setIsOpen] = useState(false)
+  const functionItems = functions
+  const handleClick = (open: boolean) => setIsOpen(open)
 
   return (
     <div className={styles.ExperienceFunctions}>
@@ -28,9 +28,15 @@ export default function ExperienceFunctions({
         Functions
       </button>
       {isOpen && (
-        <div className={`${isOpen ? "opacity-100" : "opacity-0"} ${styles.ExperienceFunctions__fixedBox}`}>
+        <div
+          className={`${isOpen ? 'opacity-100' : 'opacity-0'} ${styles.ExperienceFunctions__fixedBox}`}
+        >
           <div className={styles.ExperienceFunctions__subBox}>
-            <div className={styles.ExperienceFunctions__contentBox + ' special-shadow'}>
+            <div
+              className={
+                styles.ExperienceFunctions__contentBox + ' special-shadow'
+              }
+            >
               <div className={styles.ExperienceFunctions__closeButtonTopBox}>
                 <button onClick={() => handleClick(false)}>
                   <MajesticonsClose className="size-8 text-primary" />
@@ -39,7 +45,7 @@ export default function ExperienceFunctions({
               <h4>Functions</h4>
               <div className={styles.ExperienceFunctions__details}>
                 <ul>
-                  {functions.map((item) => (
+                  {functions.map(item => (
                     <li className="mb-3" key={item.id}>
                       {item.functionDetail}
                     </li>
@@ -59,5 +65,5 @@ export default function ExperienceFunctions({
         </div>
       )}
     </div>
-  );
+  )
 }

@@ -1,10 +1,10 @@
-import Link from 'next/link';
-import SectionPage from '@/components/SectionPage';
+import Link from 'next/link'
+import SectionPage from '@/components/SectionPage'
 
-import styles from '../../styles/admin-page.module.css';
+import styles from '../../styles/admin-page.module.css'
 
 export default async function AdminPage() {
-  const titlePage = 'Admin menu';
+  const titlePage = 'Admin menu'
   const menu = [
     { title: 'Profile', url: '/admin/profile' },
     { title: 'Portfolio', url: '/admin/portfolio' },
@@ -14,11 +14,11 @@ export default async function AdminPage() {
     { title: 'Experiences', url: '/admin/experiences' },
     { title: 'Contact', url: '/admin/contact' },
     { title: 'Pages', url: '/admin/pages' },
-  ];
+  ]
   return (
     <SectionPage titlePage={titlePage}>
       <main className={styles.AdminPage}>
-        <nav className={styles.AdminPage__nav} >
+        <nav className={styles.AdminPage__nav}>
           <ul className={styles.AdminPage__list}>
             {menu.map((item, index) => (
               // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
@@ -32,5 +32,5 @@ export default async function AdminPage() {
         </nav>
       </main>
     </SectionPage>
-  );
+  )
 }

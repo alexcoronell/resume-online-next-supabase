@@ -1,26 +1,26 @@
-import Image from "next/image";
+import Image from 'next/image'
 
 /* Components */
-import SkillItem from "./SkillItem";
+import SkillItem from './SkillItem'
 
 /* Helpers */
-import getimageUrl from "@/helpers/getImagesUrl";
+import getimageUrl from '@/helpers/getImagesUrl'
 
 /* Models */
-import { Work } from "@/core/models/Work.interface";
+import { Work } from '@/core/models/Work.interface'
 
 /* Blur Data */
-import { blurDataWork } from "@/core/data/blurData";
+import { blurDataWork } from '@/core/data/blurData'
 
 /* Styles */
-import styles from "../styles/work-item.module.css";
+import styles from '../styles/work-item.module.css'
 
 interface WorkViewProps {
-  work: Work;
+  work: Work
 }
 
 export default async function WorkItem({ work }: WorkViewProps) {
-  const bucketName = "works";
+  const bucketName = 'works'
   const {
     title,
     url,
@@ -31,14 +31,14 @@ export default async function WorkItem({ work }: WorkViewProps) {
     order,
     status,
     technologies,
-  } = await work;
-  const skills = technologies.split(",");
+  } = await work
+  const skills = technologies.split(',')
 
-  let imageUrl = "";
+  let imageUrl = ''
   if (image) {
-    imageUrl = await getimageUrl(bucketName, image);
+    imageUrl = await getimageUrl(bucketName, image)
   }
-  
+
   return (
     <article className={styles.WorkItem + ' special-shadow'}>
       <div className={styles.WorkItem__imageArea}>
@@ -51,7 +51,7 @@ export default async function WorkItem({ work }: WorkViewProps) {
         />
       </div>
       <div className={styles.WorkItem__details}>
-        <div className="py-1 grow-0">
+        <div className="grow-0 py-1">
           <h3>{title}</h3>
           <p>Status: {status}</p>
         </div>
@@ -74,5 +74,5 @@ export default async function WorkItem({ work }: WorkViewProps) {
         </div>
       </div>
     </article>
-  );
+  )
 }

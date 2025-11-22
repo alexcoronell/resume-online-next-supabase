@@ -1,24 +1,24 @@
-import React from 'react';
-import type { ChangeEvent, FocusEvent, KeyboardEvent } from 'react';
+import React from 'react'
+import type { ChangeEvent, FocusEvent, KeyboardEvent } from 'react'
 
-import type { RequestStatus } from '@/core/types/RequestStatus.type';
+import type { RequestStatus } from '@/core/types/RequestStatus.type'
 
-import styles from '@/styles/form-group.module.css';
+import styles from '@/styles/form-group.module.css'
 
 interface TextAreaProps {
-  placeholder: string;
-  name: string;
-  id: string;
-  value: string;
-  classes?: string;
-  errorMessage?: string;
-  onChange?: (e: ChangeEvent<HTMLTextAreaElement>) => void;
-  onBlur?: (e: FocusEvent<HTMLTextAreaElement>) => void;
-  onKeyUp?: (e: KeyboardEvent<HTMLTextAreaElement>) => void | undefined;
-  requestStatus: RequestStatus;
-  validField?: boolean;
-  readonly?: boolean;
-  rows?: number;
+  placeholder: string
+  name: string
+  id: string
+  value: string
+  classes?: string
+  errorMessage?: string
+  onChange?: (e: ChangeEvent<HTMLTextAreaElement>) => void
+  onBlur?: (e: FocusEvent<HTMLTextAreaElement>) => void
+  onKeyUp?: (e: KeyboardEvent<HTMLTextAreaElement>) => void | undefined
+  requestStatus: RequestStatus
+  validField?: boolean
+  readonly?: boolean
+  rows?: number
 }
 
 export function TextArea({
@@ -54,9 +54,9 @@ export function TextArea({
         />
         <span>{placeholder}</span>
       </label>
-      <p className={`text-xs absolute text-red ${!validField ? '' : 'hidden'}`}>
+      <p className={`absolute text-xs text-red ${!validField ? '' : 'hidden'}`}>
         {errorMessage}
       </p>
     </div>
-  );
+  )
 }

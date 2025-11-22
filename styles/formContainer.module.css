@@ -1,10 +1,10 @@
 .FormContainer {
-    @apply w-full min-h-[84vh];
+  @apply min-h-[84vh] w-full;
 }
 
 .FormContainer h2 {
-    @apply mb-6;
+  @apply mb-6;
 }
 .FormContainer__box {
-    @apply py-[80px] flex items-center justify-center w-full min-h-[76vh] my-auto;
+  @apply my-auto flex min-h-[76vh] w-full items-center justify-center py-[80px];
 }

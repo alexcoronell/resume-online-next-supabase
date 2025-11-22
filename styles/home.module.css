@@ -1,19 +1,18 @@
 .Home {
-  @apply w-full p-4 overflow-y-scroll max-md:h-screen max-md:fixed max-md:top-0 max-md:bottom-0 max-md:left-0 max-md:right-0 md:h-full;
+  @apply w-full overflow-y-scroll p-4 max-md:fixed max-md:bottom-0 max-md:left-0 max-md:right-0 max-md:top-0 max-md:h-screen md:h-full;
 }
 
 .Home__container {
-  @apply h-full flex flex-col items-center justify-center lg:grid lg:grid-cols-3 lg:items-center lg:gap-x-12;
+  @apply flex h-full flex-col items-center justify-center lg:grid lg:grid-cols-3 lg:items-center lg:gap-x-12;
 }
 
 .Home__imageArea {
-  @apply w-[328px] h-[328px] overflow-hidden relative mx-auto xl:w-[400px] xl:h-[400px];
+  @apply relative mx-auto h-[328px] w-[328px] overflow-hidden xl:h-[400px] xl:w-[400px];
 }
 
 .Home__detail {
   @apply lg:col-span-2 lg:pl-6;
 }
-
 
 .Home__detail > h1 {
   @apply py-3 xl:text-8xl;

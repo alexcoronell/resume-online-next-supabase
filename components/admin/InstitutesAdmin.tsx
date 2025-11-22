@@ -1,9 +1,9 @@
-'use client';
-import { HeaderButtons } from '@/components/shared/admin/header-buttons';
-import { InstitutesTable } from '@/components/admin/tables/InstitutesTable';
-import { TotalItems } from '@/components/shared/admin/totalItems';
-import { FooterPagination } from '@/components/shared/admin/FooterPagination';
-import { useInstituteStore } from '@/store/useInstituteStore';
+'use client'
+import { HeaderButtons } from '@/components/shared/admin/header-buttons'
+import { InstitutesTable } from '@/components/admin/tables/InstitutesTable'
+import { TotalItems } from '@/components/shared/admin/totalItems'
+import { FooterPagination } from '@/components/shared/admin/FooterPagination'
+import { useInstituteStore } from '@/store/useInstituteStore'
 
 export function InstitutesAdmin() {
   const {
@@ -14,10 +14,10 @@ export function InstitutesAdmin() {
     currentPage,
     totalPages,
     setPage,
-  } = useInstituteStore();
-  const createUrl = '/admin/institutes/create';
+  } = useInstituteStore()
+  const createUrl = '/admin/institutes/create'
   return (
-    <div className='InstitutesAdmin'>
+    <div className="InstitutesAdmin">
       <HeaderButtons
         createUrl={createUrl}
         refresh={getInstitutes}
@@ -32,5 +32,5 @@ export function InstitutesAdmin() {
         setPage={setPage}
       />
     </div>
-  );
+  )
 }

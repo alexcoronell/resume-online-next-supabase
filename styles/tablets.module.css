@@ -1,32 +1,32 @@
 .AdminTableContainer {
-    @apply my-6 border-2 border-primary p-0 rounded-2xl overflow-hidden bg-primary/10;
+  @apply my-6 overflow-hidden rounded-2xl border-2 border-primary bg-primary/10 p-0;
 }
 
 .AdminTable {
-    @apply border-collapse w-full;
+  @apply w-full border-collapse;
 }
 .AdminTable tr {
-    @apply border-none;
+  @apply border-none;
 }
 .AdminTable thead {
-    @apply bg-primary/10;
+  @apply bg-primary/10;
 }
 
 .AdminTable thead th {
-    @apply font-bold text-primary px-2 py-3;
+  @apply px-2 py-3 font-bold text-primary;
 }
 
 .AdminTable tbody {
-    @apply bg-background;
+  @apply bg-background;
 }
 .AdminTable tbody tr td {
-    @apply text-sm px-2 py-2 border border-primary/10;
+  @apply border border-primary/10 px-2 py-2 text-sm;
 }
 
 .AdminTable__actionsTh {
-    @apply text-center w-[85px];
+  @apply w-[85px] text-center;
 }
 
 .AdminTable__actions {
-    @apply flex items-center justify-center gap-2 h-full w-[85px];
+  @apply flex h-full w-[85px] items-center justify-center gap-2;
 }

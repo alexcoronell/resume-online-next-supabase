@@ -1,22 +1,23 @@
-"use client"
-import React from 'react';
+'use client'
+import React from 'react'
 
-import type { RequestStatus } from '@/core/types/RequestStatus.type';
+import type { RequestStatus } from '@/core/types/RequestStatus.type'
 
-import styles from "../../../styles/button-submit.module.css"
+import styles from '../../../styles/button-submit.module.css'
 
 interface ButtonSubmitViewProps {
-  title: string;
-  requestStatus: RequestStatus;
+  title: string
+  requestStatus: RequestStatus
 }
 
-export function ButtonSubmit({
-  title,
-  requestStatus,
-}: ButtonSubmitViewProps) {
+export function ButtonSubmit({ title, requestStatus }: ButtonSubmitViewProps) {
   return (
-    <button className={styles.buttonSubmit} type='submit' disabled={requestStatus === 'loading'}>
+    <button
+      className={styles.buttonSubmit}
+      type="submit"
+      disabled={requestStatus === 'loading'}
+    >
       {title}
     </button>
-  );
+  )
 }

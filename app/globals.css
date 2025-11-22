@@ -40,7 +40,7 @@ h6 {
 }
 h1,
 h2 {
-  @apply text-primary font-semibold text-center;
+  @apply text-center font-semibold text-primary;
 }
 
 h1 {
@@ -60,11 +60,11 @@ h4 {
 }
 
 h5 {
-  @apply text-base  md:text-xl lg:text-2xl;
+  @apply text-base md:text-xl lg:text-2xl;
 }
 
 h6 {
-  @apply text-sm  md:text-base lg:text-xl;
+  @apply text-sm md:text-base lg:text-xl;
 }
 
 p {
@@ -91,10 +91,10 @@ textarea.form-control:focus button {
 /* Buttons */
 .btn-primary,
 .btn-error {
-  @apply py-2 px-8 border rounded-xl text-lg hover:text-background;
+  @apply rounded-xl border px-8 py-2 text-lg hover:text-background;
 }
 .btn-primary {
-  @apply border-primary text-primary  hover:bg-primary;
+  @apply border-primary text-primary hover:bg-primary;
 }
 
 .btn-error {

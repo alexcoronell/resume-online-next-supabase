@@ -1,11 +1,10 @@
 export interface Experience {
-    id: string;
-    nameBusiness: string;
-    position: string;
-    place: string;
-    since: string;
-    until: string | null;
-    current: boolean;
-    functions?: string[];
-  }
-  
+  id: string
+  nameBusiness: string
+  position: string
+  place: string
+  since: string
+  until: string | null
+  current: boolean
+  functions?: string[]
+}
