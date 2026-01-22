@@ -1,23 +1,23 @@
 .Header {
-    @apply fixed top-0 left-0 right-0 w-full text-right p-2 bg-background lg:border-b lg:border-primary/50 z-50;
+  @apply fixed left-0 right-0 top-0 z-50 w-full bg-background p-2 text-right lg:border-b lg:border-primary/50;
 }
 
 .Header button {
-    @apply lg:hidden lg:opacity-0;
+  @apply lg:hidden lg:opacity-0;
 }
 
 .Header > nav {
-    @apply  max-lg:fixed max-lg:h-screen w-full max-lg:top-0 max-lg:bottom-0 bg-background p-2 text-primary;
+  @apply w-full bg-background p-2 text-primary max-lg:fixed max-lg:bottom-0 max-lg:top-0 max-lg:h-screen;
 }
 
 .Header > nav > div {
-    @apply w-full text-right;
+  @apply w-full text-right;
 }
 
 .Header > nav > ul {
-    @apply flex flex-col justify-center items-center h-[90%] gap-y-8 text-lg lg:flex-row lg:gap-6;
+  @apply flex h-[90%] flex-col items-center justify-center gap-y-8 text-lg lg:flex-row lg:gap-6;
 }
 
 .Header > nav > ul > li {
-    @apply text-3xl lg:text-lg xl:text-xl;
+  @apply text-3xl lg:text-lg xl:text-xl;
 }

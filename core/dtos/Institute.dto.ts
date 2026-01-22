@@ -1,4 +1,4 @@
-import { Institute } from "@/core/models/Institute.interface";
+import { Institute } from '@/core/models/Institute.interface'
 
 export interface CreateInstituteDto extends Omit<Institute, 'id'> {}
 

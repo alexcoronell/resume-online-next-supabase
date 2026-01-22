@@ -1,9 +1,9 @@
 .Body {
-  @apply h-screen bg-background text-foreground flex flex-col items-center justify-around;
+  @apply flex h-screen flex-col items-center justify-around bg-background text-foreground;
 }
 
 .Body > main {
-  @apply grow w-full h-full py-[80px] max-w-[1200px];
+  @apply h-full w-full max-w-[1200px] grow py-[80px];
 }
 
 .Body > header,

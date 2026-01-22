@@ -1,7 +1,7 @@
-import { Experience } from "./Experience.interface";
+import { Experience } from './Experience.interface'
 
 export interface ExperienceFunction {
-    id?: string,
-    experienceId?: Experience['id']
-    functionDetail: string;
+  id?: string
+  experienceId?: Experience['id']
+  functionDetail: string
 }

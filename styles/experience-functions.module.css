@@ -10,7 +10,7 @@
 }
 
 .ExperienceFunctions__contentBox {
-    @apply bg-backgroundsecondary p-4 relative max-w-[450px] md:max-w-[500px];
+    @apply bg-backgroundsecondary p-4 relative max-w-[450px] md:max-w-[500px] lg:max-w-[600px] xl:max-w-[700px] 2xl:max-w-[800px];           ;
 }
 
 .ExperienceFunctions__closeButtonTopBox {
@@ -22,7 +22,7 @@
 }
 
 .ExperienceFunctions__details {
-    @apply px-4 py-6;
+    @apply px-4 py-6 lg:px-6 xl:px-8;
 }
 
 .ExperienceFunctions__details > ul {

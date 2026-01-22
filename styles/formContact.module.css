@@ -1,29 +1,29 @@
 .FormContact {
-  @apply bg-backgroundsecondary p-10 rounded-3xl w-full max-lg:max-w-[400px] mx-auto lg:h-[500px] flex items-center justify-center max-lg:mb-6;
+  @apply mx-auto flex w-full items-center justify-center rounded-3xl bg-backgroundsecondary p-10 max-lg:mb-6 max-lg:max-w-[400px] lg:h-[500px];
 }
 
 .formgroup {
-  @apply relative py-1 mb-6 w-full;
+  @apply relative mb-6 w-full py-1;
 }
 
 .formgroup > * {
-  @apply transition-all ease-in-out duration-100;
+  @apply transition-all duration-100 ease-in-out;
 }
 
 .formgroup input,
 .formgroup textarea {
-  @apply bg-transparent border border-primary/60 rounded-md px-4 py-3 text-base text-white w-full focus:border-primary;
+  @apply w-full rounded-md border border-primary/60 bg-transparent px-4 py-3 text-base text-white focus:border-primary;
 }
 
 .formgroup span {
-  @apply absolute bg-backgroundsecondary left-4 top-5 px-2 text-xs text-primary/60;
+  @apply absolute left-4 top-5 bg-backgroundsecondary px-2 text-xs text-primary/60;
 }
 
 .formgroup input:focus + span,
 .formgroup input:not(:placeholder-shown) + span,
 .formgroup textarea:focus + span,
 .formgroup textarea:not(:placeholder-shown) + span {
-  @apply top-[-0.2rem] bg-primary text-background rounded-sm;
+  @apply top-[-0.2rem] rounded-sm bg-primary text-background;
 }
 
 .formgroup input::placeholder,
@@ -32,11 +32,11 @@
 }
 
 .btnSubmit {
-  @apply w-full bg-primary text-background hover:shadow-md hover:shadow-primary py-3 rounded-xl;
+  @apply w-full rounded-xl bg-primary py-3 text-background hover:shadow-md hover:shadow-primary;
 }
 
 .btnSubmit:disabled {
-  @apply opacity-50 cursor-not-allowed;
+  @apply cursor-not-allowed opacity-50;
 }
 
 .Form {
@@ -47,15 +47,15 @@
   @apply opacity-80;
 }
 
-.AlertMessage, .Loading {
-  @apply fixed top-0 left-0 bottom-0 right-0 bg-black/70 w-screen h-screen z-50 flex items-center justify-center;
+.AlertMessage,
+.Loading {
+  @apply fixed bottom-0 left-0 right-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-black/70;
 }
 
 .AlertMessage__box {
-  @apply w-full max-w-[450px] min-h-[300px] bg-background p-8 flex flex-col items-center justify-between gap-6;
+  @apply flex min-h-[300px] w-full max-w-[450px] flex-col items-center justify-between gap-6 bg-background p-8;
 }
 
 .AlertMessage__box h4 {
   @apply text-center text-lg;
 }
-

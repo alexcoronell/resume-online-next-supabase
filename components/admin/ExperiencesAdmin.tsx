@@ -1,11 +1,11 @@
-'use client';
-import { HeaderButtons } from '../shared/admin/header-buttons';
-import { ExperiencesTable } from './tables/ExperiencesTable';
-import { TotalItems } from '../shared/admin/totalItems';
-import { FooterPagination } from '../shared/admin/FooterPagination';
+'use client'
+import { HeaderButtons } from '../shared/admin/header-buttons'
+import { ExperiencesTable } from './tables/ExperiencesTable'
+import { TotalItems } from '../shared/admin/totalItems'
+import { FooterPagination } from '../shared/admin/FooterPagination'
 
 /* Store */
-import { useExperienceStore } from '@/store/useExperienceStore';
+import { useExperienceStore } from '@/store/useExperienceStore'
 
 export function ExperiencesAdmin() {
   const {
@@ -16,10 +16,10 @@ export function ExperiencesAdmin() {
     currentPage,
     totalPages,
     setPage,
-  } = useExperienceStore();
-  const createUrl = '/admin/experiences/create';
+  } = useExperienceStore()
+  const createUrl = '/admin/experiences/create'
   return (
-    <div className='ExperiencesAdmin'>
+    <div className="ExperiencesAdmin">
       <HeaderButtons
         createUrl={createUrl}
         refresh={getExperiences}
@@ -34,5 +34,5 @@ export function ExperiencesAdmin() {
         setPage={setPage}
       />
     </div>
-  );
+  )
 }

@@ -1,13 +1,13 @@
-'use client';
-import styles from '@/styles/form-group.module.css';
+'use client'
+import styles from '@/styles/form-group.module.css'
 
 interface InputFileProps {
-  titleInputFileButton?: string;
-  classes?: string;
-  imageFilename?: string | null;
-  disabled?: boolean;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  removeImage?: () => void;
+  titleInputFileButton?: string
+  classes?: string
+  imageFilename?: string | null
+  disabled?: boolean
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+  removeImage?: () => void
 }
 
 export function InputFile({
@@ -16,22 +16,24 @@ export function InputFile({
   imageFilename,
   disabled = false,
   onChange,
-  removeImage
+  removeImage,
 }: InputFileProps) {
   return (
     <div className={`${styles.formgroupInput} ${classes}`.trim()}>
       {!disabled && imageFilename ? (
-        <button type='button' onClick={removeImage}>Remove Image</button>
+        <button type="button" onClick={removeImage}>
+          Remove Image
+        </button>
       ) : (
         <>
-          <label htmlFor='inputfile'>{titleInputFileButton}</label>
+          <label htmlFor="inputfile">{titleInputFileButton}</label>
           <input
-            name='inputfile'
-            type='file'
-            id='inputfile'
+            name="inputfile"
+            type="file"
+            id="inputfile"
             disabled={disabled}
             onChange={onChange}
-            accept='image/png, image/jpeg, image/jpg, image/webp, image/bmp'
+            accept="image/png, image/jpeg, image/jpg, image/webp, image/bmp"
           />
         </>
       )}
@@ -39,5 +41,5 @@ export function InputFile({
         {imageFilename ? imageFilename : 'No file selected'}
       </p>
     </div>
-  );
+  )
 }

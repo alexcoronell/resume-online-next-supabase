@@ -1,9 +1,9 @@
-'use client';
-import { HeaderButtons } from '@/components/shared/admin/header-buttons';
-import { StudiesTable } from '@/components/admin/tables/StudiesTable';
-import { TotalItems } from '@/components/shared/admin/totalItems';
-import { FooterPagination } from '@/components/shared/admin/FooterPagination';
-import { useStudyStore } from '@/store/useStudyStore';
+'use client'
+import { HeaderButtons } from '@/components/shared/admin/header-buttons'
+import { StudiesTable } from '@/components/admin/tables/StudiesTable'
+import { TotalItems } from '@/components/shared/admin/totalItems'
+import { FooterPagination } from '@/components/shared/admin/FooterPagination'
+import { useStudyStore } from '@/store/useStudyStore'
 
 export function StudiesAdmin() {
   const {
@@ -14,10 +14,10 @@ export function StudiesAdmin() {
     currentPage,
     totalPages,
     setPage,
-  } = useStudyStore();
-  const createUrl = '/admin/studies/create';
+  } = useStudyStore()
+  const createUrl = '/admin/studies/create'
   return (
-    <div className='StudiesAdmin'>
+    <div className="StudiesAdmin">
       <HeaderButtons
         createUrl={createUrl}
         refresh={getStudies}
@@ -32,5 +32,5 @@ export function StudiesAdmin() {
         setPage={setPage}
       />
     </div>
-  );
+  )
 }

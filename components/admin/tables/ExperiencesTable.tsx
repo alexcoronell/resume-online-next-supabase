@@ -1,45 +1,45 @@
-'use client';
-import React, { useEffect, useState } from 'react';
+'use client'
+import React, { useEffect, useState } from 'react'
 
 /* Components */
-import { ButtonView } from '@/components/shared/buttons/ButtonView';
-import { ButtonDelete } from '@/components/shared/buttons/ButtonDelete';
-import { TrDefault } from '@/components/ui/table/TrDefault';
+import { ButtonView } from '@/components/shared/buttons/ButtonView'
+import { ButtonDelete } from '@/components/shared/buttons/ButtonDelete'
+import { TrDefault } from '@/components/ui/table/TrDefault'
 
 /* Store */
-import { useExperienceStore } from '@/store/useExperienceStore';
+import { useExperienceStore } from '@/store/useExperienceStore'
 
 /* Services */
-import { deleteExperience } from '@/core/services/experience.service';
-import { deleteExperienceFunctionByExperienceId } from '@/core/services/experience-functions.service';
+import { deleteExperience } from '@/core/services/experience.service'
+import { deleteExperienceFunctionByExperienceId } from '@/core/services/experience-functions.service'
 
 /* Types */
-import { RequestStatus } from '@/core/types/RequestStatus.type';
+import { RequestStatus } from '@/core/types/RequestStatus.type'
 
 /* Styles */
-import styles from '@/styles/tablets.module.css';
+import styles from '@/styles/tablets.module.css'
 
 export function ExperiencesTable() {
   const { experiences, total, getExperiences, currentPage, currentPageSize } =
-    useExperienceStore();
-  const [requestStatus, setRequestStatus] = useState<RequestStatus>('init');
+    useExperienceStore()
+  const [requestStatus, setRequestStatus] = useState<RequestStatus>('init')
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    fetchData();
-  }, [currentPage, currentPageSize]);
+    fetchData()
+  }, [currentPage, currentPageSize])
 
   const fetchData = () => {
-    setRequestStatus('loading');
+    setRequestStatus('loading')
     getExperiences()
       .then(() => setRequestStatus('success'))
-      .catch(() => setRequestStatus('failed'));
-  };
+      .catch(() => setRequestStatus('failed'))
+  }
 
   const columns = [
     { title: 'Business', classes: 'text-left' },
@@ -47,20 +47,20 @@ export function ExperiencesTable() {
     { title: 'Place', classes: 'text-left' },
     { title: 'Since', classes: 'text-left' },
     { title: 'Until', classes: 'text-left' },
-  ];
+  ]
 
   const handleDelete = (id: string) => {
-    const res = confirm('Are you sure to delete this training');
+    const res = confirm('Are you sure to delete this training')
     if (res) {
       deleteExperience(id)
         .then(() => deleteExperienceFunctionByExperienceId(id))
         .then(() => getExperiences())
-        .catch((e) => {
-          console.error(e);
-          alert('Error deleting experience');
-        });
+        .catch(e => {
+          console.error(e)
+          alert('Error deleting experience')
+        })
     }
-  };
+  }
 
   return (
     <div className={styles.AdminTableContainer}>
@@ -78,13 +78,13 @@ export function ExperiencesTable() {
         </thead>
         <tbody>
           {requestStatus === 'success' &&
-            experiences.map((item) => (
+            experiences.map(item => (
               <tr key={item.id}>
                 <td>{item.nameBusiness}</td>
-                <td className=''>{item.position}</td>
-                <td className=''>{item.place}</td>
-                <td className=''>{item.since}</td>
-                <td className=''>{item.current ? 'Current' : item.until}</td>
+                <td className="">{item.position}</td>
+                <td className="">{item.place}</td>
+                <td className="">{item.since}</td>
+                <td className="">{item.current ? 'Current' : item.until}</td>
                 <td className={styles.AdminTable__actions}>
                   <ButtonView
                     url={`/admin/experiences/details/${item.id}`}
@@ -106,5 +106,5 @@ export function ExperiencesTable() {
         </tbody>
       </table>
     </div>
-  );
+  )
 }

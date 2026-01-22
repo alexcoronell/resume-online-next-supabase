@@ -1,20 +1,20 @@
 /* Supabase */
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from '@/utils/supabase/client'
 
 /* Models */
-import type { Study } from "@/core/models/Study.interface";
+import type { Study } from '@/core/models/Study.interface'
 
 /* DTO's */
-import type { CreateStudyDto, UpdateStudyDto } from "@/core/dtos/Study.dto";
+import type { CreateStudyDto, UpdateStudyDto } from '@/core/dtos/Study.dto'
 
 /* Helpers */
-import { orderStudies } from "@/helpers/orderData";
+import { orderStudies } from '@/helpers/orderData'
 
-const supabase = createClient();
-const tableName = "studies";
+const supabase = createClient()
+const tableName = 'studies'
 
 /* Revalidate */
-export const revalidate = 60 * 60 * 24 * 15;
+export const revalidate = 60 * 60 * 24 * 15
 
 /**
  * Retrieves a list of studies from the database, orders them, and returns the studies.
@@ -25,12 +25,13 @@ export const revalidate = 60 * 60 * 24 * 15;
  * @returns A promise that resolves to an object containing an array of studies.
  */
 const getSimpleStudies = async (): Promise<Study[]> => {
-  const { data } = await supabase.from(tableName)
-    .select("*")
-    .order("current", { ascending: false })
-    .order("until", { ascending: false })
-  return data as Study[];
-};
+  const { data } = await supabase
+    .from(tableName)
+    .select('*')
+    .order('current', { ascending: false })
+    .order('until', { ascending: false })
+  return data as Study[]
+}
 
 /**
  * Retrieves a list of studies from the database, orders them, and returns the studies along with the total count.
@@ -50,19 +51,18 @@ const getStudies = async (
   page = 1,
   pageSize = 5
 ): Promise<{ studies: Study[]; total: number }> => {
-  const from = (page - 1) * pageSize;
-  const to = from + pageSize - 1;
+  const from = (page - 1) * pageSize
+  const to = from + pageSize - 1
 
   const { data, count } = await supabase
     .from(tableName)
-    .select("*", { count: "exact" })
-    .order("current", { ascending: false })
-    .order("until", { ascending: false })
-    .range(from, to);
+    .select('*', { count: 'exact' })
+    .order('current', { ascending: false })
+    .order('until', { ascending: false })
+    .range(from, to)
 
-  return { studies: data as Study[], total: count ?? 0 };
-};
-
+  return { studies: data as Study[], total: count ?? 0 }
+}
 
 /**
  * Retrieves a study record by its unique identifier.
@@ -74,9 +74,13 @@ const getStudies = async (
  * @returns A promise that resolves to the `Study` object if found, or `null` if no study with the given ID exists.
  */
 const getStudyById = async (id: Study['id']): Promise<Study | null> => {
-  const { data } = await supabase.from(tableName).select("*").eq("id", id).single();
-  return data as Study | null;
-};
+  const { data } = await supabase
+    .from(tableName)
+    .select('*')
+    .eq('id', id)
+    .single()
+  return data as Study | null
+}
 
 /**
  * Creates a new study record in the database.
@@ -85,18 +89,22 @@ const getStudyById = async (id: Study['id']): Promise<Study | null> => {
  * It takes a CreateStudyDto object as input and returns the newly created study object.
  * The function uses the Supabase client to insert the new study into the database and returns the created study object.
  * If an error occurs during the insertion, it logs the error to the console and returns null.
- * 
+ *
  * @param study
- * @returns 
+ * @returns
  */
 const addStudy = async (study: CreateStudyDto): Promise<Study | null> => {
-  const { data, error } = await supabase.from(tableName).insert([study]).select().single();
+  const { data, error } = await supabase
+    .from(tableName)
+    .insert([study])
+    .select()
+    .single()
   if (error) {
-    console.error("Error adding study:", error);
-    return null;
+    console.error('Error adding study:', error)
+    return null
   }
-  return data as Study;
-};
+  return data as Study
+}
 
 /**
  * Updates an existing study record in the database.
@@ -109,31 +117,46 @@ const addStudy = async (study: CreateStudyDto): Promise<Study | null> => {
  * @param updates - The data transfer object containing the properties to be updated.
  * @returns A promise that resolves to the updated `Study` object if successful, or `null` if an error occurred.
  */
-const updateStudy = async (id: string, updates: UpdateStudyDto): Promise<Study | null> => {
-  const { data, error } = await supabase.from(tableName).update(updates).eq("id", id).select().single();
+const updateStudy = async (
+  id: string,
+  updates: UpdateStudyDto
+): Promise<Study | null> => {
+  const { data, error } = await supabase
+    .from(tableName)
+    .update(updates)
+    .eq('id', id)
+    .select()
+    .single()
   if (error) {
-    console.error("Error updating study:", error);
-    return null;
+    console.error('Error updating study:', error)
+    return null
   }
-  return data as Study;
-};
+  return data as Study
+}
 
 /**
  * Deletes a study record from the database by its unique identifier.
  * This function uses the Supabase client to delete the study from the database.
  * If the deletion is successful, it returns true; otherwise, it returns false.
  * The function also logs any errors that occur during the deletion process to the console.
- * 
+ *
  * @param id - The unique identifier of the study to be deleted.
  * @returns A promise that resolves to `true` if the study was successfully deleted, or `false` if an error occurred.
  */
 const deleteStudy = async (id: string): Promise<boolean> => {
-  const { error } = await supabase.from(tableName).delete().eq("id", id);
+  const { error } = await supabase.from(tableName).delete().eq('id', id)
   if (error) {
-    console.error("Error deleting study:", error);
-    return false;
+    console.error('Error deleting study:', error)
+    return false
   }
-  return true;
-};
+  return true
+}
 
-export { getSimpleStudies, getStudies, getStudyById, addStudy, updateStudy, deleteStudy };
+export {
+  getSimpleStudies,
+  getStudies,
+  getStudyById,
+  addStudy,
+  updateStudy,
+  deleteStudy,
+}

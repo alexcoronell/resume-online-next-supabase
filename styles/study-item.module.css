@@ -1,19 +1,19 @@
 .StudyItem {
-    @apply p-3 max-lg:border max-lg:border-primary/50 pb-6 sm:p-6 lg:bg-backgroundsecondary h-full w-full max-md:max-w-[400px] flex flex-col items-center justify-between gap-3;
+  @apply flex h-full w-full flex-col items-center justify-between gap-3 p-3 pb-6 max-lg:border max-lg:border-primary/50 max-md:max-w-[400px] sm:p-6 lg:bg-backgroundsecondary;
 }
 
 .StudyItem h3 {
-    @apply mb-3 text-2xl;
+  @apply mb-3 text-2xl;
 }
 
 .StudyItem__details {
-    @apply px-7 py-4 w-full bg-background;
+  @apply w-full bg-background px-7 py-4;
 }
 
 .StudyItem__details > h5 {
-    @apply mb-3 text-white/80 text-left text-lg;
+  @apply mb-3 text-left text-lg text-white/80;
 }
 
 .StudyItem__details > ul {
-    @apply list-disc text-white/50;
+  @apply list-disc text-white/50;
 }

@@ -1,65 +1,65 @@
-'use client';
-import React, { useEffect, useState } from 'react';
+'use client'
+import React, { useEffect, useState } from 'react'
 
 /* Components */
-import { ButtonView } from '@/components/shared/buttons/ButtonView';
-import { ButtonDelete } from '@/components/shared/buttons/ButtonDelete';
-import { TrDefault } from '@/components/ui/table/TrDefault';
+import { ButtonView } from '@/components/shared/buttons/ButtonView'
+import { ButtonDelete } from '@/components/shared/buttons/ButtonDelete'
+import { TrDefault } from '@/components/ui/table/TrDefault'
 
 /* Store */
-import { useInstituteStore } from '@/store/useInstituteStore';
+import { useInstituteStore } from '@/store/useInstituteStore'
 
 /* Services */
-import { deleteInstitute } from '@/core/services/institute.service';
+import { deleteInstitute } from '@/core/services/institute.service'
 
 /* Types */
-import { RequestStatus } from '@/core/types/RequestStatus.type';
+import { RequestStatus } from '@/core/types/RequestStatus.type'
 
 /* Styles */
-import styles from '@/styles/tablets.module.css';
+import styles from '@/styles/tablets.module.css'
 
 export function InstitutesTable() {
   const { institutes, total, getInstitutes, currentPage, currentPageSize } =
-    useInstituteStore();
-  const [requestStatus, setRequestStatus] = useState<RequestStatus>('init');
+    useInstituteStore()
+  const [requestStatus, setRequestStatus] = useState<RequestStatus>('init')
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    fetchData();
-  }, [currentPage, currentPageSize]);
+    fetchData()
+  }, [currentPage, currentPageSize])
 
   const fetchData = () => {
-    setRequestStatus('loading');
+    setRequestStatus('loading')
     getInstitutes()
       .then(() => setRequestStatus('success'))
-      .catch(() => setRequestStatus('failed'));
-  };
+      .catch(() => setRequestStatus('failed'))
+  }
 
   const columns = [
     { title: 'Name', classes: 'text-left' },
     { title: 'Url', classes: 'text-left max-md:hidden' },
-  ];
+  ]
 
   const handleDelete = (id: string) => {
-    const res = confirm('Are you sure to delete this institute');
+    const res = confirm('Are you sure to delete this institute')
     if (res) {
       deleteInstitute(id)
         .then(() => {
-          alert('institute deleted successfully');
-          getInstitutes();
+          alert('institute deleted successfully')
+          getInstitutes()
         })
-        .catch((error) => {
-          console.error('Error deleting institute:', error);
-          alert('Error deleting institute: ' + error.message);
-        });
+        .catch(error => {
+          console.error('Error deleting institute:', error)
+          alert('Error deleting institute: ' + error.message)
+        })
     }
-    return;
-  };
+    return
+  }
   return (
     <div className={styles.AdminTableContainer}>
       <table className={styles.AdminTable}>
@@ -79,8 +79,8 @@ export function InstitutesTable() {
             institutes.map((institute, index) => (
               // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
               <tr key={index}>
-                <td className='text-left'>{institute.name}</td>
-                <td className='text-left max-md:hidden'>{institute.url}</td>
+                <td className="text-left">{institute.name}</td>
+                <td className="text-left max-md:hidden">{institute.url}</td>
                 <td className={styles.AdminTable__actions}>
                   <ButtonView
                     url={`/admin/institutes/details/${institute.id}`}
@@ -102,5 +102,5 @@ export function InstitutesTable() {
         </tbody>
       </table>
     </div>
-  );
+  )
 }

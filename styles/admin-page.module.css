@@ -1,19 +1,19 @@
 .AdminPage {
-    @apply w-full h-full;
+  @apply h-full w-full;
 }
 
 .AdminPage__nav {
-    @apply w-full h-full flex items-center justify-center;
+  @apply flex h-full w-full items-center justify-center;
 }
 
 .AdminPage__list {
-    @apply w-full px-3 max-w-[400px];
+  @apply w-full max-w-[400px] px-3;
 }
 
 .AdminPage__item {
-    @apply w-full h-[50px] border border-primary rounded-md my-1 rounded-xl opacity-75 transition-opacity duration-200 hover:opacity-100;
+  @apply my-1 h-[50px] w-full rounded-md rounded-xl border border-primary opacity-75 transition-opacity duration-200 hover:opacity-100;
 }
 
 .AdminPage__link {
-    @apply w-full h-full block leading-[50px] text-center rounded-xl text-primary;
+  @apply block h-full w-full rounded-xl text-center leading-[50px] text-primary;
 }

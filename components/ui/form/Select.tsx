@@ -1,21 +1,17 @@
-import React from 'react';
-import styles from '@/styles/form-group.module.css';
+import React from 'react'
+import styles from '@/styles/form-group.module.css'
 
 interface SelectProps {
-  options: { value: string | number; label: string }[];
-  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  options: { value: string | number; label: string }[]
+  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void
 }
 
 export function Select({ options, onChange }: SelectProps) {
   return (
     <div className={styles.formgroup}>
-      <label htmlFor='items'>
-        <select
-          name='items'
-          id='items'
-          onChange={onChange}
-        >
-          {options.map((option) => (
+      <label htmlFor="items">
+        <select name="items" id="items" onChange={onChange}>
+          {options.map(option => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>
@@ -24,6 +20,6 @@ export function Select({ options, onChange }: SelectProps) {
         <span>Items per page</span>
       </label>
     </div>
-  );
-  <p className={`text-xs absolute text-red`}>Error Message</p>;
+  )
+  ;<p className={`absolute text-xs text-red`}>Error Message</p>
 }

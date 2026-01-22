@@ -1,31 +1,27 @@
 .WorkItem {
-    @apply p-1 max-lg:border max-lg:border-primary/50 pb-6 sm:p-6 lg:bg-backgroundsecondary h-full overflow-hidden flex flex-col;
+  @apply flex h-full flex-col overflow-hidden p-1 pb-6 max-lg:border max-lg:border-primary/50 sm:p-6 lg:bg-backgroundsecondary;
 }
 
 .WorkItem__imageArea {
-    @apply relative mx-auto flex items-center justify-center grow-0
-    w-[340px] h-[238px] 
-    sm:w-[518px] sm:h-[352px] 
-    lg:w-[420px] lg:h-[295px] 
-    xl:w-[524px] xl:h-[352px];
+  @apply relative mx-auto flex h-[238px] w-[340px] grow-0 items-center justify-center sm:h-[352px] sm:w-[518px] lg:h-[295px] lg:w-[420px] xl:h-[352px] xl:w-[524px];
 }
 
 .WorkItem__details {
-    @apply p-1 flex flex-col justify-between items-center gap-y-6 grow;
+  @apply flex grow flex-col items-center justify-between gap-y-6 p-1;
 }
 
 .WorkItem__details h3 {
-    @apply mb-0 text-center;
+  @apply mb-0 text-center;
 }
 
 .WorkItem__details p {
-    @apply text-base font-light text-white/80 text-center;
+  @apply text-center text-base font-light text-white/80;
 }
 
 .WorkItem__technologies {
-    @apply flex flex-wrap gap-3 justify-center grow;
+  @apply flex grow flex-wrap justify-center gap-3;
 }
 
 .WorkItem__buttonArea {
-    @apply pt-3 py-1 mt-auto flex items-center justify-center grow-0 gap-6;
+  @apply mt-auto flex grow-0 items-center justify-center gap-6 py-1 pt-3;
 }

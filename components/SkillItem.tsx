@@ -1,9 +1,11 @@
 interface SkillItemViewProp {
-    skill: string
+  skill: string
 }
 
-export default function SkillItem({skill}: SkillItemViewProp) {
-    return (
-        <span className="px-2 py-1 border border-primary rounded-3xl text-primary text-sm max-h-[30px]">{skill}</span>
-    )
+export default function SkillItem({ skill }: SkillItemViewProp) {
+  return (
+    <span className="max-h-[30px] rounded-3xl border border-primary px-2 py-1 text-sm text-primary">
+      {skill}
+    </span>
+  )
 }

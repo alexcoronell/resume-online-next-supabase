@@ -1,7 +1,7 @@
 .buttonSubmit {
-  @apply w-full bg-primary text-background hover:shadow-md hover:shadow-primary py-3 rounded-xl;
+  @apply w-full rounded-xl bg-primary py-3 text-background hover:shadow-md hover:shadow-primary;
 }
 
 .buttonSubmit:disabled {
-  @apply opacity-50 cursor-not-allowed;
+  @apply cursor-not-allowed opacity-50;
 }

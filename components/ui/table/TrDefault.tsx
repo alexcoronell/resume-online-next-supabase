@@ -1,11 +1,11 @@
-import { SvgSpinnnersBarsScale } from '../spinners/svg-spinners--bars-scale';
+import { SvgSpinnnersBarsScale } from '../spinners/svg-spinners--bars-scale'
 
-import { RequestStatus } from '@/core/types/RequestStatus.type';
+import { RequestStatus } from '@/core/types/RequestStatus.type'
 
 interface TrDefaultProps {
-  total: number;
-  columns: number;
-  requestStatus: RequestStatus;
+  total: number
+  columns: number
+  requestStatus: RequestStatus
 }
 
 export const TrDefault = ({
@@ -16,30 +16,30 @@ export const TrDefault = ({
   if (requestStatus === 'loading') {
     return (
       <tr>
-        <td colSpan={columns + 1} className='text-center'>
-          <SvgSpinnnersBarsScale className='text-primary mx-auto size-12' />
+        <td colSpan={columns + 1} className="text-center">
+          <SvgSpinnnersBarsScale className="mx-auto size-12 text-primary" />
         </td>
       </tr>
-    );
+    )
   }
 
   if (total === 0 && requestStatus === 'success') {
     return (
       <tr>
-        <td colSpan={columns + 1} className='text-center'>
+        <td colSpan={columns + 1} className="text-center">
           No trainings found
         </td>
       </tr>
-    );
+    )
   }
 
   if (requestStatus === 'failed') {
     return (
       <tr>
-        <td colSpan={columns + 1} className='text-center text-red'>
+        <td colSpan={columns + 1} className="text-center text-red">
           Error fetching Data
         </td>
       </tr>
-    );
+    )
   }
-};
+}

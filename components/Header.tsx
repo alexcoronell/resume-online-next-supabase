@@ -1,52 +1,52 @@
-"use client";
-import Link from "next/link";
-import { useState } from "react";
+'use client'
+import Link from 'next/link'
+import { useState } from 'react'
 
 /* Components */
-import { MajesticonsMenu } from "./ui/MajesticonsMenu";
-import { MajesticonsClose } from "./ui/MajesticonsClose";
+import { MajesticonsMenu } from './ui/MajesticonsMenu'
+import { MajesticonsClose } from './ui/MajesticonsClose'
 
 /* Styles */
-import styles from "../styles/header.module.css";
+import styles from '../styles/header.module.css'
 
 export default function Header() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false)
 
-  const handleClick = (active: boolean) => setIsOpen(active);
+  const handleClick = (active: boolean) => setIsOpen(active)
 
   const menu = [
     {
-      title: "Home",
-      url: "/",
+      title: 'Home',
+      url: '/',
     },
     {
-      title: "Portfolio",
-      url: "/portfolio",
+      title: 'Portfolio',
+      url: '/portfolio',
     },
     {
-      title: "Studies",
-      url: "/studies",
+      title: 'Studies',
+      url: '/studies',
     },
     {
-      title: "Courses",
-      url: "/courses",
+      title: 'Courses',
+      url: '/courses',
     },
     {
-      title: "Experiences",
-      url: "/experiences",
+      title: 'Experiences',
+      url: '/experiences',
     },
     {
-      title: "Contact",
-      url: "/contact",
+      title: 'Contact',
+      url: '/contact',
     },
-  ];
+  ]
 
   return (
     <header className={styles.Header}>
       <button className="openCloseMenuBtn" onClick={() => handleClick(true)}>
         <MajesticonsMenu className="size-12 text-primary" />
       </button>
-      <nav id="menu" className={isOpen ? "right-0" : "right-[-100%]"}>
+      <nav id="menu" className={isOpen ? 'right-0' : 'right-[-100%]'}>
         <div>
           <button
             onClick={() => handleClick(false)}
@@ -66,5 +66,5 @@ export default function Header() {
         </ul>
       </nav>
     </header>
-  );
+  )
 }

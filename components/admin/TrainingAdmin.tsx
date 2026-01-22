@@ -1,9 +1,9 @@
-'use client';
-import { HeaderButtons } from '@/components/shared/admin/header-buttons';
-import { TrainingsTable } from './tables/TrainingsTable';
-import { TotalItems } from '../shared/admin/totalItems';
-import { FooterPagination } from '../shared/admin/FooterPagination';
-import { useTrainingStore } from '@/store/useTrainingStore';
+'use client'
+import { HeaderButtons } from '@/components/shared/admin/header-buttons'
+import { TrainingsTable } from './tables/TrainingsTable'
+import { TotalItems } from '../shared/admin/totalItems'
+import { FooterPagination } from '../shared/admin/FooterPagination'
+import { useTrainingStore } from '@/store/useTrainingStore'
 
 export function TrainingAdmin() {
   const {
@@ -14,24 +14,24 @@ export function TrainingAdmin() {
     currentPage,
     totalPages,
     setPage,
-  } = useTrainingStore();
-  const createUrl = '/admin/trainings/create';
+  } = useTrainingStore()
+  const createUrl = '/admin/trainings/create'
 
   return (
-      <div className='StudiesAdmin'>
-        <HeaderButtons
-          createUrl={createUrl}
-          refresh={getTrainings}
-          optionsLimit={optionsLimit}
-          setCurrentPageSize={setCurrentPageSize}
-        />
-        <TrainingsTable />
-        <TotalItems total={total} />
-        <FooterPagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          setPage={setPage}
-        />
-      </div>
-    );
+    <div className="StudiesAdmin">
+      <HeaderButtons
+        createUrl={createUrl}
+        refresh={getTrainings}
+        optionsLimit={optionsLimit}
+        setCurrentPageSize={setCurrentPageSize}
+      />
+      <TrainingsTable />
+      <TotalItems total={total} />
+      <FooterPagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        setPage={setPage}
+      />
+    </div>
+  )
 }

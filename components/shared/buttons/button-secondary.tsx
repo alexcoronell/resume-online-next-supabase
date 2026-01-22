@@ -1,29 +1,29 @@
-"use client";
-import React from "react";
+'use client'
+import React from 'react'
 
-import styles from "@/styles/buttons.module.css";
+import styles from '@/styles/buttons.module.css'
 
 interface ButtonSecondaryViewProps {
-  title: string;
-  type?: "button" | "submit" | "reset" | "link";
-  onClick?: () => void;
-  disabled?: boolean;
-  url?: string;
+  title: string
+  type?: 'button' | 'submit' | 'reset' | 'link'
+  onClick?: () => void
+  disabled?: boolean
+  url?: string
 }
 
 export function ButtonSecondary({
   title,
-  type = "button",
+  type = 'button',
   disabled = false,
   onClick = () => {},
-  url = "",
+  url = '',
 }: ButtonSecondaryViewProps) {
-  if (type === "link") {
+  if (type === 'link') {
     return (
       <a className={styles.btnSecondary} href={url}>
         {title}
       </a>
-    );
+    )
   } else {
     return (
       <button
@@ -34,6 +34,6 @@ export function ButtonSecondary({
       >
         {title}
       </button>
-    );
+    )
   }
 }

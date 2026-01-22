@@ -1,117 +1,119 @@
-"use client";
-import { useState } from "react";
-import { ChangeEvent } from "react";
+'use client'
+import { useState } from 'react'
+import { ChangeEvent } from 'react'
 
 /* Components */
-import { FlowbiteCheckCircleOutline } from "./ui/FlowbiteCheckCircleOutline";
-import { FlowbiteCloseCircleOutline } from "./ui/FlowbiteCloseCircleOutline";
-import { SvgSpinnersBlocksWave } from "./ui/SvgSpinnersBlocksWave";
+import { FlowbiteCheckCircleOutline } from './ui/FlowbiteCheckCircleOutline'
+import { FlowbiteCloseCircleOutline } from './ui/FlowbiteCloseCircleOutline'
+import { SvgSpinnersBlocksWave } from './ui/SvgSpinnersBlocksWave'
 
 /* Models */
-import { Message } from "@/core/models/Message.interface";
+import { Message } from '@/core/models/Message.interface'
 
-import { sendMessage } from "@/core/services/sendMessage.service";
+import { sendMessage } from '@/core/services/sendMessage.service'
 
 /* Styles */
-import styles from "../styles/formContact.module.css";
+import styles from '../styles/formContact.module.css'
 
-type RequestStatus = "init" | "loading" | "success" | "failed";
+type RequestStatus = 'init' | 'loading' | 'success' | 'failed'
 type ResponseMessage =
-  | "Thank you for your message"
-  | "The message couldn't be sent. Try again later";
+  | 'Thank you for your message'
+  | "The message couldn't be sent. Try again later"
 
 export default function FormContact() {
-  const [name, setName] = useState({ field: "", validate: true });
-  const [email, setEmail] = useState({ field: "", validate: true });
-  const [phone, setPhone] = useState('');
-  const [message, setMessage] = useState('');
+  const [name, setName] = useState({ field: '', validate: true })
+  const [email, setEmail] = useState({ field: '', validate: true })
+  const [phone, setPhone] = useState('')
+  const [message, setMessage] = useState('')
   const [responseMessage, setResponseMessage] = useState<ResponseMessage>(
-    "Thank you for your message"
-  );
-  const [requestStatus, setRequestStatus] = useState<RequestStatus>("init");
+    'Thank you for your message'
+  )
+  const [requestStatus, setRequestStatus] = useState<RequestStatus>('init')
 
   const regularExpressions = {
     name: /^([A-ZÁÉÍÓÚ][a-zñáéíóú]+[\s]*)+$/, // Letras y espacios, pueden llevar acentos.
     email: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-  };
+  }
 
   const onChangeName = (e: ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target as HTMLInputElement;
-    const newName = newValue.value;
-    checkValidateName();
-    setName((prevState) => ({ ...prevState, field: newName }));
-  };
+    const newValue = e.target as HTMLInputElement
+    const newName = newValue.value
+    checkValidateName()
+    setName(prevState => ({ ...prevState, field: newName }))
+  }
 
   const onChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
-    let newValue = e.target as HTMLInputElement;
-    const newEmail = newValue.value;
-    const validate = regularExpressions.email.test(newEmail);
-    setEmail((prevState) => ({ ...prevState, field: newEmail, validate }));
-  };
+    let newValue = e.target as HTMLInputElement
+    const newEmail = newValue.value
+    const validate = regularExpressions.email.test(newEmail)
+    setEmail(prevState => ({ ...prevState, field: newEmail, validate }))
+  }
 
   const onChangePhone = (e: ChangeEvent<HTMLInputElement>) => {
-    const newPhone = e.target as HTMLInputElement;
-    setPhone(newPhone.value);
-  };
+    const newPhone = e.target as HTMLInputElement
+    setPhone(newPhone.value)
+  }
 
   const onChangeMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const newMessage = e.target as HTMLTextAreaElement;
-    setMessage(newMessage.value);
-  };
+    const newMessage = e.target as HTMLTextAreaElement
+    setMessage(newMessage.value)
+  }
 
   const cleanForm = () => {
-    setName((prevState) => ({ ...prevState, field: "", validate: true }));
-    setEmail((prevState) => ({ ...prevState, field: "", validate: true }));
-    setPhone('');
-    setMessage('');
-  };
+    setName(prevState => ({ ...prevState, field: '', validate: true }))
+    setEmail(prevState => ({ ...prevState, field: '', validate: true }))
+    setPhone('')
+    setMessage('')
+  }
 
   const checkValidateName = (): boolean => {
-    const nameValidate = regularExpressions.name.test(name.field);
-    setName((prevState) => ({ ...prevState, validate: nameValidate }));
+    const nameValidate = regularExpressions.name.test(name.field)
+    setName(prevState => ({ ...prevState, validate: nameValidate }))
     if (nameValidate) {
-      return true;
+      return true
     } else {
-      return false;
+      return false
     }
-  };
+  }
 
   const checkValidateEmail = (): boolean => {
-    const emailValidate = regularExpressions.email.test(email.field);
-    setEmail((prevState) => ({ ...prevState, validate: emailValidate }));
+    const emailValidate = regularExpressions.email.test(email.field)
+    setEmail(prevState => ({ ...prevState, validate: emailValidate }))
     if (emailValidate) {
-      return true;
+      return true
     } else {
-      return false;
+      return false
     }
-  };
+  }
 
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>):Promise<void> => {
-    e.preventDefault();
-    if (!checkValidateName() && !checkValidateEmail()) return;
-    setRequestStatus("loading");
+  const onSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
+    e.preventDefault()
+    if (!checkValidateName() && !checkValidateEmail()) return
+    setRequestStatus('loading')
     const newMessage: Message = {
       name: name.field.trim(),
       email: email.field.trim(),
       phone: phone.trim(),
       message: message.trim(),
-    };
-    const res = await sendMessage(newMessage);
+    }
+    const res = await sendMessage(newMessage)
     if (res) {
-      setRequestStatus("success");
-      setResponseMessage("Thank you for your message");
-      cleanForm();
+      setRequestStatus('success')
+      setResponseMessage('Thank you for your message')
+      cleanForm()
     } else {
-      setRequestStatus("failed");
-      setResponseMessage("The message couldn't be sent. Try again later");
+      setRequestStatus('failed')
+      setResponseMessage("The message couldn't be sent. Try again later")
     }
     setTimeout(() => {
-      setRequestStatus("init");
-    }, 5000);
-  };
+      setRequestStatus('init')
+    }, 5000)
+  }
 
   return (
-    <article className={styles.FormContact + " special-shadow"}>
+    <article className={styles.FormContact + ' special-shadow'}>
       <form onSubmit={onSubmit} className={styles.Form}>
         <div className={styles.formgroup}>
           <label htmlFor="name">
@@ -123,13 +125,13 @@ export default function FormContact() {
               placeholder="name"
               onChange={onChangeName}
               onBlur={checkValidateName}
-              disabled={requestStatus === "loading"}
+              disabled={requestStatus === 'loading'}
             />
             <span>Name</span>
           </label>
           <p
-            className={`text-xs absolute text-red ${
-              !name.validate ? "" : "hidden"
+            className={`absolute text-xs text-red ${
+              !name.validate ? '' : 'hidden'
             }`}
           >
             Name not valid or required
@@ -146,13 +148,13 @@ export default function FormContact() {
                 placeholder="email"
                 onChange={onChangeEmail}
                 onBlur={checkValidateEmail}
-                disabled={requestStatus === "loading"}
+                disabled={requestStatus === 'loading'}
               />
               <span>Email</span>
             </label>
             <p
-              className={`text-xs absolute text-red ${
-                !email.validate ? "" : "hidden"
+              className={`absolute text-xs text-red ${
+                !email.validate ? '' : 'hidden'
               }`}
             >
               Email not valid or required
@@ -167,7 +169,7 @@ export default function FormContact() {
                 id="phone"
                 placeholder="phone"
                 onChange={onChangePhone}
-                disabled={requestStatus === "loading"}
+                disabled={requestStatus === 'loading'}
               />
               <span>Phone</span>
             </label>
@@ -182,7 +184,7 @@ export default function FormContact() {
               placeholder="message"
               rows={4}
               onChange={onChangeMessage}
-              disabled={requestStatus === "loading"}
+              disabled={requestStatus === 'loading'}
             ></textarea>
             <span>Message</span>
           </label>
@@ -190,52 +192,52 @@ export default function FormContact() {
         <button
           type="submit"
           className={styles.btnSubmit}
-          disabled={requestStatus === "loading"}
+          disabled={requestStatus === 'loading'}
         >
           Send
         </button>
         <p
           className={`${
-            requestStatus === "success" ? "" : "hidden"
-          } absolute text-center py-2 bg-primary mx-auto text-background left-[20%] w-[60%] text-sm opacity-50 bottom-[-50px]`}
+            requestStatus === 'success' ? '' : 'hidden'
+          } absolute bottom-[-50px] left-[20%] mx-auto w-[60%] bg-primary py-2 text-center text-sm text-background opacity-50`}
         >
           {responseMessage}
         </p>
         <p
           className={`${
-            requestStatus === "failed" ? "" : "hidden"
-          } absolute text-center py-2 bg-[#ec5353] mx-auto text-background left-[15%] w-[70%] text-sm opacity-50 bottom-[-50px]`}
+            requestStatus === 'failed' ? '' : 'hidden'
+          } absolute bottom-[-50px] left-[15%] mx-auto w-[70%] bg-[#ec5353] py-2 text-center text-sm text-background opacity-50`}
         >
           {responseMessage}
         </p>
       </form>
 
-      {requestStatus !== "init" && (
+      {requestStatus !== 'init' && (
         <div className={styles.AlertMessage}>
-          {requestStatus === "loading" && (
+          {requestStatus === 'loading' && (
             <SvgSpinnersBlocksWave className="size-[150px] text-primary" />
           )}
 
-          {requestStatus !== "loading" && (
-            <div className={styles.AlertMessage__box + " special-shadow"}>
-              {requestStatus === "success" && (
+          {requestStatus !== 'loading' && (
+            <div className={styles.AlertMessage__box + ' special-shadow'}>
+              {requestStatus === 'success' && (
                 <FlowbiteCheckCircleOutline className="size-[100px] text-primary" />
               )}
-              {requestStatus === "failed" && (
+              {requestStatus === 'failed' && (
                 <FlowbiteCloseCircleOutline className="size-[100px] text-red" />
               )}
 
               <h4
                 className={`${
-                  requestStatus === "failed" ? "text-red" : "text-primary"
+                  requestStatus === 'failed' ? 'text-red' : 'text-primary'
                 }`}
               >
                 {responseMessage}
               </h4>
               <button
-                onClick={() => setRequestStatus("init")}
+                onClick={() => setRequestStatus('init')}
                 className={`${
-                  requestStatus === "failed" ? "btn-error" : "btn-primary"
+                  requestStatus === 'failed' ? 'btn-error' : 'btn-primary'
                 }`}
               >
                 Close
@@ -245,5 +247,5 @@ export default function FormContact() {
         </div>
       )}
     </article>
-  );
+  )
 }

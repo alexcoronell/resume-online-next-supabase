@@ -1,15 +1,16 @@
-.formgroup, .formgroupInput {
-  @apply relative py-1 mb-6 w-full;
+.formgroup,
+.formgroupInput {
+  @apply relative mb-6 w-full py-1;
 }
 
 .formgroup > * {
-  @apply transition-all ease-in-out duration-100;
+  @apply transition-all duration-100 ease-in-out;
 }
 
 .formgroup input,
 .formgroup select,
 .formgroup textarea {
-  @apply bg-transparent border border-primary/60 rounded-md px-4 py-3 text-base text-white w-full focus:border-primary;
+  @apply w-full rounded-md border border-primary/60 bg-transparent px-4 py-3 text-base text-white focus:border-primary;
 }
 
 .formgroup select {
@@ -17,7 +18,7 @@
 }
 
 .formgroup span {
-  @apply absolute bg-backgroundsecondary left-4 top-5 px-2 text-xs text-primary/60;
+  @apply absolute left-4 top-5 bg-backgroundsecondary px-2 text-xs text-primary/60;
 }
 
 .formgroup input:focus + span,
@@ -26,7 +27,7 @@
 .formgroup select:not(:placeholder-shown) + span,
 .formgroup textarea:focus + span,
 .formgroup textarea:not(:placeholder-shown) + span {
-  @apply top-[-0.2rem] bg-primary text-background rounded-sm;
+  @apply top-[-0.2rem] rounded-sm bg-primary text-background;
 }
 
 .formgroup input::placeholder,
@@ -36,11 +37,12 @@
 }
 
 .formgroupInput {
-  @apply flex flex-col rounded-xl overflow-hidden md:flex-row md:items-center md:border md:border-primary md:p-0 md:gap-3;
+  @apply flex flex-col overflow-hidden rounded-xl md:flex-row md:items-center md:gap-3 md:border md:border-primary md:p-0;
 }
 
-.formgroupInput label, .formgroupInput button {
-  @apply text-background w-[150px] text-center py-3 px-4 rounded-xl md:rounded-r-none;
+.formgroupInput label,
+.formgroupInput button {
+  @apply w-[150px] rounded-xl px-4 py-3 text-center text-background md:rounded-r-none;
 }
 
 .formgroupInput label {
@@ -56,7 +58,7 @@
 }
 
 .formgroupInput__message {
-  @apply mt-1 pl-1 text-primary text-sm md:m-0;
+  @apply mt-1 pl-1 text-sm text-primary md:m-0;
 }
 
 .formgroupCheckbox {
@@ -64,7 +66,7 @@
 }
 
 .formgroupCheckbox label {
-  @apply text-primary flex items-center gap-3;
+  @apply flex items-center gap-3 text-primary;
 }
 
 .formgroupCheckbox input {

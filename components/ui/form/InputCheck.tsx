@@ -1,16 +1,16 @@
-import React from 'react';
-import type { ChangeEvent, FocusEvent } from 'react';
-import type { RequestStatus } from '@/core/types/RequestStatus.type';
-import styles from '@/styles/form-group.module.css';
+import React from 'react'
+import type { ChangeEvent, FocusEvent } from 'react'
+import type { RequestStatus } from '@/core/types/RequestStatus.type'
+import styles from '@/styles/form-group.module.css'
 
 interface InputCheckProps {
-  name: string;
-  placeholder: string | null;
-  checked: boolean;
-  classes?: string;
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
-  requestStatus: RequestStatus;
-  readonly: boolean;
+  name: string
+  placeholder: string | null
+  checked: boolean
+  classes?: string
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void
+  requestStatus: RequestStatus
+  readonly: boolean
 }
 export function InputCheck({
   name,
@@ -28,7 +28,7 @@ export function InputCheck({
         {checked ? <InputChecked /> : <InputUnchecked />}
       </label>
       <input
-        type='checkbox'
+        type="checkbox"
         name={name}
         checked={checked === true}
         className={classes}
@@ -37,37 +37,37 @@ export function InputCheck({
         disabled={requestStatus === 'loading' || readonly}
       />
     </div>
-  );
+  )
 }
 
 const InputUnchecked = () => {
   return (
     <svg
-      xmlns='http://www.w3.org/2000/svg'
+      xmlns="http://www.w3.org/2000/svg"
       width={24}
       height={24}
-      viewBox='0 0 24 24'
+      viewBox="0 0 24 24"
     >
       <path
-        fill='currentColor'
-        d='M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 2v14H5V5z'
+        fill="currentColor"
+        d="M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m0 2v14H5V5z"
       ></path>
     </svg>
-  );
-};
+  )
+}
 
 const InputChecked = () => {
   return (
     <svg
-      xmlns='http://www.w3.org/2000/svg'
+      xmlns="http://www.w3.org/2000/svg"
       width={24}
       height={24}
-      viewBox='0 0 24 24'
+      viewBox="0 0 24 24"
     >
       <path
-        fill='currentColor'
-        d='m10 17l-5-5l1.41-1.42L10 14.17l7.59-7.59L19 8m0-5H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2'
+        fill="currentColor"
+        d="m10 17l-5-5l1.41-1.42L10 14.17l7.59-7.59L19 8m0-5H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2"
       ></path>
     </svg>
-  );
-};
+  )
+}

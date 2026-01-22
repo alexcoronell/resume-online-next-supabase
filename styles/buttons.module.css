@@ -1,5 +1,7 @@
-.btnPrimary, .btnSecondary, .btnLight {
-  @apply w-full hover:shadow-md py-3 text-center rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed;
+.btnPrimary,
+.btnSecondary,
+.btnLight {
+  @apply w-full rounded-xl py-3 text-center transition-all duration-300 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50;
 }
 
 .btnPrimary {
@@ -11,5 +13,5 @@
 }
 
 .btnLight {
-  @apply border border-primary text-primary bg-background hover:bg-primary/10;
+  @apply border border-primary bg-background text-primary hover:bg-primary/10;
 }

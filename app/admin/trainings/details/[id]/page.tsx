@@ -1,10 +1,10 @@
-'use client';
-import { useParams } from 'next/navigation';
-import { TrainingForm } from '@/components/admin/forms/TrainingForm';
-export const runtime = 'edge';
+'use client'
+import { useParams } from 'next/navigation'
+import { TrainingForm } from '@/components/admin/forms/TrainingForm'
+export const runtime = 'edge'
 
 export default function DetailsPortfolioPage() {
-  const params = useParams();
-  let id: string = params.id as string;
-  return <TrainingForm _id={id} />;
+  const params = useParams()
+  let id: string = params.id as string
+  return <TrainingForm _id={id} />
 }
