@@ -1,6 +1,11 @@
 {
   "version": 1,
   "skills": {
+    "eslint-prettier-husky-config": {
+      "source": "hopeoverture/worldbuilding-app-skills",
+      "sourceType": "github",
+      "computedHash": "0cd7211de6ae658564977bcc6e17d7ae1d0ff6fb1553780cb8a54ef5b137a78d"
+    },
     "next-best-practices": {
       "source": "vercel-labs/next-skills",
       "sourceType": "github",
